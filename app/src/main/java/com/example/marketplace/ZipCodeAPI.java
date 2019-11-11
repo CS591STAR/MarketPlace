@@ -6,6 +6,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
@@ -72,7 +76,7 @@ public class ZipCodeAPI  extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    final String distance = response.body().toString();
+                    final String distance = response.body().string();
 
                     ZipCodeAPI.this.runOnUiThread(new Runnable() {
                         @Override
