@@ -6,10 +6,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
@@ -53,19 +49,20 @@ public class ZipCodeAPI  extends AppCompatActivity {
     // The following method is used to make the API call from the zipcode api
 
     public void getDistance() throws IOException {
-//        String dist1 = zipcode1.getText().toString();
-//        String dist2 = zipcode2.getText().toString();
-//        String locations = dist1 + "/" + dist2 + "/mi";
+        String dist1 = zipcode1.getText().toString();
+        String dist2 = zipcode2.getText().toString();
+        String locations = dist1 + "/" + dist2 + "/mile";
 
         OkHttpClient client = new OkHttpClient();
-        //String url = "http://www.zipcodeapi.com/rest/"+ gitignore.zipcodeAPIKey + "/distance.json/" + locations;
-        String url = "http://www.zipcodeapi.com/rest/N9iqyW84hPLnlCht5BZ94X03OuuHOMAgyAD447YDjgtjAAStwdVErHd8lRiac46Q/distance.json/02128/02114/mile";
-
+        String url = "https://redline-redline-zipcode.p.rapidapi.com/rest/distance.json/" + locations;
 
         Request request = new Request.Builder()
                 .url(url)
                 .get()
+                .addHeader("x-rapidapi-host", "redline-redline-zipcode.p.rapidapi.com")
+                .addHeader("x-rapidapi-key",gitignore.zipcodeAPIKey)
                 .build();
+
 
         client.newCall(request).enqueue(new Callback() {
             @Override
