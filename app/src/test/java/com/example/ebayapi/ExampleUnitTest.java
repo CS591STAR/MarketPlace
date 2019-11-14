@@ -1,4 +1,4 @@
-package com.example.marketplace;
+package com.example.ebayapi;
 
 import org.junit.Test;
 
