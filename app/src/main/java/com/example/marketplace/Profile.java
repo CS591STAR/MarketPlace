@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class Profile extends AppCompatActivity {
 
     ImageView imgUser;
-    TextView txtName;
+    TextView txtDisplayName;
     TextView txtEmail;
     Button btnEdit;
     Button btnPosts;
@@ -32,7 +32,7 @@ public class Profile extends AppCompatActivity {
         fragmentTransaction.commit();
 
         imgUser = findViewById(R.id.imgUser);
-        txtName = findViewById(R.id.txtName);
+        txtDisplayName = findViewById(R.id.txtDisplayName);
         txtEmail = findViewById(R.id.txtEmail);
         btnEdit = findViewById(R.id.btnEdit);
         btnPosts = findViewById(R.id.btnPosts);

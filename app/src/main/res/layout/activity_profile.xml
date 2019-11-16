@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtName"
+                android:id="@+id/txtDisplayName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="User Name" />

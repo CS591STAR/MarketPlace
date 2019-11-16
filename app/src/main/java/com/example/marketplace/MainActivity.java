@@ -3,6 +3,7 @@ package com.example.marketplace;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mDetailView;
     private TextView mDisplayName;
     private TextView mPhoto;
-
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        updateUI(mAuth.getCurrentUser());
+//        updateUI(mAuth.getCurrentUser());
     }
 
     @Override
@@ -98,11 +99,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mStatusView.setText(getString(R.string.firebaseui_status_fmt, user.getEmail()));
             mDetailView.setText(getString(R.string.id_fmt, user.getUid()));
 
-            mDisplayName.setText(user.getDisplayName());
-            mPhoto.setText(user.getPhotoUrl().toString());
+//            mDisplayName.setText(user.getDisplayName());
+//            mPhoto.setText(user.getPhotoUrl().toString());
 
             findViewById(R.id.signInButton).setVisibility(View.GONE);
             findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
+
+
+            Intent intent = new Intent(getApplicationContext(), MarketFeed.class);
+            startActivity(intent);
         } else {
             // Signed out
             mStatusView.setText(R.string.signed_out);
