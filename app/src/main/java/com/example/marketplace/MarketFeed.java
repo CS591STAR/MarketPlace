@@ -5,18 +5,23 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 
 public class MarketFeed extends AppCompatActivity {
-
-    private Button btnTest;
-    private TextView txtTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed_layout);
 
-        btnTest = findViewById(R.id.btnTest);
-        txtTest = findViewById(R.id.txtTest);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        NavBarFragment topFrag = new NavBarFragment();
+        fragmentTransaction.add(R.id.topFrag, topFrag);
+        fragmentTransaction.commit();
+
     }
 }

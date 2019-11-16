@@ -13,30 +13,35 @@
 
         <Button
             android:id="@+id/btnProfile"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="P" />
 
         <Button
             android:id="@+id/btnChat"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="c" />
 
         <TextView
             android:id="@+id/txtSearch"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:text="@android:string/search_go" />
 
         <Button
             android:id="@+id/btnSearch"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="S" />
 
         <Button
             android:id="@+id/btnSell"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:text="Sell" />
