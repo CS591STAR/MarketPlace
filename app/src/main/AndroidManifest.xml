@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".MarketFeed" />
         <activity android:name=".ZipCodeAPI" />
+        <activity android:name=".ItemPostForm" />
     </application>
 
 </manifest>

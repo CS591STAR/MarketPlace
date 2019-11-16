@@ -3,4 +3,18 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="ItemCategorySpinner">ItemCategorySpinner</string>
+    <string-array name="categories">
+        <item>Textbook</item>
+        <item>Furniture</item>
+        <item>Electronics</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="itemConditions">
+        <item>Great Condition</item>
+        <item>Good Condition</item>
+        <item>Decent Condition</item>
+        <item>Poor Condition</item>
+    </string-array>
 </resources>
