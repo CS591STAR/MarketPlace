@@ -1,5 +1,7 @@
 package com.example.marketplace;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
 
 public class NavBarFragment extends Fragment {
 
@@ -24,6 +27,7 @@ public class NavBarFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -36,6 +40,15 @@ public class NavBarFragment extends Fragment {
         txtSearch = view.findViewById(R.id.txtSearch);
         btnSearch = view.findViewById(R.id.btnSearch);
         btnSell = view.findViewById(R.id.btnSell);
+
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getContext(), Profile.class);
+                startActivity(intent);
+            }
+        });
 
 
         return view;

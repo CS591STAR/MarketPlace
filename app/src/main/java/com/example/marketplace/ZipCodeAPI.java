@@ -73,7 +73,7 @@ public class ZipCodeAPI  extends AppCompatActivity {
                 .url(url)
                 .get()
                 .addHeader("x-rapidapi-host", "redline-redline-zipcode.p.rapidapi.com")
-                .addHeader("x-rapidapi-key",gitignore.zipcodeAPIKey)
+                .addHeader("x-rapidapi-key", gitignore.zipcodeAPIKey)
                 .build();
 
         // the following methods were required by the newCall and callBack interfaces
