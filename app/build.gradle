@@ -29,6 +29,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+<<<<<<< HEAD
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
     implementation 'com.google.firebase:firebase-auth:19.1.0'
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
@@ -37,6 +38,10 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:6.0.2'
     implementation group: 'com.google.android.material', name: 'material', version: '1.0.0'
     implementation 'com.facebook.android:facebook-login:5.0.1'
+=======
+    implementation 'org.jetbrains:annotations-java5:15.0'
+
+>>>>>>> 8911db4619c3d4a14321df39181099185da29fea
 }
 
 apply plugin: 'com.google.gms.google-services'
