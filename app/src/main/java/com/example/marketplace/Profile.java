@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Profile extends AppCompatActivity {
 
@@ -38,6 +39,11 @@ public class Profile extends AppCompatActivity {
         btnPosts = findViewById(R.id.btnPosts);
         btnChats = findViewById(R.id.btnChats);
         txtUni = findViewById(R.id.txtUni);
+
+//        Bundle data = getIntent().getExtras();
+//        User you = data.getParcelable("user");
+//
+//        Toast.makeText(getApplicationContext(), you.getId(), Toast.LENGTH_SHORT).show();
 
     }
 }
