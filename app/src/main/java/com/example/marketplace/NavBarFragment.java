@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -14,11 +15,11 @@ import androidx.fragment.app.Fragment;
 
 public class NavBarFragment extends Fragment {
 
-    private Button btnProfile;
-    private Button btnChat;
-    private TextView txtSearch;
-    private Button btnSearch;
-    private Button btnSell;
+    Button btnProfile;
+    Button btnChat;
+    EditText txtSearch;
+    Button btnSearch;
+    Button btnSell;
 
     public NavBarFragment(){
         //Required empty public constructor
