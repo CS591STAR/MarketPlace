@@ -17,6 +17,7 @@ public class Profile extends AppCompatActivity {
     Button btnEdit;
     Button btnPosts;
     Button btnChats;
+    TextView txtUni;
 
 
     @Override
@@ -24,12 +25,11 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        NavBarFragment topFrag = new NavBarFragment();
-        fragmentTransaction.add(R.id.topFrag, topFrag);
-        fragmentTransaction.commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        NavBarFragment topFrag = new NavBarFragment();
+//        fragmentTransaction.add(R.id.topFrag, topFrag);
+//        fragmentTransaction.commit();
 
         imgUser = findViewById(R.id.imgUser);
         txtDisplayName = findViewById(R.id.txtDisplayName);
@@ -37,7 +37,7 @@ public class Profile extends AppCompatActivity {
         btnEdit = findViewById(R.id.btnEdit);
         btnPosts = findViewById(R.id.btnPosts);
         btnChats = findViewById(R.id.btnChats);
-
+        txtUni = findViewById(R.id.txtUni);
 
     }
 }

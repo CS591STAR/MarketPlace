@@ -16,12 +16,11 @@ public class MarketFeed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed_layout);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        NavBarFragment topFrag = new NavBarFragment();
-        fragmentTransaction.add(R.id.topFrag, topFrag);
-        fragmentTransaction.commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        NavBarFragment topFrag = new NavBarFragment();
+//        fragmentTransaction.add(R.id.topFrag, topFrag);
+//        fragmentTransaction.commit();
 
     }
 }

@@ -45,6 +45,12 @@
                 android:layout_height="wrap_content"
                 android:text="User Email" />
 
+            <TextView
+                android:id="@+id/txtUni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User University" />
+
             <Button
                 android:id="@+id/btnEdit"
                 android:layout_width="match_parent"
