@@ -1,42 +1,137 @@
 package com.example.marketplace;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
 
-    private Button btnLogin;
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.example.marketplace.BuildConfig;
+import com.example.marketplace.R;
 
-    // This button is entirely for test purposes only; will be removed later
-    private Button checkZipCodeAPI;
+import java.util.Arrays;
+import java.util.Collections;
+
+/**
+ * Demonstrate authentication using the FirebaseUI-Android library. This activity demonstrates
+ * using FirebaseUI for basic email/password sign in, Google and Facebook login.
+ *
+ * For more information, visit https://github.com/firebase/firebaseui-android
+ */
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final int RC_SIGN_IN = 9001;
+
+    private FirebaseAuth mAuth;
+
+    private TextView mStatusView;
+    private TextView mDetailView;
+    private TextView mDisplayName;
+    private TextView mPhoto;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnLogin = findViewById(R.id.btnLogin);
-        checkZipCodeAPI = findViewById(R.id.openZipCodeTest);
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MarketFeed.class);
-                startActivity(intent);
-            }
-        });
+        mStatusView = findViewById(R.id.status);
+        mDetailView = findViewById(R.id.detail);
+        mDisplayName = findViewById(R.id.displayName);
+        mPhoto = findViewById(R.id.photo);
 
-        checkZipCodeAPI.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ZipCodeAPI.class);
-                startActivity(intent);
+
+        findViewById(R.id.signInButton).setOnClickListener(this);
+        findViewById(R.id.signOutButton).setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        updateUI(mAuth.getCurrentUser());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
+                // Sign in succeeded
+                updateUI(mAuth.getCurrentUser());
+            } else {
+                // Sign in failed
+                Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show();
+                updateUI(null);
             }
-        });
+        }
+    }
+
+    // builds the drop down menu for sign-in
+    private void startSignIn() {
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setIsSmartLockEnabled(!BuildConfig.DEBUG)
+                        .setAvailableProviders(Arrays.asList(
+                                new AuthUI.IdpConfig.GoogleBuilder().build(),
+//                                new AuthUI.IdpConfig.FacebookBuilder().build(),
+//                                new AuthUI.IdpConfig.TwitterBuilder().build(), Twitter login disapled for now because sdk is no longer being supported by Twitter
+                                new AuthUI.IdpConfig.EmailBuilder().build()
+                        ))
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+    // update UI depending on user status
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            // Signed in
+            mStatusView.setText(getString(R.string.firebaseui_status_fmt, user.getEmail()));
+            mDetailView.setText(getString(R.string.id_fmt, user.getUid()));
+
+//            mDisplayName.setText(user.getDisplayName());
+//            mPhoto.setText(user.getPhotoUrl().toString());
+
+            findViewById(R.id.signInButton).setVisibility(View.GONE);
+            findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
+
+
+            Intent intent = new Intent(getApplicationContext(), MarketFeed.class);
+            startActivity(intent);
+        } else {
+            // Signed out
+            mStatusView.setText(R.string.signed_out);
+            mDetailView.setText(null);
+
+            findViewById(R.id.signInButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.signOutButton).setVisibility(View.GONE);
+        }
+    }
+
+    private void signOut() {
+        AuthUI.getInstance().signOut(this);
+        updateUI(null);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.signInButton:
+                startSignIn();
+                break;
+            case R.id.signOutButton:
+                signOut();
+                break;
+        }
     }
 }

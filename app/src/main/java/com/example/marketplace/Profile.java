@@ -12,11 +12,12 @@ import android.widget.TextView;
 public class Profile extends AppCompatActivity {
 
     ImageView imgUser;
-    TextView txtName;
+    TextView txtDisplayName;
     TextView txtEmail;
     Button btnEdit;
     Button btnPosts;
     Button btnChats;
+    TextView txtUni;
 
 
     @Override
@@ -24,20 +25,19 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        NavBarFragment topFrag = new NavBarFragment();
-        fragmentTransaction.add(R.id.topFrag, topFrag);
-        fragmentTransaction.commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        NavBarFragment topFrag = new NavBarFragment();
+//        fragmentTransaction.add(R.id.topFrag, topFrag);
+//        fragmentTransaction.commit();
 
         imgUser = findViewById(R.id.imgUser);
-        txtName = findViewById(R.id.txtName);
+        txtDisplayName = findViewById(R.id.txtDisplayName);
         txtEmail = findViewById(R.id.txtEmail);
         btnEdit = findViewById(R.id.btnEdit);
         btnPosts = findViewById(R.id.btnPosts);
         btnChats = findViewById(R.id.btnChats);
-
+        txtUni = findViewById(R.id.txtUni);
 
     }
 }
