@@ -16,8 +16,6 @@
         android:layout_height="wrap_content"
         android:text="Feed" />
 
-</LinearLayout>
-=======
     <Button
         android:id="@+id/testBtn"
         android:layout_width="wrap_content"
@@ -32,4 +30,4 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="1dp" />
 </RelativeLayout>
->>>>>>> 3be0bbaab1b2c1aa63dd37ca1311ef0c0c2b85e9
+
