@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <fragment
         android:id="@+id/topFrag"
@@ -16,3 +17,19 @@
         android:text="Feed" />
 
 </LinearLayout>
+=======
+    <Button
+        android:id="@+id/testBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <ListView
+        android:id="@+id/feedListView"
+        android:layout_width="406dp"
+        android:layout_height="641dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="1dp" />
+</RelativeLayout>
+>>>>>>> 3be0bbaab1b2c1aa63dd37ca1311ef0c0c2b85e9
