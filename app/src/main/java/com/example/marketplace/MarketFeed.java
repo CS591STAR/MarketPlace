@@ -1,6 +1,8 @@
 package com.example.marketplace;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,10 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.gson.Gson;
+
 
 public class MarketFeed extends AppCompatActivity {
 
-    private User you;
+    User you;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,23 +28,19 @@ public class MarketFeed extends AppCompatActivity {
         Bundle data = getIntent().getExtras();
         you = data.getParcelable("user");
 
-        Toast.makeText(getApplicationContext(), you.getName(), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplicationContext(), you.getName(), Toast.LENGTH_SHORT).show();
 
-
-        //TODO send user information to the fragment!!!!!
-//        Bundle bundle = new Bundle();
-//        bundle.putParcelable("user", you);
-//        NavBarFragment fragment = new NavBarFragment();
-//        fragment.setArguments(bundle);
-
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        NavBarFragment topFrag = new NavBarFragment();
-//        fragmentTransaction.add(R.id.topFrag, topFrag);
-//
-//        topFrag.setArguments(bundle);
-//
-//        fragmentTransaction.commit();
 
     }
+//    @Override
+//    protected void onDestroy() {
+//
+//        sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        Gson gson = new Gson();
+//        String youJson = gson.toJson(you);
+//        editor.putString("user", youJson);
+//        editor.commit();
+//        super.onDestroy();
+//    }
 }

@@ -26,12 +26,6 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        NavBarFragment topFrag = new NavBarFragment();
-//        fragmentTransaction.add(R.id.topFrag, topFrag);
-//        fragmentTransaction.commit();
-
         imgUser = findViewById(R.id.imgUser);
         txtDisplayName = findViewById(R.id.txtDisplayName);
         txtEmail = findViewById(R.id.txtEmail);
@@ -39,11 +33,6 @@ public class Profile extends AppCompatActivity {
         btnPosts = findViewById(R.id.btnPosts);
         btnChats = findViewById(R.id.btnChats);
         txtUni = findViewById(R.id.txtUni);
-
-//        Bundle data = getIntent().getExtras();
-//        User you = data.getParcelable("user");
-//
-//        Toast.makeText(getApplicationContext(), you.getId(), Toast.LENGTH_SHORT).show();
 
     }
 }

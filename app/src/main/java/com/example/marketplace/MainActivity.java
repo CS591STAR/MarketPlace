@@ -1,6 +1,8 @@
 package com.example.marketplace;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 
 import java.util.Arrays;
 
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mDetailView;
     private TextView mDisplayName;
     private TextView mPhoto;
+    User you;
     
 
     @Override
@@ -102,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             findViewById(R.id.signInButton).setVisibility(View.GONE);
             findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
 
-            User you = new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString());
+            you = new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString());
 
             Intent intent = new Intent(getApplicationContext(), MarketFeed.class);
             intent.putExtra("user", you);
@@ -133,4 +137,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
 }

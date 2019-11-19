@@ -21,7 +21,6 @@ public class NavBarFragment extends Fragment {
     EditText txtSearch;
     Button btnSearch;
     Button btnSell;
-    User you;
 
     public NavBarFragment(){
         //Required empty public constructor
@@ -49,7 +48,6 @@ public class NavBarFragment extends Fragment {
             public void onClick(View view) {
 
                 Intent intent = new Intent(getContext(), Profile.class);
-                // intent.putExtra("user", you);
                 startActivity(intent);
             }
         });
