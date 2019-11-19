@@ -74,6 +74,8 @@ public class EBayAPI {
                     //set the token
                     try {
                         token = new JSONObject(response.body().string()).getString("access_token");
+
+                        //after getting a valid token, set the boolean
                         isTokenValid = true;
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -83,6 +85,7 @@ public class EBayAPI {
         });
     }
 
+    //search items by keyword
     public void searchItem(String keyword, int limit){
         if(!isTokenValid){
             getToken();
