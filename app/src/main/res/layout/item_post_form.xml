@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,7 +22,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/ItemZipcodeTxt"
+        android:id="@+id/itemZipcodeTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -42,5 +44,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Picture" />
+
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="match_parent"
+        android:layout_height="284dp"
+        android:visibility="invisible"
+        tools:srcCompat="@tools:sample/avatars[0]" />
+
+    <Button
+        android:id="@+id/savePostButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post Item" />
 
 </LinearLayout>

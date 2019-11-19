@@ -11,64 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MarketFeed extends AppCompatActivity {
 
     Button testBtn;
-
-    public static class Post {
-
-        String itemName;
-        int askingPrice;
-        int zipcode;
-        String sellerID;
-        String imageReference;
-        String category;
-        String itemCondition;
-        int itemPostTime;
-
-        public Post(String itemName, int askingPrice, int zipcode,String sellerID,
-                    String imageReference, String category, String itemCondition,
-                    int itemPostTime) {
-            this.itemName = itemName;
-            this.askingPrice = askingPrice;
-            this.zipcode = zipcode;
-            this.sellerID = sellerID;
-            this.imageReference = imageReference;
-            this.category = category;
-            this.itemCondition = itemCondition;
-            this.itemPostTime = itemPostTime;
-        }
-
-        public void setItemName(String itemName) {
-            this.itemName = itemName;
-        }
-
-        public void setAskingPrice(int askingPrice) {
-            this.askingPrice = askingPrice;
-        }
-
-        public void setZipcode(int zipcode) {
-            this.zipcode = zipcode;
-        }
-
-        public void setSellerID(String sellerID) {
-            this.sellerID = sellerID;
-        }
-
-        public void setImageReference(String imageReference) {
-            this.imageReference = imageReference;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-
-        public void setItemCondition(String itemCondition) {
-            this.itemCondition = itemCondition;
-        }
-
-        public void setItemPostTime(int itemPostTime) {
-            this.itemPostTime = itemPostTime;
-        }
-    }
-
     private ListView feedListView;
 
     @Override
@@ -86,8 +28,6 @@ public class MarketFeed extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
     }
 }
