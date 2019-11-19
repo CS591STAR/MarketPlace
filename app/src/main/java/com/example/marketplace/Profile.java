@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Profile extends AppCompatActivity {
 
@@ -24,12 +25,6 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        NavBarFragment topFrag = new NavBarFragment();
-//        fragmentTransaction.add(R.id.topFrag, topFrag);
-//        fragmentTransaction.commit();
 
         imgUser = findViewById(R.id.imgUser);
         txtDisplayName = findViewById(R.id.txtDisplayName);

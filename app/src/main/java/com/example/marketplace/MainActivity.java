@@ -1,9 +1,10 @@
 package com.example.marketplace;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,11 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.example.marketplace.BuildConfig;
-import com.example.marketplace.R;
+import com.google.gson.Gson;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * Demonstrate authentication using the FirebaseUI-Android library. This activity demonstrates
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mDetailView;
     private TextView mDisplayName;
     private TextView mPhoto;
+    User you;
     
 
     @Override
@@ -99,14 +99,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mStatusView.setText(getString(R.string.firebaseui_status_fmt, user.getEmail()));
             mDetailView.setText(getString(R.string.id_fmt, user.getUid()));
 
+
 //            mDisplayName.setText(user.getDisplayName());
 //            mPhoto.setText(user.getPhotoUrl().toString());
 
             findViewById(R.id.signInButton).setVisibility(View.GONE);
             findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
 
+            you = new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString());
 
             Intent intent = new Intent(getApplicationContext(), MarketFeed.class);
+            intent.putExtra("user", you);
             startActivity(intent);
         } else {
             // Signed out
@@ -134,4 +137,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
 }
