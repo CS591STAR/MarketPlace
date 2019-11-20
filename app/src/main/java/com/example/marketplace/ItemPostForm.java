@@ -28,6 +28,9 @@ import com.google.firebase.storage.UploadTask;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class ItemPostForm extends AppCompatActivity {
 
@@ -37,7 +40,7 @@ public class ItemPostForm extends AppCompatActivity {
     private static final int REQUEST_IMAGE = 2;
 
 
-    private static final String TAG = "Chatroom";
+    private static final String TAG = "NEWPOST";
     EditText itemNameTxt;
     EditText itemAskingPriceTxt;
     EditText itemZipcodeTxt;
@@ -91,7 +94,7 @@ public class ItemPostForm extends AppCompatActivity {
         savePostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Long currentTime = System.currentTimeMillis()/1000;
+                Date currentTime = Calendar.getInstance().getTime();
                 Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString());
             }
