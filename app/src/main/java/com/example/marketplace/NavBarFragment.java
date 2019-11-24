@@ -19,7 +19,7 @@ public class NavBarFragment extends Fragment {
     Button btnChat;
     EditText txtSearch;
     Button btnSearch;
-    Button btnSell;
+    Button btnFeed;
 
     public NavBarFragment(){
         //Required empty public constructor
@@ -57,7 +57,7 @@ public class NavBarFragment extends Fragment {
         btnChat = view.findViewById(R.id.btnChat);
         txtSearch = view.findViewById(R.id.txtSearch);
         btnSearch = view.findViewById(R.id.btnSearch);
-        btnSell = view.findViewById(R.id.btnFeed);
+        btnFeed = view.findViewById(R.id.btnFeed);
 
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +84,7 @@ public class NavBarFragment extends Fragment {
             }
         });
 
-        btnSell.setOnClickListener(new View.OnClickListener() {
+        btnFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NBFL.openFeed();

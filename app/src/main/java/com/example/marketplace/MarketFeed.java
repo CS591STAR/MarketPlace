@@ -38,6 +38,23 @@ public class MarketFeed extends Fragment {
         // Required empty public constructor
     }
 
+    public interface MarketFeedListener {
+        public void createPost();
+    }
+
+    MarketFeedListener MFL;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        MFL = (MarketFeedListener) context;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,13 +64,12 @@ public class MarketFeed extends Fragment {
         feedListView = view.findViewById(R.id.feedListView);
         testBtn = view.findViewById(R.id.testBtn);
 
-//        testBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), ItemPostForm.class);
-//                startActivity(intent);
-//            }
-//        });
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MFL.createPost();
+            }
+        });
 
         return view;
     }

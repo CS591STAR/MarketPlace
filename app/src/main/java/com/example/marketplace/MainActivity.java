@@ -7,12 +7,13 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener {
+public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener {
 
     User you;
     MarketFeed marketFeed;
     Profile profile;
     Chatroom chats;
+    ItemPostForm itemPostForm;
     // add search also
     LinearLayout fragLayout;
     FragmentManager fm;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         marketFeed = new MarketFeed();
         profile = new Profile();
         chats = new Chatroom();
+        itemPostForm = new ItemPostForm();
 
         fragLayout = findViewById(R.id.fragLayout);
         fm = getSupportFragmentManager();
@@ -69,6 +71,19 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         marketFeed = (MarketFeed) fm.findFragmentByTag("Market Feed");
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragLayout, marketFeed);
+        ft.addToBackStack(null);
+        ft.commit();
+
+    }
+
+    @Override
+    public void createPost() {
+
+        if (itemPostForm == null) {
+            itemPostForm = new ItemPostForm();
+        }
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragLayout, itemPostForm, "ItemPostForm");
         ft.addToBackStack(null);
         ft.commit();
 
