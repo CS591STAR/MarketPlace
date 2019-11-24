@@ -26,6 +26,13 @@
     <string name="Posts_Button">Posts</string>
     <string name="Chats_Button">Chats</string>
 
+    <!--NavBar-->
+    <string name="P_button">P</string>
+    <string name="C_button">C</string>
+    <string name="Search_Line">Search</string>
+    <string name="S_button">S</string>
+    <string name="Feed_button">Feed</string>
+
     <!--Other-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
