@@ -1,6 +1,5 @@
 package com.example.marketplace;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,22 +15,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.example.marketplace.MarketFeed;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -54,7 +47,8 @@ public class ItemPostForm extends AppCompatActivity {
     Spinner ItemConditionDropDown;
     Button savePostButton;
     ImageView itemImage;
-    String postImage;
+    Bitmap postImage;
+    EditText postDescriptionText;
 
     Button AddImageItemPostButton;
 
@@ -63,13 +57,15 @@ public class ItemPostForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_post_form);
 
+        mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
-        mUsername = ANONYMOUS;
+        mUsername = mFirebaseUser.getUid();
         savePostButton = findViewById(R.id.savePostButton);
         itemNameTxt = findViewById(R.id.itemNameTxt);
         itemAskingPriceTxt = findViewById(R.id.itemAskingPriceTxt);
         itemZipcodeTxt = findViewById(R.id.itemZipcodeTxt);
         itemImage = findViewById(R.id.itemImage);
+        postDescriptionText = findViewById(R.id.postDescriptionText);
 
         AddImageItemPostButton = findViewById(R.id.AddImageItemPostButton);
 
@@ -102,33 +98,21 @@ public class ItemPostForm extends AppCompatActivity {
             public void onClick(View view) {
                 Date currentTime = Calendar.getInstance().getTime();
                 Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString());
+                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString(), postDescriptionText.getText().toString());
+                Intent backToFeed = new Intent(getApplicationContext(), MarketFeed.class);
+                startActivity(backToFeed);
             }
         });
 
     }
-
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in.
-//        if (mFirebaseUser == null) {
-//            // Not signed in, launch the Sign In activity
-//            startActivity(new Intent(this, MainActivity.class));
-//            finish();
-//            return;
-//        }
-//    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            Uri uri = getImageUri(getApplicationContext(), photo);
+            postImage = (Bitmap) data.getExtras().get("data");
+            Uri uri = getImageUri(getApplicationContext(), postImage);
 
             StorageReference filepath = storageReference.child("Photos").child(uri.getLastPathSegment());
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -146,6 +130,5 @@ public class ItemPostForm extends AppCompatActivity {
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
-
 }
 
