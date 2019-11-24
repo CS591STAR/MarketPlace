@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <fragment
-        android:id="@+id/topFrag"
-        android:name="com.example.marketplace.NavBarFragment"
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />
+    android:orientation="vertical">
 
     <Button
-        android:id="@+id/testBtn"
+        android:id="@+id/btnCreatePost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginTop="54dp"
         android:layout_marginEnd="91dp"
-        android:text="Button" />
+        android:text="@string/Create_Post" />
 
     <ListView
         android:id="@+id/feedListView"
         android:layout_width="406dp"
         android:layout_height="641dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="1dp" />
-</RelativeLayout>
+</LinearLayout>
 

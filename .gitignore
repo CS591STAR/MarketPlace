@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 app/src/main/java/com/example/marketplace/gitignore.java
+app/google-services.json
