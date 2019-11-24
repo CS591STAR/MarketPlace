@@ -115,42 +115,52 @@ public class ItemPostForm extends Fragment {
                 startActivity(backToFeed);
             }
         });
+
         return view;
     }
 
   
 
-//     @Override
-//     public void onActivityResult(int requestCode, int resultCode, Intent data){
-//         if (!(resultCode == RESULT_OK)) {
-//             Toast.makeText(getActivity().getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
-//             return;
-//     }
+     @Override
+     public void onActivityResult(int requestCode, int resultCode, Intent data){
+         if (!(resultCode == RESULT_OK)) {
+             Toast.makeText(getActivity().getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
+             return;
+         }
+         switch (requestCode) {
+             case REQUEST_IMAGE:
+                 Bundle bundleData = data.getExtras();           //images are stored in a bundle wrapped within the intent...
+                 Bitmap ItemPhoto = (Bitmap) bundleData.get("data");//the bundle key is "data".  Requires some reading of documentation to remember. :)
+                 itemImage.setImageBitmap(ItemPhoto);
+                 itemImage.setVisibility(View.VISIBLE);
+                 break;
+         }
+     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
-            postImage = (Bitmap) data.getExtras().get("data");
-            Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
-
-            StorageReference filepath = storageReference.child("Photos").child(uri.getLastPathSegment());
-            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.i("IMG", "upload worked");
-                    // Toast.makeText(getApplicationContext(),"upload worked", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+//            postImage = (Bitmap) data.getExtras().get("data");
+//            Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
+//
+//            StorageReference filepath = storageReference.child("Photos").child(uri.getLastPathSegment());
+//            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    Log.i("IMG", "upload worked");
+//                    // Toast.makeText(getApplicationContext(),"upload worked", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
+//    }
+//
+//    public Uri getImageUri(Context inContext, Bitmap inImage) {
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+//        return Uri.parse(path);
+//    }
 }
 

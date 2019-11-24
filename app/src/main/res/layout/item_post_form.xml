@@ -48,7 +48,7 @@
     <ImageView
         android:id="@+id/itemImage"
         android:layout_width="match_parent"
-        android:layout_height="284dp"
+        android:layout_height="303dp"
         android:visibility="invisible"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
