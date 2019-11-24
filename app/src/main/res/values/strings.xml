@@ -33,6 +33,14 @@
     <string name="S_button">S</string>
     <string name="Feed_button">Feed</string>
 
+    <!--Post Form-->
+    <string name="Item_Name">Item Name</string>
+    <string name="Ask_Price">Asking Price</string>
+    <string name="Item_Zip">Item Zipcode</string>
+    <string name="Take_Picture">Picture</string>
+    <string name="Desc_Text">Item Description</string>
+    <string name="Post_Item">Post Item</string>
+
     <!--Other-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
