@@ -5,12 +5,12 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/testBtn"
+        android:id="@+id/btnCreatePost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="54dp"
         android:layout_marginEnd="91dp"
-        android:text="Button" />
+        android:text="@string/Create_Post" />
 
     <ListView
         android:id="@+id/feedListView"

@@ -18,6 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
+            android:contentDescription="@string/Image_Description"
             tools:srcCompat="@tools:sample/avatars" />
 
         <LinearLayout
@@ -30,25 +31,25 @@
                 android:id="@+id/txtDisplayName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="User Name" />
+                android:text="@string/User_Name" />
 
             <TextView
                 android:id="@+id/txtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="User Email" />
+                android:text="@string/User_Email" />
 
             <TextView
                 android:id="@+id/txtUni"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="User University" />
+                android:text="@string/User_Uni" />
 
             <Button
                 android:id="@+id/btnEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Edit" />
+                android:text="@string/Edit_Button" />
         </LinearLayout>
     </LinearLayout>
 
@@ -63,14 +64,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Posts" />
+            android:text="@string/Posts_Button" />
 
         <Button
             android:id="@+id/btnChats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Chats" />
+            android:text="@string/Chats_Button" />
     </LinearLayout>
 
 </LinearLayout>

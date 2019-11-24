@@ -4,33 +4,22 @@ package com.example.marketplace;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import android.content.Intent;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import android.widget.TextView;
-import android.widget.Toast;
-
 import android.widget.ListView;
 
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.google.gson.Gson;
 
 
 public class MarketFeed extends Fragment {
 
-    Button testBtn;
+    Button btnCreatePost;
     ListView feedListView;
     SharedPreferences sharedPref;
 
@@ -62,9 +51,9 @@ public class MarketFeed extends Fragment {
         View view = inflater.inflate(R.layout.feed_layout, container, false);
 
         feedListView = view.findViewById(R.id.feedListView);
-        testBtn = view.findViewById(R.id.testBtn);
+        btnCreatePost = view.findViewById(R.id.btnCreatePost);
 
-        testBtn.setOnClickListener(new View.OnClickListener() {
+        btnCreatePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MFL.createPost();
