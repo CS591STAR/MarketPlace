@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
     @Override
     public void openChats() {
-
+        Intent intent = new Intent(getApplicationContext(), Chatroom.class);
+        startActivity(intent);
     }
 
     @Override

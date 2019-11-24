@@ -63,8 +63,6 @@ public class NavBarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NBFL.openProfile();
-//                Intent intent = new Intent(getContext(), Profile.class);
-//                startActivity(intent);
             }
         });
 
@@ -72,8 +70,6 @@ public class NavBarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NBFL.openChats();
-//                Intent intent = new Intent(getContext(), Chatroom.class);
-//                startActivity(intent);
             }
         });
 
