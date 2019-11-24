@@ -1,6 +1,7 @@
 package com.example.marketplace;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.marketplace.MarketFeed;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +30,8 @@ import com.google.firebase.storage.UploadTask;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,7 +41,9 @@ public class ItemPostForm extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private String mUsername;
     public static final String ANONYMOUS = "anonymous";
-    private static final int REQUEST_IMAGE = 2;
+    private static final int REQUEST_IMAGE = 1;
+
+    private StorageReference storageReference;
 
 
     private static final String TAG = "NEWPOST";
@@ -51,13 +57,13 @@ public class ItemPostForm extends AppCompatActivity {
     String postImage;
 
     Button AddImageItemPostButton;
-    static final int TAKE_PHOTO = 9999; //A flag that we will use to track the result of an intent later.
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_post_form);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
         mUsername = ANONYMOUS;
         savePostButton = findViewById(R.id.savePostButton);
         itemNameTxt = findViewById(R.id.itemNameTxt);
@@ -87,7 +93,7 @@ public class ItemPostForm extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePictureIntent, TAKE_PHOTO);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE);
             }
         });
 
@@ -99,7 +105,9 @@ public class ItemPostForm extends AppCompatActivity {
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString());
             }
         });
+
     }
+
 
 //    @Override
 //    public void onStart() {
@@ -113,75 +121,31 @@ public class ItemPostForm extends AppCompatActivity {
 //        }
 //    }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (!(resultCode == RESULT_OK)) {
-//            Toast.makeText(getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        switch (requestCode) {
-//            case TAKE_PHOTO:
-//                Bundle bundleData = data.getExtras();           //images are stored in a bundle wrapped within the intent...
-//                Bitmap ItemPhoto = (Bitmap) bundleData.get("data");//the bundle key is "data".  Requires some reading of documentation to remember. :)
-//                itemImage.setImageBitmap(ItemPhoto);
-//                itemImage.setVisibility(View.VISIBLE);
-//                String key = databaseReference.getKey();
-//                StorageReference storageReference =
-//                        FirebaseStorage.getInstance()
-//                                .getReference(mFirebaseUser.getUid())
-//                                .child(key)
-//                                .child(uri.getLastPathSegment());
-//                putImageInStorage();
-//
-//                break;
-//        }
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
 
-        if (requestCode == TAKE_PHOTO && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            itemImage.setVisibility(View.VISIBLE);
-            Uri uri = data.getData();
-            Log.d(TAG, "Uri: " + uri.toString());
-            StorageReference storageReference =
-                    FirebaseStorage.getInstance()
-                            .getReference(mFirebaseUser.getUid())
-                            .child("RANDOM")
-                            .child(uri.getLastPathSegment());
+        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Uri uri = getImageUri(getApplicationContext(), photo);
 
-            putImageInStorage(storageReference, uri, "RANDOM");
+            StorageReference filepath = storageReference.child("Photos").child(uri.getLastPathSegment());
+            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getApplicationContext(),"upload worked", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
-    private void putImageInStorage(StorageReference storageReference, Uri uri, final String key) {
-        storageReference.putFile(uri).addOnCompleteListener(ItemPostForm.this,
-                new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            task.getResult().getMetadata().getReference().getDownloadUrl()
-                                    .addOnCompleteListener(ItemPostForm.this,
-                                            new OnCompleteListener<Uri>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Uri> task) {
-                                                    if (task.isSuccessful()) {
-                                                        postImage = task.getResult().toString();
-                                                    }
-                                                }
-                                            });
-                        } else {
-                            Log.w(TAG, "Image upload task was not successful.",
-                                    task.getException());
-                        }
-                    }
-                });
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
-
 
 }
 
