@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/topFrag"
-        android:name="com.example.marketplace.NavBarFragment"
-        android:layout_width="match_parent"
-        android:layout_height="69dp" />
-
     <Button
         android:id="@+id/testBtn"
         android:layout_width="wrap_content"

@@ -40,11 +40,11 @@
             android:text="S" />
 
         <Button
-            android:id="@+id/btnSell"
+            android:id="@+id/btnFeed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:text="Sell" />
+            android:text="Feed" />
 
     </LinearLayout>
 

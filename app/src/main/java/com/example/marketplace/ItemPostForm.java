@@ -7,7 +7,9 @@ import android.os.Bundle;
 
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,9 +19,12 @@ import android.widget.Toast;
 import com.example.marketplace.MarketFeed;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import static android.app.Activity.RESULT_OK;
 
 
-public class ItemPostForm extends AppCompatActivity {
+public class ItemPostForm extends Fragment {
 
     EditText itemNameTxt;
     EditText itemAskingPriceTxt;
@@ -32,31 +37,36 @@ public class ItemPostForm extends AppCompatActivity {
     Button AddImageItemPostButton;
     static final int TAKE_PHOTO = 9999; //A flag that we will use to track the result of an intent later.
 
+    public ItemPostForm() {
+
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_post_form);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        savePostButton = findViewById(R.id.savePostButton);
-        itemNameTxt = findViewById(R.id.itemNameTxt);
-        itemAskingPriceTxt = findViewById(R.id.itemAskingPriceTxt);
-        itemZipcodeTxt = findViewById(R.id.itemZipcodeTxt);
-        itemImage = findViewById(R.id.itemImage);
+        View view = inflater.inflate(R.layout.item_post_form, container, false);
 
-        AddImageItemPostButton = findViewById(R.id.AddImageItemPostButton);
+        savePostButton = view.findViewById(R.id.savePostButton);
+        itemNameTxt = view.findViewById(R.id.itemNameTxt);
+        itemAskingPriceTxt = view.findViewById(R.id.itemAskingPriceTxt);
+        itemZipcodeTxt = view.findViewById(R.id.itemZipcodeTxt);
+        itemImage = view.findViewById(R.id.itemImage);
+
+        AddImageItemPostButton = view.findViewById(R.id.AddImageItemPostButton);
 
         // Dropdown for the item category
-        ItemCategoryDropdown = findViewById(R.id.ItemCategoryDropdown);
+        ItemCategoryDropdown = view.findViewById(R.id.ItemCategoryDropdown);
 
-        ArrayAdapter<String> ItemCategoryDropDownAdapter = new ArrayAdapter<String>(getApplicationContext(),
+        ArrayAdapter<String> ItemCategoryDropDownAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.categories));
 
         ItemCategoryDropdown.setAdapter(ItemCategoryDropDownAdapter);
 
         // Dropdown for the item condition
-        ItemConditionDropDown = findViewById(R.id.ItemConditionDropDown);
+        ItemConditionDropDown = view.findViewById(R.id.ItemConditionDropDown);
 
-        ArrayAdapter<String> ItemConditionDropDownAdapter = new ArrayAdapter<String>(getApplicationContext(),
+        ArrayAdapter<String> ItemConditionDropDownAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.itemConditions));
 
         ItemConditionDropDown.setAdapter(ItemConditionDropDownAdapter);
@@ -77,12 +87,14 @@ public class ItemPostForm extends AppCompatActivity {
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString());
             }
         });
+
+        return view;
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (!(resultCode == RESULT_OK)) {
-            Toast.makeText(getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
             return;
         }
 
