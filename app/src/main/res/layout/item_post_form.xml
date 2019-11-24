@@ -52,6 +52,14 @@
         android:visibility="invisible"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
+    <EditText
+        android:id="@+id/postDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="127dp"
+        android:ems="10"
+        android:hint="Item Description"
+        android:inputType="textPersonName" />
+
     <Button
         android:id="@+id/savePostButton"
         android:layout_width="match_parent"

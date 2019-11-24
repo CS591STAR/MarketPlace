@@ -1,8 +1,9 @@
 package com.example.marketplace;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
@@ -16,16 +17,35 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.example.marketplace.MarketFeed;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+
 import static android.app.Activity.RESULT_OK;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class ItemPostForm extends Fragment {
 
+    private FirebaseUser mFirebaseUser;
+    private String mUsername;
+    public static final String ANONYMOUS = "anonymous";
+    private static final int REQUEST_IMAGE = 1;
+
+    private StorageReference storageReference;
+
+
+    private static final String TAG = "NEWPOST";
     EditText itemNameTxt;
     EditText itemAskingPriceTxt;
     EditText itemZipcodeTxt;
@@ -33,9 +53,10 @@ public class ItemPostForm extends Fragment {
     Spinner ItemConditionDropDown;
     Button savePostButton;
     ImageView itemImage;
+    Bitmap postImage;
+    EditText postDescriptionText;
 
     Button AddImageItemPostButton;
-    static final int TAKE_PHOTO = 9999; //A flag that we will use to track the result of an intent later.
 
     public ItemPostForm() {
 
@@ -47,11 +68,16 @@ public class ItemPostForm extends Fragment {
 
         View view = inflater.inflate(R.layout.item_post_form, container, false);
 
+        mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        mUsername = mFirebaseUser.getUid();
+  
         savePostButton = view.findViewById(R.id.savePostButton);
         itemNameTxt = view.findViewById(R.id.itemNameTxt);
         itemAskingPriceTxt = view.findViewById(R.id.itemAskingPriceTxt);
         itemZipcodeTxt = view.findViewById(R.id.itemZipcodeTxt);
         itemImage = view.findViewById(R.id.itemImage);
+        postDescriptionText = view.findViewById(R.id.postDescriptionText);
 
         AddImageItemPostButton = view.findViewById(R.id.AddImageItemPostButton);
 
@@ -75,37 +101,56 @@ public class ItemPostForm extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePictureIntent, TAKE_PHOTO);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE);
             }
         });
 
         savePostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Long currentTime = System.currentTimeMillis()/1000;
+                Date currentTime = Calendar.getInstance().getTime();
                 Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString());
+                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString(), postDescriptionText.getText().toString());
+                Intent backToFeed = new Intent(getActivity().getApplicationContext(), MarketFeed.class);
+                startActivity(backToFeed);
             }
         });
-
         return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (!(resultCode == RESULT_OK)) {
-            Toast.makeText(getActivity().getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
-            return;
-        }
+  
 
-        switch (requestCode) {
-            case TAKE_PHOTO:
-                Bundle bundleData = data.getExtras();           //images are stored in a bundle wrapped within the intent...
-                Bitmap ItemPhoto = (Bitmap) bundleData.get("data");//the bundle key is "data".  Requires some reading of documentation to remember. :)
-                itemImage.setImageBitmap(ItemPhoto);
-                itemImage.setVisibility(View.VISIBLE);
-                break;
+//     @Override
+//     public void onActivityResult(int requestCode, int resultCode, Intent data){
+//         if (!(resultCode == RESULT_OK)) {
+//             Toast.makeText(getActivity().getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
+//             return;
+//     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+            postImage = (Bitmap) data.getExtras().get("data");
+            Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
+
+            StorageReference filepath = storageReference.child("Photos").child(uri.getLastPathSegment());
+            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.i("IMG", "upload worked");
+                    // Toast.makeText(getApplicationContext(),"upload worked", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 }
 
