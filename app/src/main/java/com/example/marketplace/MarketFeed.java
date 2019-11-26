@@ -39,9 +39,6 @@ public class MarketFeed extends Fragment {
         MFL = (MarketFeedListener) context;
     }
 
-    User you;
-    SharedPreferences sharedPref;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
