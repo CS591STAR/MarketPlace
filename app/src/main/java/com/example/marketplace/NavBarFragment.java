@@ -55,7 +55,7 @@ public class NavBarFragment extends Fragment {
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), Chatroom.class);
+                Intent intent = new Intent(getContext(), ChatList.class);
                 startActivity(intent);
             }
         });
