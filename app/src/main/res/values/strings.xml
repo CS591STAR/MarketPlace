@@ -123,4 +123,6 @@
         <item>Decent Condition</item>
         <item>Poor Condition</item>
     </string-array>
+    <string name="chatlist">Chat List</string>
+    <string name="chatroom">Chat Room</string>
 </resources>

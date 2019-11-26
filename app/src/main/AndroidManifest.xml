@@ -14,9 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ChatList"
+            android:label="@string/chatlist"
+            />
+        <activity android:name=".Chatroom"
+            android:label="@string/chatroom"
+            />
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".ChatList"></activity>
-        <activity android:name=".Chatroom" />
         <activity android:name=".Profile" />
         <activity android:name=".LoginActivity">
             <intent-filter>
