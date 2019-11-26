@@ -48,14 +48,14 @@
     <ImageView
         android:id="@+id/itemImage"
         android:layout_width="match_parent"
-        android:layout_height="284dp"
+        android:layout_height="wrap_content"
         android:visibility="invisible"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
     <EditText
         android:id="@+id/postDescriptionText"
         android:layout_width="match_parent"
-        android:layout_height="127dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Item Description"
         android:inputType="textPersonName" />

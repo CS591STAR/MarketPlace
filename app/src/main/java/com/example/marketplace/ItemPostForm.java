@@ -20,6 +20,9 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -43,6 +46,10 @@ public class ItemPostForm extends Fragment {
     private static final int REQUEST_IMAGE = 1;
 
     private StorageReference storageReference;
+
+    private FirebaseFirestore db;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
 
 
     private static final String TAG = "NEWPOST";
@@ -71,6 +78,11 @@ public class ItemPostForm extends Fragment {
         mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
         mUsername = mFirebaseUser.getUid();
+
+        // to save every post to firebase
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
   
         savePostButton = view.findViewById(R.id.savePostButton);
         itemNameTxt = view.findViewById(R.id.itemNameTxt);
@@ -111,6 +123,8 @@ public class ItemPostForm extends Fragment {
                 Date currentTime = Calendar.getInstance().getTime();
                 Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString(), postDescriptionText.getText().toString());
+                writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
+                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString(), postDescriptionText.getText().toString());
                 Intent backToFeed = new Intent(getActivity().getApplicationContext(), MarketFeed.class);
                 startActivity(backToFeed);
             }
@@ -128,7 +142,7 @@ public class ItemPostForm extends Fragment {
 //     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
@@ -152,5 +166,15 @@ public class ItemPostForm extends Fragment {
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
+
+    private void writeNewPost(String itemName, int askingPrice, int zipcode, String sellerID, String category, String itemCondition,
+                              String itemPostTime, String itemDescription) {
+
+        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription);
+        String postID = mDatabase.push().getKey();
+        mDatabase.child(postID).setValue(post);
+    }
 }
+
+
 
