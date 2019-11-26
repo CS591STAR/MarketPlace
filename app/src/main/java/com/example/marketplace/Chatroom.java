@@ -290,6 +290,14 @@ public class Chatroom extends AppCompatActivity
                 startActivityForResult(intent, REQUEST_IMAGE);
             }
         });
+
+        //initialize chat room database (user's name, icon)
+        DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                .child(getIntent().getStringExtra("dataReference"))
+                .child(mFirebaseUser.getUid());
+        reference.child("id").setValue(mFirebaseUser.getUid());
+        reference.child("name").setValue(mFirebaseUser.getDisplayName());
+        reference.child("photoUrl").setValue(mFirebaseUser.getPhotoUrl().toString());
     }
 
     @Override
