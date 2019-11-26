@@ -1,6 +1,6 @@
 package com.example.marketplace;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,36 +8,44 @@ import android.os.Bundle;
 
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.example.marketplace.MarketFeed;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 
-public class ItemPostForm extends AppCompatActivity {
+import static android.app.Activity.RESULT_OK;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
+import java.util.Date;
+
+
+public class ItemPostForm extends Fragment {
 
     private FirebaseUser mFirebaseUser;
     private String mUsername;
     public static final String ANONYMOUS = "anonymous";
-    private static final int REQUEST_IMAGE = 2;
+    private static final int REQUEST_IMAGE = 1;
+
+    private StorageReference storageReference;
 
 
-    private static final String TAG = "Chatroom";
+    private static final String TAG = "NEWPOST";
     EditText itemNameTxt;
     EditText itemAskingPriceTxt;
     EditText itemZipcodeTxt;
@@ -45,37 +53,46 @@ public class ItemPostForm extends AppCompatActivity {
     Spinner ItemConditionDropDown;
     Button savePostButton;
     ImageView itemImage;
-    String postImage;
+    Bitmap postImage;
+    EditText postDescriptionText;
 
     Button AddImageItemPostButton;
-    static final int TAKE_PHOTO = 9999; //A flag that we will use to track the result of an intent later.
+
+    public ItemPostForm() {
+
+    }
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_post_form);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        mUsername = ANONYMOUS;
-        savePostButton = findViewById(R.id.savePostButton);
-        itemNameTxt = findViewById(R.id.itemNameTxt);
-        itemAskingPriceTxt = findViewById(R.id.itemAskingPriceTxt);
-        itemZipcodeTxt = findViewById(R.id.itemZipcodeTxt);
-        itemImage = findViewById(R.id.itemImage);
+        View view = inflater.inflate(R.layout.item_post_form, container, false);
 
-        AddImageItemPostButton = findViewById(R.id.AddImageItemPostButton);
+        mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        mUsername = mFirebaseUser.getUid();
+  
+        savePostButton = view.findViewById(R.id.savePostButton);
+        itemNameTxt = view.findViewById(R.id.itemNameTxt);
+        itemAskingPriceTxt = view.findViewById(R.id.itemAskingPriceTxt);
+        itemZipcodeTxt = view.findViewById(R.id.itemZipcodeTxt);
+        itemImage = view.findViewById(R.id.itemImage);
+        postDescriptionText = view.findViewById(R.id.postDescriptionText);
+
+        AddImageItemPostButton = view.findViewById(R.id.AddImageItemPostButton);
 
         // Dropdown for the item category
-        ItemCategoryDropdown = findViewById(R.id.ItemCategoryDropdown);
+        ItemCategoryDropdown = view.findViewById(R.id.ItemCategoryDropdown);
 
-        ArrayAdapter<String> ItemCategoryDropDownAdapter = new ArrayAdapter<String>(getApplicationContext(),
+        ArrayAdapter<String> ItemCategoryDropDownAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.categories));
 
         ItemCategoryDropdown.setAdapter(ItemCategoryDropDownAdapter);
 
         // Dropdown for the item condition
-        ItemConditionDropDown = findViewById(R.id.ItemConditionDropDown);
+        ItemConditionDropDown = view.findViewById(R.id.ItemConditionDropDown);
 
-        ArrayAdapter<String> ItemConditionDropDownAdapter = new ArrayAdapter<String>(getApplicationContext(),
+        ArrayAdapter<String> ItemConditionDropDownAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.itemConditions));
 
         ItemConditionDropDown.setAdapter(ItemConditionDropDownAdapter);
@@ -84,101 +101,66 @@ public class ItemPostForm extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePictureIntent, TAKE_PHOTO);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE);
             }
         });
 
         savePostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Long currentTime = System.currentTimeMillis()/1000;
+                Date currentTime = Calendar.getInstance().getTime();
                 Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString());
+                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString(), postDescriptionText.getText().toString());
+                Intent backToFeed = new Intent(getActivity().getApplicationContext(), MarketFeed.class);
+                startActivity(backToFeed);
             }
         });
+
+        return view;
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in.
-//        if (mFirebaseUser == null) {
-//            // Not signed in, launch the Sign In activity
-//            startActivity(new Intent(this, MainActivity.class));
-//            finish();
-//            return;
-//        }
-//    }
+  
+
+     @Override
+     public void onActivityResult(int requestCode, int resultCode, Intent data){
+         if (!(resultCode == RESULT_OK)) {
+             Toast.makeText(getActivity().getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
+             return;
+         }
+         switch (requestCode) {
+             case REQUEST_IMAGE:
+                 Bundle bundleData = data.getExtras();           //images are stored in a bundle wrapped within the intent...
+                 Bitmap ItemPhoto = (Bitmap) bundleData.get("data");//the bundle key is "data".  Requires some reading of documentation to remember. :)
+                 itemImage.setImageBitmap(ItemPhoto);
+                 itemImage.setVisibility(View.VISIBLE);
+                 break;
+         }
+     }
 
 //    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
-//        if (!(resultCode == RESULT_OK)) {
-//            Toast.makeText(getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
 //
-//        switch (requestCode) {
-//            case TAKE_PHOTO:
-//                Bundle bundleData = data.getExtras();           //images are stored in a bundle wrapped within the intent...
-//                Bitmap ItemPhoto = (Bitmap) bundleData.get("data");//the bundle key is "data".  Requires some reading of documentation to remember. :)
-//                itemImage.setImageBitmap(ItemPhoto);
-//                itemImage.setVisibility(View.VISIBLE);
-//                String key = databaseReference.getKey();
-//                StorageReference storageReference =
-//                        FirebaseStorage.getInstance()
-//                                .getReference(mFirebaseUser.getUid())
-//                                .child(key)
-//                                .child(uri.getLastPathSegment());
-//                putImageInStorage();
+//        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+//            postImage = (Bitmap) data.getExtras().get("data");
+//            Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
 //
-//                break;
+//            StorageReference filepath = storageReference.child("Photos").child(uri.getLastPathSegment());
+//            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    Log.i("IMG", "upload worked");
+//                    // Toast.makeText(getApplicationContext(),"upload worked", Toast.LENGTH_SHORT).show();
+//                }
+//            });
 //        }
 //    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
-
-        if (requestCode == TAKE_PHOTO && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            itemImage.setVisibility(View.VISIBLE);
-            Uri uri = data.getData();
-            Log.d(TAG, "Uri: " + uri.toString());
-            StorageReference storageReference =
-                    FirebaseStorage.getInstance()
-                            .getReference(mFirebaseUser.getUid())
-                            .child("RANDOM")
-                            .child(uri.getLastPathSegment());
-
-            putImageInStorage(storageReference, uri, "RANDOM");
-        }
-    }
-
-    private void putImageInStorage(StorageReference storageReference, Uri uri, final String key) {
-        storageReference.putFile(uri).addOnCompleteListener(ItemPostForm.this,
-                new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            task.getResult().getMetadata().getReference().getDownloadUrl()
-                                    .addOnCompleteListener(ItemPostForm.this,
-                                            new OnCompleteListener<Uri>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Uri> task) {
-                                                    if (task.isSuccessful()) {
-                                                        postImage = task.getResult().toString();
-                                                    }
-                                                }
-                                            });
-                        } else {
-                            Log.w(TAG, "Image upload task was not successful.",
-                                    task.getException());
-                        }
-                    }
-                });
-    }
-
-
+//
+//    public Uri getImageUri(Context inContext, Bitmap inImage) {
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+//        return Uri.parse(path);
+//    }
 }
 
