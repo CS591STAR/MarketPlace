@@ -90,4 +90,5 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.commit();
 
     }
+
 }
