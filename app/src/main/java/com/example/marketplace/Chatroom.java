@@ -145,7 +145,11 @@ public class Chatroom extends AppCompatActivity
             }
         };
 
-        DatabaseReference messagesRef = mFirebaseDatabaseReference.child(MESSAGES_CHILD);
+        DatabaseReference messagesRef = mFirebaseDatabaseReference
+                .child(MESSAGES_CHILD)
+                .child(mFirebaseUser.getUid())
+                .child(getIntent().getStringExtra("dataReference"))
+                .child(MESSAGES_CHILD);
         FirebaseRecyclerOptions<Message> options =
                 new FirebaseRecyclerOptions.Builder<Message>()
                         .setQuery(messagesRef, parser)
@@ -259,7 +263,17 @@ public class Chatroom extends AppCompatActivity
                         mUsername,
                         mPhotoUrl,
                         null /* no image */);
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                mFirebaseDatabaseReference
+                        .child(MESSAGES_CHILD)
+                        .child(mFirebaseUser.getUid())
+                        .child(getIntent().getStringExtra("dataReference"))
+                        .child(MESSAGES_CHILD)
+                        .push().setValue(friendlyMessage);
+                mFirebaseDatabaseReference
+                        .child(MESSAGES_CHILD)
+                        .child(getIntent().getStringExtra("dataReference"))
+                        .child(mFirebaseUser.getUid())
+                        .child(MESSAGES_CHILD)
                         .push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
             }
@@ -351,7 +365,12 @@ public class Chatroom extends AppCompatActivity
 
                     Message tempMessage = new Message(null, mUsername, mPhotoUrl,
                             LOADING_IMAGE_URL);
-                    mFirebaseDatabaseReference.child(MESSAGES_CHILD).push()
+                    mFirebaseDatabaseReference
+                            .child(MESSAGES_CHILD)
+                            .child(mFirebaseUser.getUid())
+                            .child(getIntent().getStringExtra("dataReference"))
+                            .child(MESSAGES_CHILD)
+                            .push()
                             .setValue(tempMessage, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(DatabaseError databaseError,
@@ -391,7 +410,19 @@ public class Chatroom extends AppCompatActivity
                                                         Message friendlyMessage =
                                                                 new Message(null, mUsername, mPhotoUrl,
                                                                         task.getResult().toString());
-                                                        mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
+                                                        mFirebaseDatabaseReference
+                                                                .child(MESSAGES_CHILD)
+                                                                .child(mFirebaseUser.getUid())
+                                                                .child(getIntent().getStringExtra("dataReference"))
+                                                                .child(MESSAGES_CHILD)
+                                                                .child(key)
+                                                                .setValue(friendlyMessage);
+                                                        mFirebaseDatabaseReference
+                                                                .child(MESSAGES_CHILD)
+                                                                .child(getIntent().getStringExtra("dataReference"))
+                                                                .child(mFirebaseUser.getUid())
+                                                                .child(MESSAGES_CHILD)
+                                                                .child(key)
                                                                 .setValue(friendlyMessage);
                                                     }
                                                 }

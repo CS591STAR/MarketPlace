@@ -41,6 +41,12 @@ public class Profile extends Fragment {
         btnEdit = view.findViewById(R.id.btnEdit);
         btnPosts = view.findViewById(R.id.btnPosts);
         btnChats = view.findViewById(R.id.btnChats);
+        btnChats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), ChatList.class));
+            }
+        });
         txtUni = view.findViewById(R.id.txtUni);
 
         return view;

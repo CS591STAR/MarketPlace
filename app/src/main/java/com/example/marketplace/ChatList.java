@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.login.Login;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -107,7 +108,7 @@ public class ChatList extends AppCompatActivity {
                 .build();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<SingleChat, ChatViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ChatViewHolder viewHolder, int position, @NonNull SingleChat singleChat) {
+            protected void onBindViewHolder(@NonNull ChatViewHolder viewHolder, int position, @NonNull final SingleChat singleChat) {
                 viewHolder.chatTextView.setText(singleChat.getName());
                 if(singleChat.getPhotoUrl() == null){
                     viewHolder.chatImageView.setImageDrawable(ContextCompat.getDrawable(ChatList.this,
@@ -121,7 +122,9 @@ public class ChatList extends AppCompatActivity {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Intent intent = new Intent(getBaseContext(), Chatroom.class);
+                        intent.putExtra("dataReference",singleChat.getId());
+                        startActivity(intent);
                     }
                 });
             }
@@ -129,7 +132,6 @@ public class ChatList extends AppCompatActivity {
             @NonNull
             @Override
             public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                //LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_single_chat, parent, false);
                 return new ChatViewHolder(v);
             }
@@ -161,7 +163,7 @@ public class ChatList extends AppCompatActivity {
         // Check if user is signed in.
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
         } else {
