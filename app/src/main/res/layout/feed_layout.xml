@@ -12,10 +12,11 @@
         android:layout_marginEnd="91dp"
         android:text="@string/Create_Post" />
 
-    <ListView
-        android:id="@+id/feedListView"
-        android:layout_width="406dp"
-        android:layout_height="641dp"
-        android:layout_marginBottom="1dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/feed_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" />
+
 </LinearLayout>
 

@@ -4,6 +4,10 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Post implements Parcelable {
 
     private String itemName;
@@ -12,11 +16,11 @@ public class Post implements Parcelable {
     private String sellerID;
     private String category;
     private String itemCondition;
-    private String itemPostTime;
+    private Date itemPostTime;
     private String itemDescription;
 
     public Post(String itemName, int askingPrice, int zipcode, String sellerID, String category, String itemCondition,
-                String itemPostTime, String itemDescription) {
+                Date itemPostTime, String itemDescription) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -76,11 +80,11 @@ public class Post implements Parcelable {
         return this.itemCondition;
     }
 
-    public void setItemPostTime(String itemPostTime) {
+    public void setItemPostTime(Date itemPostTime) {
         this.itemPostTime = itemPostTime;
     }
 
-    public String getItemPostTime(){
+    public Date getItemPostTime(){
         return this.itemPostTime;
     }
 
@@ -94,7 +98,7 @@ public class Post implements Parcelable {
 
     public Post(Parcel in) {
         String[] postData = new String[8];
-
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
         in.readStringArray(postData);
         this.itemName = postData[0];
         this.askingPrice = Integer.parseInt(postData[1]);
@@ -102,7 +106,14 @@ public class Post implements Parcelable {
         this.sellerID = postData[3];
         this.category = postData[4];
         this.itemCondition = postData[5];
-        this.itemPostTime = postData[6];
+        Date date = null;
+        try {
+            date = formatter.parse(postData[6]);
+            this.itemPostTime = date;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         this.itemDescription = postData[7];
     }
 

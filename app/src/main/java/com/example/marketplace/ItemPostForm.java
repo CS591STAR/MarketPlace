@@ -122,9 +122,9 @@ public class ItemPostForm extends Fragment {
             public void onClick(View view) {
                 Date currentTime = Calendar.getInstance().getTime();
                 Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString(), postDescriptionText.getText().toString());
+                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime, postDescriptionText.getText().toString());
                 writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime.toString(), postDescriptionText.getText().toString());
+                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime, postDescriptionText.getText().toString());
                 Intent backToFeed = new Intent(getActivity().getApplicationContext(), MarketFeed.class);
                 startActivity(backToFeed);
             }
@@ -168,7 +168,7 @@ public class ItemPostForm extends Fragment {
     }
 
     private void writeNewPost(String itemName, int askingPrice, int zipcode, String sellerID, String category, String itemCondition,
-                              String itemPostTime, String itemDescription) {
+                              Date itemPostTime, String itemDescription) {
 
         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription);
         String postID = mDatabase.push().getKey();
