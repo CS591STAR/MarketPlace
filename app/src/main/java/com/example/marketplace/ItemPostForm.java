@@ -64,6 +64,7 @@ public class ItemPostForm extends Fragment {
     EditText postDescriptionText;
 
     Button AddImageItemPostButton;
+    String postID;
 
     public ItemPostForm() {
 
@@ -83,6 +84,7 @@ public class ItemPostForm extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
+        postID = mDatabase.push().getKey();
   
         savePostButton = view.findViewById(R.id.savePostButton);
         itemNameTxt = view.findViewById(R.id.itemNameTxt);
@@ -124,8 +126,11 @@ public class ItemPostForm extends Fragment {
                 Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime, postDescriptionText.getText().toString());
                 writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime, postDescriptionText.getText().toString());
-                Intent backToFeed = new Intent(getActivity().getApplicationContext(), MarketFeed.class);
+
+                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
+                        ItemConditionDropDown.getSelectedItem().toString(), currentTime,
+                        postDescriptionText.getText().toString());
+                Intent backToFeed = new Intent(getActivity(), MarketFeed.class);
                 startActivity(backToFeed);
             }
         });
@@ -149,7 +154,7 @@ public class ItemPostForm extends Fragment {
             postImage = (Bitmap) data.getExtras().get("data");
             Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
 
-            StorageReference filepath = storageReference.child("Photos").child(uri.getLastPathSegment());
+            StorageReference filepath = storageReference.child("Photos").child(postID).child(uri.getLastPathSegment());
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -171,7 +176,6 @@ public class ItemPostForm extends Fragment {
                               Date itemPostTime, String itemDescription) {
 
         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription);
-        String postID = mDatabase.push().getKey();
         mDatabase.child(postID).setValue(post);
     }
 }
