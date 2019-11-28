@@ -35,6 +35,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -114,13 +116,21 @@ public class MarketFeed extends Fragment {
                     while (iter.hasNext()){
                         DataSnapshot snap = iter.next();
                         String postID = snap.getKey();
-                        int askingPrice = (int) snap.child("askingPrice").getValue();
+                        long askingPrice = (long) snap.child("askingPrice").getValue();
                         String category = (String) snap.child("category").getValue();
                         String itemDescription = (String) snap.child("itemDescription").getValue();
                         String itemName = (String) snap.child("itemName").getValue();
-                        Date itemPostTime = (Date) snap.child("itemPostTime").getValue();
+
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+                        Date itemPostTime = null;
+                        try {
+                            itemPostTime = formatter.parse(snap.child("itemPostTime").getValue().toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
                         String sellerID = (String) snap.child("sellerID").getValue();
-                        int zipcode = (int) snap.child("zipcode").getValue();
+                        long zipcode = (long) snap.child("zipcode").getValue();
                         String itemCondition = (String) snap.child("itemCondition").getValue();
 
 
@@ -128,7 +138,7 @@ public class MarketFeed extends Fragment {
                                 itemPostTime, itemDescription);
                         postList.add(post);
                         //received results
-                        Log.i("post", itemName + " on nod " + postID);
+                        Log.i("post", post.getItemName() + " on nod " + postID);
                     }
                 }
                 // notify the adapter

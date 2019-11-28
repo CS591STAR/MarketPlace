@@ -130,7 +130,7 @@ public class ItemPostForm extends Fragment {
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
                         ItemConditionDropDown.getSelectedItem().toString(), currentTime,
                         postDescriptionText.getText().toString());
-                Intent backToFeed = new Intent(getActivity(), MarketFeed.class);
+                Intent backToFeed = new Intent(getActivity().getApplicationContext(), MarketFeed.class);
                 startActivity(backToFeed);
             }
         });

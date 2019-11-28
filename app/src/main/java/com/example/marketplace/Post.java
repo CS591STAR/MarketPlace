@@ -11,15 +11,15 @@ import java.util.Date;
 public class Post implements Parcelable {
 
     private String itemName;
-    private int askingPrice;
-    private int zipcode;
+    private long askingPrice;
+    private long zipcode;
     private String sellerID;
     private String category;
     private String itemCondition;
     private Date itemPostTime;
     private String itemDescription;
 
-    public Post(String itemName, int askingPrice, int zipcode, String sellerID, String category, String itemCondition,
+    public Post(String itemName, long askingPrice, long zipcode, String sellerID, String category, String itemCondition,
                 Date itemPostTime, String itemDescription) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
@@ -39,19 +39,19 @@ public class Post implements Parcelable {
         return this.itemName;
     }
 
-    public void setAskingPrice(int askingPrice) {
+    public void setAskingPrice(long askingPrice) {
         this.askingPrice = askingPrice;
     }
 
-    public int getAskingPrice(){
+    public long getAskingPrice(){
         return this.askingPrice;
     }
 
-    public void setZipcode(int zipcode) {
+    public void setZipcode(long zipcode) {
         this.zipcode = zipcode;
     }
 
-    public int getZipcode(){
+    public long getZipcode(){
         return this.zipcode;
     }
 
