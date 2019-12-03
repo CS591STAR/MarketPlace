@@ -1,7 +1,9 @@
 package com.example.marketplace;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,11 +29,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.CAMERA_SERVICE;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
@@ -53,6 +59,7 @@ public class ItemPostForm extends Fragment {
 
 
     private static final String TAG = "NEWPOST";
+    private static final int PERMISSION_REQUEST_CODE = 200;
     EditText itemNameTxt;
     EditText itemAskingPriceTxt;
     EditText itemZipcodeTxt;
@@ -68,6 +75,11 @@ public class ItemPostForm extends Fragment {
 
     public ItemPostForm() {
 
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -114,8 +126,15 @@ public class ItemPostForm extends Fragment {
         AddImageItemPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("at this point: ", "0");
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE);
+                Log.i("at this point: ", "1");
+
+                if(checkPermission()){
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE);
+                } else {
+                    requestPermission();
+                }
             }
         });
 
@@ -151,6 +170,7 @@ public class ItemPostForm extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+            Log.i("here: ", "is result code is ok");
             postImage = (Bitmap) data.getExtras().get("data");
             Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
 
@@ -162,6 +182,28 @@ public class ItemPostForm extends Fragment {
                     // Toast.makeText(getApplicationContext(),"upload worked", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+//            Toast.makeText(getContext(), "result code not ok?", Toast.LENGTH_SHORT).show();
+            Log.i("IMG", "upload did not work");
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        Log.i("made it to: ", "on request permission result");
+        switch (requestCode){
+            case PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    Toast.makeText(getContext(), "result code not ok?", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
         }
     }
 
@@ -177,6 +219,21 @@ public class ItemPostForm extends Fragment {
 
         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription);
         mDatabase.child(postID).setValue(post);
+    }
+
+    private boolean checkPermission() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
+        return true;
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.CAMERA},
+                PERMISSION_REQUEST_CODE);
     }
 }
 
