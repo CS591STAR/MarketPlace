@@ -470,7 +470,7 @@ public class Chatroom extends AppCompatActivity
         String title = "Marketplace";
         String message = "New messages received";
 
-        TALK_TO_ID = getIntent().getStringExtra(DATA_REFERENCE);
+        TALK_TO_ID = "chat";
         String topic = "/topics/" + TALK_TO_ID;
         JSONObject notification = new JSONObject();
         JSONObject body = new JSONObject();

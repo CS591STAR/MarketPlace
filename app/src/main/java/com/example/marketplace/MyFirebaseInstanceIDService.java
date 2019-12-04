@@ -13,12 +13,11 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
 
     private static final String TAG = "mFirebaseIIDService";
-    private static String SUBSCRIBE_TO;
+    private static String SUBSCRIBE_TO = "chat";
 
     @Override
     public void onNewToken(String newToken){
         super.onNewToken(newToken);
-        SUBSCRIBE_TO = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseMessaging.getInstance().subscribeToTopic(SUBSCRIBE_TO);
 
     }
