@@ -59,7 +59,10 @@ public class ItemPostForm extends Fragment {
 
 
     private static final String TAG = "NEWPOST";
-    private static final int PERMISSION_REQUEST_CODE = 200;
+    private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final int WRITE_EXTERNAL_STORAGE_CODE = 100;
+
+
     EditText itemNameTxt;
     EditText itemAskingPriceTxt;
     EditText itemZipcodeTxt;
@@ -126,14 +129,12 @@ public class ItemPostForm extends Fragment {
         AddImageItemPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("at this point: ", "0");
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Log.i("at this point: ", "1");
-
-                if(checkPermission()){
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE);
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
                 } else {
-                    requestPermission();
+                    Log.i("here: ", "permission has been granted");
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE);
                 }
             }
         });
@@ -145,10 +146,10 @@ public class ItemPostForm extends Fragment {
                 Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime, postDescriptionText.getText().toString());
                 writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
                         ItemConditionDropDown.getSelectedItem().toString(), currentTime,
                         postDescriptionText.getText().toString());
+
                 Intent backToFeed = new Intent(getActivity().getApplicationContext(), MarketFeed.class);
                 startActivity(backToFeed);
             }
@@ -156,23 +157,16 @@ public class ItemPostForm extends Fragment {
         return view;
     }
 
-  
-
-//     @Override
-//     public void onActivityResult(int requestCode, int resultCode, Intent data){
-//         if (!(resultCode == RESULT_OK)) {
-//             Toast.makeText(getActivity().getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
-//             return;
-//     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
-            Log.i("here: ", "is result code is ok");
+            Log.i("here: ", "result code is ok");
             postImage = (Bitmap) data.getExtras().get("data");
             Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
+
+            Log.i("here: ", "uri is fine");
 
             StorageReference filepath = storageReference.child("Photos").child(postID).child(uri.getLastPathSegment());
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -190,15 +184,15 @@ public class ItemPostForm extends Fragment {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
-        Log.i("made it to: ", "on request permission result");
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         switch (requestCode){
             case PERMISSION_REQUEST_CODE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE);
+
                 } else {
                     Toast.makeText(getContext(), "result code not ok?", Toast.LENGTH_SHORT).show();
                 }
@@ -214,26 +208,11 @@ public class ItemPostForm extends Fragment {
         return Uri.parse(path);
     }
 
-    private void writeNewPost(String itemName, int askingPrice, int zipcode, String sellerID, String category, String itemCondition,
+    private void writeNewPost(String itemName, int askingPrice, int zipcode, String sellerID , String category, String itemCondition,
                               Date itemPostTime, String itemDescription) {
 
         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription);
         mDatabase.child(postID).setValue(post);
-    }
-
-    private boolean checkPermission() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            return false;
-        }
-        return true;
-    }
-
-    private void requestPermission() {
-
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.CAMERA},
-                PERMISSION_REQUEST_CODE);
     }
 }
 
