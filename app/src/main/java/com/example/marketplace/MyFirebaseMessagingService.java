@@ -80,4 +80,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(adminChannel);
         }
     }
+
+    @Override
+    public void onNewToken(String newToken){
+        super.onNewToken(newToken);
+    }
 }

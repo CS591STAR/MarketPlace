@@ -92,8 +92,8 @@ public class Chatroom extends AppCompatActivity
     private SharedPreferences mSharedPreferences;
     private GoogleApiClient mGoogleApiClient;
     private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
-    private static String TALK_TO_ID;
-    private static final String DATA_REFERENCE = "dataReference";
+    private static final String TALK_TO_ID = "talkToID";
+    private static final String TALK_TO_NAME = "talkToName";
 
     private Button mSendButton;
     private RecyclerView mMessageRecyclerView;
@@ -163,7 +163,7 @@ public class Chatroom extends AppCompatActivity
         DatabaseReference messagesRef = mFirebaseDatabaseReference
                 .child(MESSAGES_CHILD)
                 .child(mFirebaseUser.getUid())
-                .child(getIntent().getStringExtra(DATA_REFERENCE))
+                .child(getIntent().getStringExtra(TALK_TO_ID))
                 .child(MESSAGES_CHILD);
         FirebaseRecyclerOptions<Message> options =
                 new FirebaseRecyclerOptions.Builder<Message>()
@@ -281,12 +281,12 @@ public class Chatroom extends AppCompatActivity
                 mFirebaseDatabaseReference
                         .child(MESSAGES_CHILD)
                         .child(mFirebaseUser.getUid())
-                        .child(getIntent().getStringExtra(DATA_REFERENCE))
+                        .child(getIntent().getStringExtra(TALK_TO_ID))
                         .child(MESSAGES_CHILD)
                         .push().setValue(friendlyMessage);
                 mFirebaseDatabaseReference
                         .child(MESSAGES_CHILD)
-                        .child(getIntent().getStringExtra(DATA_REFERENCE))
+                        .child(getIntent().getStringExtra(TALK_TO_ID))
                         .child(mFirebaseUser.getUid())
                         .child(MESSAGES_CHILD)
                         .push().setValue(friendlyMessage);
@@ -313,7 +313,7 @@ public class Chatroom extends AppCompatActivity
 
         //initialize chat room database (user's name, icon)
         DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
-                .child(getIntent().getStringExtra(DATA_REFERENCE))
+                .child(getIntent().getStringExtra(TALK_TO_ID))
                 .child(mFirebaseUser.getUid());
         reference.child("id").setValue(mFirebaseUser.getUid());
         reference.child("name").setValue(mFirebaseUser.getDisplayName());
@@ -470,8 +470,7 @@ public class Chatroom extends AppCompatActivity
         String title = "Marketplace";
         String message = "New messages received";
 
-        TALK_TO_ID = "chat";
-        String topic = "/topics/" + TALK_TO_ID;
+        String topic = "/topics/" + getIntent().getStringExtra(TALK_TO_ID);
         JSONObject notification = new JSONObject();
         JSONObject body = new JSONObject();
 
