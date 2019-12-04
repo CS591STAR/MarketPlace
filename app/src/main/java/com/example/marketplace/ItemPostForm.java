@@ -45,12 +45,17 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.Context.CAMERA_SERVICE;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class ItemPostForm extends Fragment {
@@ -71,6 +76,8 @@ public class ItemPostForm extends Fragment {
     private static final int PERMISSION_REQUEST_CODE = 100;
     private static final int WRITE_EXTERNAL_STORAGE_CODE = 100;
 
+    OkHttpClient client = new OkHttpClient();
+
 
     EditText itemNameTxt;
     EditText itemAskingPriceTxt;
@@ -81,7 +88,7 @@ public class ItemPostForm extends Fragment {
     ImageView itemImage;
     Bitmap postImage;
     EditText postDescriptionText;
-    Map timestamp;
+    long currentTime = 0;
 
     Button AddImageItemPostButton;
     String postID;
@@ -110,8 +117,6 @@ public class ItemPostForm extends Fragment {
         db = FirebaseFirestore.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
         postID = mDatabase.push().getKey();
-
-        timestamp = new HashMap();
 
         savePostButton = view.findViewById(R.id.savePostButton);
         itemNameTxt = view.findViewById(R.id.itemNameTxt);
@@ -155,11 +160,18 @@ public class ItemPostForm extends Fragment {
             @Override
             public void onClick(View view) {
 
-
-                long currentTime = (long) timestamp.get("timestamp");
+                try {
+                    currentTime = doGetRequest();
+                } catch (IOException e) {
+                    Log.i("HTTP_CALL", "didn't go through");
+                    Date date = new Date();
+                    currentTime = date.getTime();
+                }
 
                 Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime, postDescriptionText.getText().toString());
+
+
                 writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
                         ItemConditionDropDown.getSelectedItem().toString(), currentTime,
@@ -229,8 +241,17 @@ public class ItemPostForm extends Fragment {
                               Long itemPostTime, String itemDescription) {
 
         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription);
-        mDatabase.child(postID).setValue(timestamp);
+        mDatabase.child(postID).setValue(post);
 
+    }
+
+    long doGetRequest() throws IOException {
+        Request request = new Request.Builder()
+                .url("https://us-central1-marketplace-60dac.cloudfunctions.net/timestamp")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return Long.parseLong(response.body().string());
     }
 }
 
