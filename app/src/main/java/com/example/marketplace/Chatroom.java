@@ -42,11 +42,24 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class Chatroom extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener {
@@ -79,6 +92,8 @@ public class Chatroom extends AppCompatActivity
     private SharedPreferences mSharedPreferences;
     private GoogleApiClient mGoogleApiClient;
     private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
+    private static String TALK_TO_ID;
+    private static final String DATA_REFERENCE = "dataReference";
 
     private Button mSendButton;
     private RecyclerView mMessageRecyclerView;
@@ -148,7 +163,7 @@ public class Chatroom extends AppCompatActivity
         DatabaseReference messagesRef = mFirebaseDatabaseReference
                 .child(MESSAGES_CHILD)
                 .child(mFirebaseUser.getUid())
-                .child(getIntent().getStringExtra("dataReference"))
+                .child(getIntent().getStringExtra(DATA_REFERENCE))
                 .child(MESSAGES_CHILD);
         FirebaseRecyclerOptions<Message> options =
                 new FirebaseRecyclerOptions.Builder<Message>()
@@ -266,16 +281,21 @@ public class Chatroom extends AppCompatActivity
                 mFirebaseDatabaseReference
                         .child(MESSAGES_CHILD)
                         .child(mFirebaseUser.getUid())
-                        .child(getIntent().getStringExtra("dataReference"))
+                        .child(getIntent().getStringExtra(DATA_REFERENCE))
                         .child(MESSAGES_CHILD)
                         .push().setValue(friendlyMessage);
                 mFirebaseDatabaseReference
                         .child(MESSAGES_CHILD)
-                        .child(getIntent().getStringExtra("dataReference"))
+                        .child(getIntent().getStringExtra(DATA_REFERENCE))
                         .child(mFirebaseUser.getUid())
                         .child(MESSAGES_CHILD)
                         .push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
+                try {
+                    sendNotification();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -293,11 +313,14 @@ public class Chatroom extends AppCompatActivity
 
         //initialize chat room database (user's name, icon)
         DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
-                .child(getIntent().getStringExtra("dataReference"))
+                .child(getIntent().getStringExtra(DATA_REFERENCE))
                 .child(mFirebaseUser.getUid());
         reference.child("id").setValue(mFirebaseUser.getUid());
         reference.child("name").setValue(mFirebaseUser.getDisplayName());
         reference.child("photoUrl").setValue(mFirebaseUser.getPhotoUrl().toString());
+
+        //set TALK_TO_ID as Firebase Messaging topic
+        TALK_TO_ID = getIntent().getStringExtra(DATA_REFERENCE);
     }
 
     @Override
@@ -441,5 +464,48 @@ public class Chatroom extends AppCompatActivity
                         }
                     }
                 });
+    }
+
+
+    private void sendNotification() throws JSONException {
+        String FCM_API = "https://fcm.googleapis.com/fcm/send";
+
+        String title = "Marketplace";
+        String message = "New messages received";
+
+        String topic = "/topics/" + TALK_TO_ID;
+        JSONObject notification = new JSONObject();
+        JSONObject body = new JSONObject();
+
+        body.put("title", title);
+        body.put("message", message);
+        notification.put("to", topic);
+        notification.put("data", body);
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), notification.toString());
+
+        //new okHttp object
+        OkHttpClient client = new OkHttpClient();
+
+        //create request body
+        Request request = new Request.Builder()
+                .url(FCM_API)
+                .post(requestBody)
+                .addHeader("Authorization", "key=" + gitignore.CLOUD_MESSAGING_KEY)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.w(TAG, "notification not sent.");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.w(TAG, "notification sent.");
+            }
+        });
     }
 }
