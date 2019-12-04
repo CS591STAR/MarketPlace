@@ -32,7 +32,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NotNull RemoteMessage remoteMessage){
         super.onMessageReceived(remoteMessage);
 
-        Intent intent = new Intent(getBaseContext(),MainActivity.class);
+        Intent intent = new Intent(getBaseContext(),Chatroom.class);
+        intent.putExtra("TALK_TO_ID", remoteMessage.getData().get("talk_to_ID"));
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int notificationID = new Random().nextInt(3000);
 

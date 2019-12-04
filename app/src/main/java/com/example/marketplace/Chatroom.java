@@ -476,6 +476,7 @@ public class Chatroom extends AppCompatActivity
 
         body.put("title", title);
         body.put("message", message);
+        body.put("talk_to_ID", FirebaseAuth.getInstance().getCurrentUser().getUid());
         notification.put("to", topic);
         notification.put("data", body);
 
