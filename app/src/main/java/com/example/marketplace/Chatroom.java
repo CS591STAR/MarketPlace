@@ -318,9 +318,6 @@ public class Chatroom extends AppCompatActivity
         reference.child("id").setValue(mFirebaseUser.getUid());
         reference.child("name").setValue(mFirebaseUser.getDisplayName());
         reference.child("photoUrl").setValue(mFirebaseUser.getPhotoUrl().toString());
-
-        //set TALK_TO_ID as Firebase Messaging topic
-        TALK_TO_ID = getIntent().getStringExtra(DATA_REFERENCE);
     }
 
     @Override
@@ -473,6 +470,7 @@ public class Chatroom extends AppCompatActivity
         String title = "Marketplace";
         String message = "New messages received";
 
+        TALK_TO_ID = getIntent().getStringExtra(DATA_REFERENCE);
         String topic = "/topics/" + TALK_TO_ID;
         JSONObject notification = new JSONObject();
         JSONObject body = new JSONObject();
