@@ -1,7 +1,9 @@
 package com.example.marketplace;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,10 +36,13 @@ import com.google.firebase.storage.UploadTask;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.CAMERA_SERVICE;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
@@ -63,6 +68,10 @@ public class ItemPostForm extends Fragment {
 
 
     private static final String TAG = "NEWPOST";
+    private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final int WRITE_EXTERNAL_STORAGE_CODE = 100;
+
+
     EditText itemNameTxt;
     EditText itemAskingPriceTxt;
     EditText itemZipcodeTxt;
@@ -79,6 +88,11 @@ public class ItemPostForm extends Fragment {
 
     public ItemPostForm() {
 
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -127,8 +141,13 @@ public class ItemPostForm extends Fragment {
         AddImageItemPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE);
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+                } else {
+                    Log.i("here: ", "permission has been granted");
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE);
+                }
             }
         });
 
@@ -145,6 +164,7 @@ public class ItemPostForm extends Fragment {
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
                         ItemConditionDropDown.getSelectedItem().toString(), currentTime,
                         postDescriptionText.getText().toString());
+
                 Intent backToFeed = new Intent(getActivity().getApplicationContext(), MarketFeed.class);
                 startActivity(backToFeed);
             }
@@ -153,20 +173,17 @@ public class ItemPostForm extends Fragment {
     }
 
 
-//     @Override
-//     public void onActivityResult(int requestCode, int resultCode, Intent data){
-//         if (!(resultCode == RESULT_OK)) {
-//             Toast.makeText(getActivity().getApplicationContext(), "Action to take image has failed", Toast.LENGTH_SHORT).show();
-//             return;
-//     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK) {
+
+        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+            Log.i("here: ", "result code is ok");
             postImage = (Bitmap) data.getExtras().get("data");
             Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
+
+            Log.i("here: ", "uri is fine");
 
             StorageReference filepath = storageReference.child("Photos").child(postID).child(uri.getLastPathSegment());
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -176,6 +193,28 @@ public class ItemPostForm extends Fragment {
                     // Toast.makeText(getApplicationContext(),"upload worked", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+//            Toast.makeText(getContext(), "result code not ok?", Toast.LENGTH_SHORT).show();
+            Log.i("IMG", "upload did not work");
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode){
+            case PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE);
+
+                } else {
+                    Toast.makeText(getContext(), "result code not ok?", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
         }
     }
 
