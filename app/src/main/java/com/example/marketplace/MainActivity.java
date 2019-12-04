@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener {
+public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener {
 
     User you;
     MarketFeed marketFeed;
@@ -81,6 +81,11 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.addToBackStack(null);
         ft.commit();
 
+    }
+
+    @Override
+    public void returnToFeed() {
+        openFeed();
     }
 
     @Override

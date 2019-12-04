@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Asking Price"
-        android:inputType="textPersonName" />
+        android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/itemZipcodeTxt"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Item Zipcode"
-        android:inputType="textPersonName" />
+        android:inputType="number" />
 
     <Spinner
         android:id="@+id/ItemCategoryDropdown"
@@ -43,7 +43,7 @@
         android:id="@+id/AddImageItemPostButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Picture" />
+        android:text="Add Picture" />
 
     <ImageView
         android:id="@+id/itemImage"

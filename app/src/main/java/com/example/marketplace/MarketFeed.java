@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,6 +94,7 @@ public class MarketFeed extends Fragment {
         postListAdapter = new PostListAdapter(postList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
 
@@ -106,7 +108,7 @@ public class MarketFeed extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
 
-        mDatabase.child("posts").addValueEventListener( new ValueEventListener(){
+        mDatabase.child("posts").orderByChild("itemPostTime").addValueEventListener( new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
                 Log.i("dataInside",dataSnapshot.getValue().toString());
@@ -145,6 +147,7 @@ public class MarketFeed extends Fragment {
                     }
                 }
                 // notify the adapter
+                Collections.reverse(postList);
                 postListAdapter.notifyDataSetChanged();
             }
             @Override

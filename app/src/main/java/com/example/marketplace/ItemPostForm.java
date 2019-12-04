@@ -97,9 +97,17 @@ public class ItemPostForm extends Fragment {
 
     }
 
+    public interface ItemPostFormListener {
+        public void returnToFeed();
+        // add methods that we would need the activity to implement
+    }
+
+    ItemPostFormListener IPFL;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        IPFL = (ItemPostFormListener) context;
     }
 
     @Override
@@ -177,8 +185,8 @@ public class ItemPostForm extends Fragment {
                         ItemConditionDropDown.getSelectedItem().toString(), currentTime,
                         postDescriptionText.getText().toString());
 
-                Intent backToFeed = new Intent(getActivity().getApplicationContext(), MarketFeed.class);
-                startActivity(backToFeed);
+                Toast.makeText(view.getContext(),"New post created", Toast.LENGTH_SHORT).show();
+                IPFL.returnToFeed();
             }
         });
         return view;
