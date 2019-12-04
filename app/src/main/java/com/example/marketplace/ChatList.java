@@ -123,7 +123,8 @@ public class ChatList extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getBaseContext(), Chatroom.class);
-                        intent.putExtra("dataReference",singleChat.getId());
+                        intent.putExtra("talkToID",singleChat.getId());
+                        intent.putExtra("talkToName", singleChat.getName());
                         startActivity(intent);
                     }
                 });
