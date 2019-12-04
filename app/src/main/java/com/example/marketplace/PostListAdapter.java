@@ -44,7 +44,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Post post = postList.get(position);
         holder.postName.setText(post.getItemName());
-        holder.askingPriceTxt.setText(Long.toString(post.getAskingPrice()));
+        holder.itemPriceTxt.setText(Long.toString(post.getAskingPrice()));
 //        holder.postImage.setImageURI();
     }
 

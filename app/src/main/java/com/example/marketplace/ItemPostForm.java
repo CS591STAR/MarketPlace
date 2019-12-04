@@ -20,13 +20,19 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -35,7 +41,11 @@ import static android.app.Activity.RESULT_OK;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 
 public class ItemPostForm extends Fragment {
@@ -62,6 +72,7 @@ public class ItemPostForm extends Fragment {
     ImageView itemImage;
     Bitmap postImage;
     EditText postDescriptionText;
+    Map timestamp;
 
     Button AddImageItemPostButton;
     String postID;
@@ -76,7 +87,7 @@ public class ItemPostForm extends Fragment {
 
         View view = inflater.inflate(R.layout.item_post_form, container, false);
 
-        mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
         mUsername = mFirebaseUser.getUid();
 
@@ -85,7 +96,9 @@ public class ItemPostForm extends Fragment {
         db = FirebaseFirestore.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
         postID = mDatabase.push().getKey();
-  
+
+        timestamp = new HashMap();
+
         savePostButton = view.findViewById(R.id.savePostButton);
         itemNameTxt = view.findViewById(R.id.itemNameTxt);
         itemAskingPriceTxt = view.findViewById(R.id.itemAskingPriceTxt);
@@ -122,11 +135,13 @@ public class ItemPostForm extends Fragment {
         savePostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Date currentTime = Calendar.getInstance().getTime();
+
+
+                long currentTime = (long) timestamp.get("timestamp");
+
                 Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime, postDescriptionText.getText().toString());
                 writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
                         ItemConditionDropDown.getSelectedItem().toString(), currentTime,
                         postDescriptionText.getText().toString());
@@ -137,7 +152,6 @@ public class ItemPostForm extends Fragment {
         return view;
     }
 
-  
 
 //     @Override
 //     public void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -150,7 +164,7 @@ public class ItemPostForm extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK) {
             postImage = (Bitmap) data.getExtras().get("data");
             Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
 
@@ -173,10 +187,11 @@ public class ItemPostForm extends Fragment {
     }
 
     private void writeNewPost(String itemName, int askingPrice, int zipcode, String sellerID, String category, String itemCondition,
-                              Date itemPostTime, String itemDescription) {
+                              Long itemPostTime, String itemDescription) {
 
         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription);
-        mDatabase.child(postID).setValue(post);
+        mDatabase.child(postID).setValue(timestamp);
+
     }
 }
 

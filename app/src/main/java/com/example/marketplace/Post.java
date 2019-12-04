@@ -5,8 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Post implements Parcelable {
 
@@ -16,11 +14,11 @@ public class Post implements Parcelable {
     private String sellerID;
     private String category;
     private String itemCondition;
-    private Date itemPostTime;
+    private long itemPostTime;
     private String itemDescription;
 
     public Post(String itemName, long askingPrice, long zipcode, String sellerID, String category, String itemCondition,
-                Date itemPostTime, String itemDescription) {
+                long itemPostTime, String itemDescription) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -80,11 +78,11 @@ public class Post implements Parcelable {
         return this.itemCondition;
     }
 
-    public void setItemPostTime(Date itemPostTime) {
+    public void setItemPostTime(long itemPostTime) {
         this.itemPostTime = itemPostTime;
     }
 
-    public Date getItemPostTime(){
+    public long getItemPostTime(){
         return this.itemPostTime;
     }
 
@@ -98,7 +96,6 @@ public class Post implements Parcelable {
 
     public Post(Parcel in) {
         String[] postData = new String[8];
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
         in.readStringArray(postData);
         this.itemName = postData[0];
         this.askingPrice = Integer.parseInt(postData[1]);
@@ -106,14 +103,7 @@ public class Post implements Parcelable {
         this.sellerID = postData[3];
         this.category = postData[4];
         this.itemCondition = postData[5];
-        Date date = null;
-        try {
-            date = formatter.parse(postData[6]);
-            this.itemPostTime = date;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        this.itemPostTime = Long.parseLong(postData[6]);
         this.itemDescription = postData[7];
     }
 

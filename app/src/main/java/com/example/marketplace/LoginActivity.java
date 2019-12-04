@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
-//        updateUI(mAuth.getCurrentUser());
+        updateUI(mAuth.getCurrentUser());
     }
 
     @Override

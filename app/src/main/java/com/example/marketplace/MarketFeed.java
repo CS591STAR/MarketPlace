@@ -78,6 +78,7 @@ public class MarketFeed extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -121,13 +122,15 @@ public class MarketFeed extends Fragment {
                         String itemDescription = (String) snap.child("itemDescription").getValue();
                         String itemName = (String) snap.child("itemName").getValue();
 
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-                        Date itemPostTime = null;
-                        try {
-                            itemPostTime = formatter.parse(snap.child("itemPostTime").getValue().toString());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                        long itemPostTime = (long) snap.child("itemPostTime").getValue();
+
+//                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+//                        Date itemPostTime = null;
+//                        try {
+//                            itemPostTime = formatter.parse(snap.child("itemPostTime").getValue().toString());
+//                        } catch (ParseException e) {
+//                            e.printStackTrace();
+//                        }
 
                         String sellerID = (String) snap.child("sellerID").getValue();
                         long zipcode = (long) snap.child("zipcode").getValue();
@@ -165,4 +168,3 @@ public class MarketFeed extends Fragment {
 //        super.onDestroy();
 //    }
 }
-
