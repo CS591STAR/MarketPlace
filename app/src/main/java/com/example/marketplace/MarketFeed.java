@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.LayoutRes;
@@ -37,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +46,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class MarketFeed extends Fragment {
@@ -53,6 +61,7 @@ public class MarketFeed extends Fragment {
     SeekBar distanceSeekBar;
     Button filterByDistanceBtn;
     SharedPreferences sharedPref;
+    String mileRadius;
 
     private DatabaseReference mDatabase;
 
@@ -125,8 +134,12 @@ public class MarketFeed extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                double miles = distanceSeekBar.getProgress();
-                Log.d("distance", String.valueOf(miles));
+                mileRadius = String.valueOf(distanceSeekBar.getProgress());
+                try {
+                    zipcodesInRadius();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -194,4 +207,36 @@ public class MarketFeed extends Fragment {
 //        editor.commit();
 //        super.onDestroy();
 //    }
+
+    public void zipcodesInRadius() throws IOException {
+        // for now we are using a sample zipcode until we retrieve it from the user properly
+        String sampleZip = "02128";
+        String redLineAPIEndPoint = "https://redline-redline-zipcode.p.rapidapi.com/rest/radius.json/" + sampleZip + "/" + mileRadius + "/mile";
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(redLineAPIEndPoint)
+                .get()
+                .addHeader("x-rapidapi-host", "redline-redline-zipcode.p.rapidapi.com")
+                .addHeader("x-rapidapi-key", "4a372ec331msh84153a0b678d009p123f9fjsn79b3899c4ef3")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("redline api fetch: ", "failed");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()){
+                    Log.i("it worked: ", (response.body().string()));
+                } else {
+                    Log.i("did not ", "fucking work");
+                }
+            }
+        });
+    }
 }
