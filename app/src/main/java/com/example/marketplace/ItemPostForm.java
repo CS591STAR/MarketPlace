@@ -176,10 +176,6 @@ public class ItemPostForm extends Fragment {
                     currentTime = date.getTime();
                 }
 
-                Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime, postDescriptionText.getText().toString());
-
-
                 writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
                         ItemConditionDropDown.getSelectedItem().toString(), currentTime,

@@ -56,7 +56,7 @@ public class NavBarFragment extends Fragment {
         btnProfile = view.findViewById(R.id.btnProfile);
         btnChat = view.findViewById(R.id.btnChat);
         txtSearch = view.findViewById(R.id.txtSearch);
-        btnSearch = view.findViewById(R.id.btnSearch);
+        btnSearch = view.findViewById(R.id.btnSort);
         btnFeed = view.findViewById(R.id.btnFeed);
 
         btnProfile.setOnClickListener(new View.OnClickListener() {

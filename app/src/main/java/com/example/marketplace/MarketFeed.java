@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 
@@ -49,6 +50,8 @@ public class MarketFeed extends Fragment {
 
     Button btnCreatePost;
     ListView feedListView;
+    SeekBar distanceSeekBar;
+    Button filterByDistanceBtn;
     SharedPreferences sharedPref;
 
     private DatabaseReference mDatabase;
@@ -97,6 +100,35 @@ public class MarketFeed extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
+        filterByDistanceBtn = view.findViewById(R.id.filterByDistanceBtn);
+        distanceSeekBar = view.findViewById(R.id.distanceSeekBar);
+        // give the seek bar a max value of 5 miles
+        distanceSeekBar.setMax(5);
+
+        filterByDistanceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                distanceSeekBar.setVisibility(View.VISIBLE);
+            }
+        });
+
+        distanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                double miles = distanceSeekBar.getProgress();
+                Log.d("distance", String.valueOf(miles));
+            }
+        });
 
 
         btnCreatePost.setOnClickListener(new View.OnClickListener() {
@@ -125,14 +157,6 @@ public class MarketFeed extends Fragment {
                         String itemName = (String) snap.child("itemName").getValue();
 
                         long itemPostTime = (long) snap.child("itemPostTime").getValue();
-
-//                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-//                        Date itemPostTime = null;
-//                        try {
-//                            itemPostTime = formatter.parse(snap.child("itemPostTime").getValue().toString());
-//                        } catch (ParseException e) {
-//                            e.printStackTrace();
-//                        }
 
                         String sellerID = (String) snap.child("sellerID").getValue();
                         long zipcode = (long) snap.child("zipcode").getValue();
