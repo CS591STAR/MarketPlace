@@ -98,7 +98,7 @@ public class ItemPostForm extends Fragment {
     }
 
     public interface ItemPostFormListener {
-        public void returnToFeed();
+        public void openFeed();
         // add methods that we would need the activity to implement
     }
 
@@ -186,7 +186,7 @@ public class ItemPostForm extends Fragment {
                         postDescriptionText.getText().toString());
 
                 Toast.makeText(view.getContext(),"New post created", Toast.LENGTH_SHORT).show();
-                IPFL.returnToFeed();
+                IPFL.openFeed();
             }
         });
 

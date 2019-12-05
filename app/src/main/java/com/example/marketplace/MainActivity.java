@@ -9,14 +9,15 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener {
+public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, Profile.ProfileListener {
 
     User you;
     MarketFeed marketFeed;
     Profile profile;
     Chatroom chats;
     ItemPostForm itemPostForm;
-    // add search also
+    Preferences preferences;
+
     LinearLayout fragLayout;
     FragmentManager fm;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         profile = new Profile();
         chats = new Chatroom();
         itemPostForm = new ItemPostForm();
+        preferences = new Preferences();
 
         fragLayout = findViewById(R.id.fragLayout);
         fm = getSupportFragmentManager();
@@ -84,11 +86,6 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     }
 
     @Override
-    public void returnToFeed() {
-        openFeed();
-    }
-
-    @Override
     public void createPost() {
 
         if (itemPostForm == null) {
@@ -100,5 +97,18 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.commit();
 
     }
+
+    @Override
+    public void openPreferences() {
+
+        if (preferences == null) {
+            preferences = new Preferences();
+        }
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragLayout, preferences, "Preferences");
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
 
 }

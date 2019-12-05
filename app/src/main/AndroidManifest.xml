@@ -43,6 +43,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MarketFeed" />
+        <activity android:name=".Preferences" />
         <activity android:name=".ZipCodeAPI" />
         <activity android:name=".ItemPostForm"
             android:windowSoftInputMode="adjustPan"
