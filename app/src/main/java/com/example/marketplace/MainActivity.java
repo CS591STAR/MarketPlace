@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     Profile profile;
     Chatroom chats;
     ItemPostForm itemPostForm;
+    ViewPost viewPost;
     // add search also
     LinearLayout fragLayout;
     FragmentManager fm;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         profile = new Profile();
         chats = new Chatroom();
         itemPostForm = new ItemPostForm();
+        viewPost = new ViewPost();
 
         fragLayout = findViewById(R.id.fragLayout);
         fm = getSupportFragmentManager();
@@ -100,6 +102,19 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.addToBackStack(null);
         ft.commit();
 
+    }
+
+    @Override
+    public void selectedPost() {
+
+        if (viewPost == null) {
+            viewPost = new ViewPost();
+        }
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragLayout, viewPost, "ViewPost");
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
 }

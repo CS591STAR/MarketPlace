@@ -244,7 +244,7 @@ public class ItemPostForm extends Fragment {
     private void writeNewPost(String itemName, int askingPrice, int zipcode, String sellerID, String category, String itemCondition,
                               Long itemPostTime, String itemDescription) {
 
-        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription);
+        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription, postID);
         mDatabase.child(postID).setValue(post);
 
         // store every post relative to zipcode

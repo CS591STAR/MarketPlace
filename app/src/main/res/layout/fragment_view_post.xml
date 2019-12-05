@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ViewPost" >
+
+    <ImageView
+        android:id="@+id/imagePost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".5"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/titlePost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".01"
+        android:text="title" />
+
+    <TextView
+        android:id="@+id/pricePost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".01"
+        android:text="price" />
+
+    <TextView
+        android:id="@+id/conditionPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".01"
+        android:text="itemCondtion" />
+
+    <TextView
+        android:id="@+id/descriptionPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".1"
+        android:text="description" />
+
+    <Button
+        android:id="@+id/contactSellerPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".1"
+        android:text="Contact seller" />
+
+    <Button
+        android:id="@+id/DeletePost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".1"
+        android:text="Delete post" />
+
+</LinearLayout>
