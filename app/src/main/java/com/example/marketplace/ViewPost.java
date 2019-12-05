@@ -1,6 +1,7 @@
 package com.example.marketplace;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -107,6 +108,9 @@ public class ViewPost extends Fragment {
     }
 
     private void startChat() {
+        Intent intent = new Intent(getContext(), Chatroom.class);
+        intent.putExtra(Chatroom.TALKER_ID, post.getSellerID());
+        startActivity(intent);
     }
 
     private void deletePostFromDB() {
