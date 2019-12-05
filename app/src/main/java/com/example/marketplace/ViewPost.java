@@ -45,10 +45,17 @@ public class ViewPost extends Fragment {
         this.post = post;
     }
 
+    public interface ViewPostListener {
+        public void returnToFeed();
+        // add methods that we would need the activity to implement
+    }
+
+    ViewPostListener VPL;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        VPL = (ViewPostListener) context;
     }
 
     @Override
@@ -114,17 +121,17 @@ public class ViewPost extends Fragment {
     private void deletePostFromDB() {
         mDatabase.child(post.getPostID()).removeValue();
         Toast.makeText(getContext(), "Post deleted successfully!", Toast.LENGTH_SHORT).show();
+        VPL.returnToFeed();
     }
 
     private void updateUI() {
-        if (mUsername == post.getSellerID()) {
-            deletePost.setVisibility(View.VISIBLE);
-            contactSeller.setVisibility(View.GONE);
-        }
-        else {
+        if (mUsername != post.getSellerID()) {
             deletePost.setVisibility(View.GONE);
             contactSeller.setVisibility(View.VISIBLE);
         }
+        else {
+            deletePost.setVisibility(View.VISIBLE);
+            contactSeller.setVisibility(View.GONE);
+        }
     }
-
 }

@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener {
+public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, ViewPost.ViewPostListener {
 
     User you;
     MarketFeed marketFeed;
@@ -103,18 +103,4 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.commit();
 
     }
-
-//    @Override
-//    public void selectedPost(Post post) {
-//
-//        if (viewPost == null) {
-//            viewPost = new ViewPost(post);
-//        }
-//
-//        FragmentTransaction ft = fm.beginTransaction();
-//        ft.replace(R.id.fragLayout, viewPost, "ViewPost");
-//        ft.addToBackStack(null);
-//        ft.commit();
-//    }
-
 }
