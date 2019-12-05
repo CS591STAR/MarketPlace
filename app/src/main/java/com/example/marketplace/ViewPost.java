@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
 public class ViewPost extends Fragment {
@@ -43,16 +45,10 @@ public class ViewPost extends Fragment {
         this.post = post;
     }
 
-    public interface ViewPostListener {
-
-    }
-
-    ViewPostListener VPFL;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        VPFL = (ViewPostListener) context;
     }
 
     @Override
@@ -69,6 +65,8 @@ public class ViewPost extends Fragment {
 
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mUsername = mFirebaseUser.getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
+
 
         deletePost = view.findViewById(R.id.DeletePost);
         contactSeller = view.findViewById(R.id.contactSellerPost);
@@ -115,6 +113,7 @@ public class ViewPost extends Fragment {
 
     private void deletePostFromDB() {
         mDatabase.child(post.getPostID()).removeValue();
+        Toast.makeText(getContext(), "Post deleted successfully!", Toast.LENGTH_SHORT).show();
     }
 
     private void updateUI() {
