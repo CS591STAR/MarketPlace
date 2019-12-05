@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if (resultCode == RESULT_OK) {
                 // Sign in succeeded
                 updateUI(mAuth.getCurrentUser());
+                //subscribe to the user's id to start receiving messages
                 FirebaseMessaging.getInstance().subscribeToTopic(mAuth.getCurrentUser().getUid());
             } else {
                 // Sign in failed
