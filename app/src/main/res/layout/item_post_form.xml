@@ -18,16 +18,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/Ask_Price"
-        android:inputType="textPersonName" />
+
+        android:hint="Asking Price"
+        android:inputType="numberDecimal" />
+
 
     <EditText
         android:id="@+id/itemZipcodeTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/Item_Zip"
-        android:inputType="textPersonName" />
+
+        android:hint="Item Zipcode"
+        android:inputType="number" />
+
 
     <Spinner
         android:id="@+id/ItemCategoryDropdown"
@@ -43,19 +47,23 @@
         android:id="@+id/AddImageItemPostButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Take_Picture" />
+
+        android:text="Add Picture" />
+
 
     <ImageView
         android:id="@+id/itemImage"
         android:layout_width="match_parent"
-        android:layout_height="303dp"
+
+        android:layout_height="wrap_content"
+
         android:visibility="invisible"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
     <EditText
         android:id="@+id/postDescriptionText"
         android:layout_width="match_parent"
-        android:layout_height="127dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Desc_Text"
         android:inputType="textPersonName"
