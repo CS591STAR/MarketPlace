@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Item Name"
+        android:hint="@string/Item_Name"
         android:inputType="textPersonName" />
 
     <EditText
@@ -18,16 +18,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+
         android:hint="Asking Price"
         android:inputType="numberDecimal" />
+
 
     <EditText
         android:id="@+id/itemZipcodeTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+
         android:hint="Item Zipcode"
         android:inputType="number" />
+
 
     <Spinner
         android:id="@+id/ItemCategoryDropdown"
@@ -43,12 +47,16 @@
         android:id="@+id/AddImageItemPostButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:text="Add Picture" />
+
 
     <ImageView
         android:id="@+id/itemImage"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
+
         android:visibility="invisible"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
@@ -57,13 +65,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Item Description"
-        android:inputType="textPersonName" />
+        android:hint="@string/Desc_Text"
+        android:inputType="textPersonName"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/savePostButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Post Item" />
+        android:text="@string/Post_Item" />
 
 </LinearLayout>

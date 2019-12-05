@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,9 +29,6 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,10 +41,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class Chatroom extends AppCompatActivity
-        implements GoogleApiClient.OnConnectionFailedListener {
+import java.io.IOException;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+public class Chatroom extends AppCompatActivity {
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView messageTextView;
@@ -68,17 +74,13 @@ public class Chatroom extends AppCompatActivity
 
     private static final String TAG = "Chatroom";
     public static final String MESSAGES_CHILD = "messages";
-    private static final int REQUEST_INVITE = 1;
     private static final int REQUEST_IMAGE = 2;
     private static final String LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif";
-    public static final int DEFAULT_MSG_LENGTH_LIMIT = 10;
     public static final String ANONYMOUS = "anonymous";
-    private static final String MESSAGE_SENT_EVENT = "message_sent";
     private String mUsername;
     private String mPhotoUrl;
-    private SharedPreferences mSharedPreferences;
-    private GoogleApiClient mGoogleApiClient;
-    private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
+    public static final String TALKER_ID = "talkToID";
+    private String talkerID;
 
     private Button mSendButton;
     private RecyclerView mMessageRecyclerView;
@@ -98,9 +100,9 @@ public class Chatroom extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Set default username is anonymous.
         mUsername = ANONYMOUS;
+        talkerID = getIntent().getStringExtra(TALKER_ID);
 
         //enable return button in title bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -108,22 +110,17 @@ public class Chatroom extends AppCompatActivity
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-//        if (mFirebaseUser == null) {
-//            // Not signed in, launch the Sign In activity
-//            startActivity(new Intent(this, SignInActivity.class));
-//            finish();
-//            return;
-//        } else {
-//            mUsername = mFirebaseUser.getDisplayName();
-//            if (mFirebaseUser.getPhotoUrl() != null) {
-//                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-//            }
-//        }
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API)
-                .build();
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        } else {
+            mUsername = mFirebaseUser.getDisplayName();
+            if (mFirebaseUser.getPhotoUrl() != null) {
+                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+            }
+        }
 
         // Initialize ProgressBar and RecyclerView.
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -145,7 +142,11 @@ public class Chatroom extends AppCompatActivity
             }
         };
 
-        DatabaseReference messagesRef = mFirebaseDatabaseReference.child(MESSAGES_CHILD);
+        DatabaseReference messagesRef = mFirebaseDatabaseReference
+                .child(MESSAGES_CHILD)
+                .child(mFirebaseUser.getUid())
+                .child(talkerID)
+                .child(MESSAGES_CHILD);
         FirebaseRecyclerOptions<Message> options =
                 new FirebaseRecyclerOptions.Builder<Message>()
                         .setQuery(messagesRef, parser)
@@ -259,9 +260,24 @@ public class Chatroom extends AppCompatActivity
                         mUsername,
                         mPhotoUrl,
                         null /* no image */);
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                mFirebaseDatabaseReference
+                        .child(MESSAGES_CHILD)
+                        .child(mFirebaseUser.getUid())
+                        .child(talkerID)
+                        .child(MESSAGES_CHILD)
+                        .push().setValue(friendlyMessage);
+                mFirebaseDatabaseReference
+                        .child(MESSAGES_CHILD)
+                        .child(talkerID)
+                        .child(mFirebaseUser.getUid())
+                        .child(MESSAGES_CHILD)
                         .push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
+                try {
+                    sendNotification();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -276,6 +292,14 @@ public class Chatroom extends AppCompatActivity
                 startActivityForResult(intent, REQUEST_IMAGE);
             }
         });
+
+        //initialize chat room database (user's name, icon)
+        DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                .child(talkerID)
+                .child(mFirebaseUser.getUid());
+        reference.child("id").setValue(mFirebaseUser.getUid());
+        reference.child("name").setValue(mFirebaseUser.getDisplayName());
+        reference.child("photoUrl").setValue(mFirebaseUser.getPhotoUrl().toString());
     }
 
     @Override
@@ -331,14 +355,6 @@ public class Chatroom extends AppCompatActivity
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
@@ -351,7 +367,12 @@ public class Chatroom extends AppCompatActivity
 
                     Message tempMessage = new Message(null, mUsername, mPhotoUrl,
                             LOADING_IMAGE_URL);
-                    mFirebaseDatabaseReference.child(MESSAGES_CHILD).push()
+                    mFirebaseDatabaseReference
+                            .child(MESSAGES_CHILD)
+                            .child(mFirebaseUser.getUid())
+                            .child(getIntent().getStringExtra("dataReference"))
+                            .child(MESSAGES_CHILD)
+                            .push()
                             .setValue(tempMessage, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(DatabaseError databaseError,
@@ -391,7 +412,19 @@ public class Chatroom extends AppCompatActivity
                                                         Message friendlyMessage =
                                                                 new Message(null, mUsername, mPhotoUrl,
                                                                         task.getResult().toString());
-                                                        mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
+                                                        mFirebaseDatabaseReference
+                                                                .child(MESSAGES_CHILD)
+                                                                .child(mFirebaseUser.getUid())
+                                                                .child(getIntent().getStringExtra("dataReference"))
+                                                                .child(MESSAGES_CHILD)
+                                                                .child(key)
+                                                                .setValue(friendlyMessage);
+                                                        mFirebaseDatabaseReference
+                                                                .child(MESSAGES_CHILD)
+                                                                .child(getIntent().getStringExtra("dataReference"))
+                                                                .child(mFirebaseUser.getUid())
+                                                                .child(MESSAGES_CHILD)
+                                                                .child(key)
                                                                 .setValue(friendlyMessage);
                                                     }
                                                 }
@@ -402,5 +435,49 @@ public class Chatroom extends AppCompatActivity
                         }
                     }
                 });
+    }
+
+
+    private void sendNotification() throws JSONException {
+        String FCM_API = "https://fcm.googleapis.com/fcm/send";
+
+        String title = "Marketplace";
+        String message = "New messages received";
+
+        String topic = "/topics/" + talkerID;
+        JSONObject notification = new JSONObject();
+        JSONObject body = new JSONObject();
+
+        body.put("title", title);
+        body.put("message", message);
+        body.put("talk_to_ID", mFirebaseUser.getUid());
+        notification.put("to", topic);
+        notification.put("data", body);
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), notification.toString());
+
+        //new okHttp object
+        OkHttpClient client = new OkHttpClient();
+
+        //create request body
+        Request request = new Request.Builder()
+                .url(FCM_API)
+                .post(requestBody)
+                .addHeader("Authorization", "key=" + gitignore.CLOUD_MESSAGING_KEY)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.w(TAG, "notification not sent.");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.w(TAG, "notification sent.");
+            }
+        });
     }
 }

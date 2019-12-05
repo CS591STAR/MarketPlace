@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
     @Override
     public void openChats() {
-        Intent intent = new Intent(getApplicationContext(), Chatroom.class);
+        Intent intent = new Intent(getApplicationContext(), ChatList.class);
         startActivity(intent);
     }
 
@@ -100,4 +100,5 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.commit();
 
     }
+
 }

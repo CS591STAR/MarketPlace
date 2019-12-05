@@ -1,9 +1,11 @@
 package com.example.marketplace;
 
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +52,12 @@ public class Profile extends Fragment {
         btnEdit = view.findViewById(R.id.btnEdit);
         btnPosts = view.findViewById(R.id.btnPosts);
         btnChats = view.findViewById(R.id.btnChats);
+        btnChats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), ChatList.class));
+            }
+        });
         txtUni = view.findViewById(R.id.txtUni);
 
         mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();

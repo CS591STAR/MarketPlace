@@ -189,9 +189,9 @@ public class ItemPostForm extends Fragment {
                 IPFL.returnToFeed();
             }
         });
+
         return view;
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
