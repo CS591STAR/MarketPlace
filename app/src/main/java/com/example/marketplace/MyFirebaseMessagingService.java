@@ -12,7 +12,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -26,14 +26,16 @@ import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    private String TAG = "MyFirebaseMessaging";
     private String ADMIN_CHANNEL_ID = "admin_channel";
 
     @Override
     public void onMessageReceived(@NotNull RemoteMessage remoteMessage){
         super.onMessageReceived(remoteMessage);
 
-        Intent intent = new Intent(getBaseContext(),Chatroom.class);
-        intent.putExtra("TALK_TO_ID", remoteMessage.getData().get("talk_to_ID"));
+        Intent intent = new Intent(getBaseContext(), Chatroom.class);
+        Log.w(TAG, remoteMessage.getData().get("talk_to_ID"));
+        intent.putExtra(Chatroom.TALKER_ID, remoteMessage.getData().get("talk_to_ID"));
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int notificationID = new Random().nextInt(3000);
 
@@ -45,8 +47,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             setupChannels(notificationManager);
         }
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.com_facebook_button_icon);
 
@@ -80,10 +82,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if(notificationManager != null){
             notificationManager.createNotificationChannel(adminChannel);
         }
-    }
-
-    @Override
-    public void onNewToken(String newToken){
-        super.onNewToken(newToken);
     }
 }
