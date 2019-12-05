@@ -176,9 +176,8 @@ public class ItemPostForm extends Fragment {
                     currentTime = date.getTime();
                 }
 
-
                 writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
+                        itemZipcodeTxt.getText().toString(), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
                         ItemConditionDropDown.getSelectedItem().toString(), currentTime,
                         postDescriptionText.getText().toString());
 
@@ -242,11 +241,15 @@ public class ItemPostForm extends Fragment {
         return Uri.parse(path);
     }
 
-    private void writeNewPost(String itemName, int askingPrice, int zipcode, String sellerID, String category, String itemCondition,
+    private void writeNewPost(String itemName, int askingPrice, String zipcode, String sellerID, String category, String itemCondition,
                               Long itemPostTime, String itemDescription) {
 
         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription, postID);
         mDatabase.child(postID).setValue(post);
+
+        // store every post relative to zipcode
+        FirebaseDatabase.getInstance().getReference().child("zipcodes").child(String.valueOf(post.getZipcode())).child(postID).setValue(0);
+//        mDatabase.child(String.valueOf(zipcode)).setValue(post);
 
     }
 

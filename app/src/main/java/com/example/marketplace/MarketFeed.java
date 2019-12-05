@@ -14,7 +14,9 @@ import android.widget.Button;
 
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.LayoutRes;
@@ -36,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,12 +47,22 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 public class MarketFeed extends Fragment {
 
     Button btnCreatePost;
     ListView feedListView;
+    SeekBar distanceSeekBar;
+    Button filterByDistanceBtn;
     SharedPreferences sharedPref;
+    String mileRadius;
+    String zipCodesInRadius;
 
     private DatabaseReference mDatabase;
 
@@ -98,6 +111,39 @@ public class MarketFeed extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
+        filterByDistanceBtn = view.findViewById(R.id.filterByDistanceBtn);
+        distanceSeekBar = view.findViewById(R.id.distanceSeekBar);
+        // give the seek bar a max value of 5 miles
+        distanceSeekBar.setMax(5);
+
+        filterByDistanceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                distanceSeekBar.setVisibility(View.VISIBLE);
+            }
+        });
+
+        distanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mileRadius = String.valueOf(distanceSeekBar.getProgress());
+                try {
+                    zipcodesInRadius();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
         btnCreatePost.setOnClickListener(new View.OnClickListener() {
@@ -127,16 +173,8 @@ public class MarketFeed extends Fragment {
 
                         long itemPostTime = (long) snap.child("itemPostTime").getValue();
 
-//                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-//                        Date itemPostTime = null;
-//                        try {
-//                            itemPostTime = formatter.parse(snap.child("itemPostTime").getValue().toString());
-//                        } catch (ParseException e) {
-//                            e.printStackTrace();
-//                        }
-
                         String sellerID = (String) snap.child("sellerID").getValue();
-                        long zipcode = (long) snap.child("zipcode").getValue();
+                        String zipcode = (String) snap.child("zipcode").getValue();
                         String itemCondition = (String) snap.child("itemCondition").getValue();
 
 
@@ -175,4 +213,37 @@ public class MarketFeed extends Fragment {
 //        editor.commit();
 //        super.onDestroy();
 //    }
+
+    public void zipcodesInRadius() throws IOException {
+        // for now we are using a sample zipcode until we retrieve it from the user properly
+        String sampleZip = "02128";
+        String redLineAPIEndPoint = "https://redline-redline-zipcode.p.rapidapi.com/rest/radius.json/" + sampleZip + "/" + mileRadius + "/mile";
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(redLineAPIEndPoint)
+                .get()
+                .addHeader("x-rapidapi-host", "redline-redline-zipcode.p.rapidapi.com")
+                .addHeader("x-rapidapi-key", gitignore.zipcodeAPIKey)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("redline api fetch: ", "failed");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()){
+                    zipCodesInRadius = response.body().string();
+                    Log.i("it worked: ", zipCodesInRadius);
+                } else {
+                    Log.i("did not ", "fucking work");
+                }
+            }
+        });
+    }
 }

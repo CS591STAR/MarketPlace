@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         marketFeed.searchByKeyword(keyword);
     }
 
+
     @Override
     public void openFeed() {
 
