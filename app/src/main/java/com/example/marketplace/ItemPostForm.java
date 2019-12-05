@@ -247,6 +247,9 @@ public class ItemPostForm extends Fragment {
         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription);
         mDatabase.child(postID).setValue(post);
 
+        // store every post relative to zipcode
+        mDatabase.child(String.valueOf(zipcode)).setValue(post);
+
     }
 
     long doGetRequest() throws IOException {
