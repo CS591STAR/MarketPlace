@@ -64,6 +64,7 @@ public class MarketFeed extends Fragment {
 
     public interface MarketFeedListener {
         public void createPost();
+        public void selectedPost();
     }
 
     MarketFeedListener MFL;
@@ -140,7 +141,7 @@ public class MarketFeed extends Fragment {
 
 
                         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
-                                itemPostTime, itemDescription);
+                                itemPostTime, itemDescription, postID);
                         postList.add(post);
                         //received results
                         Log.i("post", post.getItemName() + " on nod " + postID);

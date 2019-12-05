@@ -176,9 +176,6 @@ public class ItemPostForm extends Fragment {
                     currentTime = date.getTime();
                 }
 
-                Post newPost = new Post(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(), ItemConditionDropDown.getSelectedItem().toString(), currentTime, postDescriptionText.getText().toString());
-
 
                 writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
                         Integer.parseInt(String.valueOf(itemZipcodeTxt.getText())), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
@@ -248,7 +245,7 @@ public class ItemPostForm extends Fragment {
     private void writeNewPost(String itemName, int askingPrice, int zipcode, String sellerID, String category, String itemCondition,
                               Long itemPostTime, String itemDescription) {
 
-        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription);
+        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription, postID);
         mDatabase.child(postID).setValue(post);
 
     }
