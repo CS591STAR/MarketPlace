@@ -29,7 +29,7 @@ public class NavBarFragment extends Fragment {
 
         public void openProfile();
         public void openChats();
-        public void search();
+        public void search(String keyword);
         public void openFeed();
         // add methods that we would need the activity to implement
     }
@@ -76,7 +76,8 @@ public class NavBarFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NBFL.search();
+                String keyword = btnSearch.getText().toString();
+                NBFL.search(keyword);
             }
         });
 

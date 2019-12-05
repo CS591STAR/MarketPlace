@@ -65,8 +65,11 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     }
 
     @Override
-    public void search() {
+    public void search(String keyword) {
+        openFeed();
 
+        //searchByKeyword
+        marketFeed.searchByKeyword(keyword);
     }
 
     @Override
@@ -100,5 +103,4 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.commit();
 
     }
-
 }
