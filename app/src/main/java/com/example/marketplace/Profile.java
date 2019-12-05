@@ -26,16 +26,15 @@ import java.net.URL;
 
 public class Profile extends Fragment {
 
-    ImageView imgUser;
-    TextView txtDisplayName;
-    TextView txtEmail;
-    Button btnEdit;
-    Button btnPosts;
-    Button btnChats;
-    TextView txtUni;
-    Drawable imgDraw;
+    private ImageView imgUser;
+    private TextView txtDisplayName;
+    private TextView txtEmail;
+    private Button btnEdit;
+    private Button btnPosts;
+    private Button btnChats;
+    private TextView txtUni;
     private FirebaseUser mFirebaseUser;
-
+    // test
 
     public Profile() {
 
@@ -63,18 +62,21 @@ public class Profile extends Fragment {
 
         mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
 
-        txtDisplayName.setText(mFirebaseUser.getDisplayName());
-        txtEmail.setText(mFirebaseUser.getEmail());
+        if (mFirebaseUser != null) {
+
+            txtDisplayName.setText(mFirebaseUser.getDisplayName());
+            txtEmail.setText(mFirebaseUser.getEmail());
 
 
-        try {
-            URL url = new URL(mFirebaseUser.getPhotoUrl().toString());
-            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            Drawable d = new BitmapDrawable(getResources(), image);
-            imgUser.setImageDrawable(d);
-        } catch(IOException e) {
-            Toast.makeText(getActivity(), "hui", Toast.LENGTH_SHORT).show();
-            System.out.println(e);
+            try {
+                URL url = new URL(mFirebaseUser.getPhotoUrl().toString());
+                Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                Drawable d = new BitmapDrawable(getResources(), image);
+                imgUser.setImageDrawable(d);
+            } catch (IOException e) {
+                Toast.makeText(getActivity(), "Could not load the Image", Toast.LENGTH_SHORT).show();
+
+            }
         }
 
 

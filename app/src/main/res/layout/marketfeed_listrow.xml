@@ -10,7 +10,8 @@
         android:layout_width="222dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        tools:srcCompat="@tools:sample/avatars[1]" />
+        tools:srcCompat="@tools:sample/avatars[1]"
+        android:contentDescription="@string/item_pic" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:gravity="center"
-            android:text="Post Name"
+            android:text="@string/post_name"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -37,7 +38,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Price:"
+                android:text="@string/price"
                 android:textSize="16sp" />
 
             <LinearLayout
@@ -51,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:gravity="center"
-                    android:text="TextView"
+                    android:text="@string/textview"
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
