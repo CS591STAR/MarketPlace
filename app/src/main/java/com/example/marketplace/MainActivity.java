@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
     }
 
+
     @Override
     public void openFeed() {
 
