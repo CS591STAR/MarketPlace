@@ -62,6 +62,7 @@ public class MarketFeed extends Fragment {
     Button filterByDistanceBtn;
     SharedPreferences sharedPref;
     String mileRadius;
+    String zipCodesInRadius;
 
     private DatabaseReference mDatabase;
 
@@ -173,7 +174,7 @@ public class MarketFeed extends Fragment {
                         long itemPostTime = (long) snap.child("itemPostTime").getValue();
 
                         String sellerID = (String) snap.child("sellerID").getValue();
-                        long zipcode = (long) snap.child("zipcode").getValue();
+                        String zipcode = (String) snap.child("zipcode").getValue();
                         String itemCondition = (String) snap.child("itemCondition").getValue();
 
 
@@ -220,7 +221,7 @@ public class MarketFeed extends Fragment {
                 .url(redLineAPIEndPoint)
                 .get()
                 .addHeader("x-rapidapi-host", "redline-redline-zipcode.p.rapidapi.com")
-                .addHeader("x-rapidapi-key", "4a372ec331msh84153a0b678d009p123f9fjsn79b3899c4ef3")
+                .addHeader("x-rapidapi-key", gitignore.zipcodeAPIKey)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {

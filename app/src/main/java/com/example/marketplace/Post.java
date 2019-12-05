@@ -10,7 +10,7 @@ public class Post implements Parcelable {
 
     private String itemName;
     private long askingPrice;
-    private long zipcode;
+    private String zipcode;
     private String sellerID;
     private String category;
     private String itemCondition;
@@ -18,7 +18,7 @@ public class Post implements Parcelable {
     private String itemDescription;
     private String postID;
 
-    public Post(String itemName, long askingPrice, long zipcode, String sellerID, String category, String itemCondition,
+    public Post(String itemName, long askingPrice, String zipcode, String sellerID, String category, String itemCondition,
                 long itemPostTime, String itemDescription, String postID) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
@@ -46,11 +46,11 @@ public class Post implements Parcelable {
         return this.askingPrice;
     }
 
-    public void setZipcode(long zipcode) {
+    public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
 
-    public long getZipcode(){
+    public String getZipcode(){
         return this.zipcode;
     }
 
@@ -100,7 +100,7 @@ public class Post implements Parcelable {
         in.readStringArray(postData);
         this.itemName = postData[0];
         this.askingPrice = Integer.parseInt(postData[1]);
-        this.zipcode = Integer.parseInt(postData[2]);
+        this.zipcode = postData[2];
         this.sellerID = postData[3];
         this.category = postData[4];
         this.itemCondition = postData[5];
