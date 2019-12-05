@@ -248,7 +248,7 @@ public class ItemPostForm extends Fragment {
         mDatabase.child(postID).setValue(post);
 
         // store every post relative to zipcode
-        FirebaseDatabase.getInstance().getReference().child("zipcodes").child(String.valueOf(post.getZipcode())).setValue(post);
+        FirebaseDatabase.getInstance().getReference().child("zipcodes").child(String.valueOf(post.getZipcode())).setValue(postID);
 //        mDatabase.child(String.valueOf(zipcode)).setValue(post);
 
     }
