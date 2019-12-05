@@ -234,7 +234,8 @@ public class MarketFeed extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()){
-                    Log.i("it worked: ", (response.body().string()));
+                    zipCodesInRadius = response.body().string();
+                    Log.i("it worked: ", zipCodesInRadius);
                 } else {
                     Log.i("did not ", "fucking work");
                 }
