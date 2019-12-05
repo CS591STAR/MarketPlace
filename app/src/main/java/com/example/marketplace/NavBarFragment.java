@@ -3,6 +3,7 @@ package com.example.marketplace;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ public class NavBarFragment extends Fragment {
     EditText txtSearch;
     Button btnSearch;
     Button btnFeed;
+
+    private static final String TAG = "NAVBAR";
 
     public NavBarFragment(){
         //Required empty public constructor
@@ -76,7 +79,8 @@ public class NavBarFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String keyword = btnSearch.getText().toString();
+                String keyword = txtSearch.getText().toString();
+                Log.w(TAG, "The keyword is " + keyword);
                 NBFL.search(keyword);
             }
         });

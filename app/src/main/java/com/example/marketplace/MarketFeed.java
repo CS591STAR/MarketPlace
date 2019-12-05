@@ -197,11 +197,6 @@ public class MarketFeed extends Fragment {
         return view;
     }
 
-    public void searchByKeyword(String keyword){
-
-    }
-
-
 //    @Override
 //    protected void onDestroy() {
 //
