@@ -128,4 +128,10 @@
     <string name="chatlist">Chat List</string>
     <string name="chatroom">Chat Room</string>
     <string name="sendbutton">send</string>
+
+
+    <string name="post_name">Post Name</string>
+    <string name="item_pic">Picture of the Item</string>
+    <string name="price">Price:</string>
+    <string name="textview">TextView</string>
 </resources>

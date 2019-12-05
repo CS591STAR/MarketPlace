@@ -26,14 +26,13 @@ import java.net.URL;
 
 public class Profile extends Fragment {
 
-    ImageView imgUser;
-    TextView txtDisplayName;
-    TextView txtEmail;
-    Button btnEdit;
-    Button btnPosts;
-    Button btnChats;
-    TextView txtUni;
-    Drawable imgDraw;
+    private ImageView imgUser;
+    private TextView txtDisplayName;
+    private TextView txtEmail;
+    private Button btnEdit;
+    private Button btnPosts;
+    private Button btnChats;
+    private TextView txtUni;
     private FirebaseUser mFirebaseUser;
 
 
