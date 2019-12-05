@@ -16,9 +16,10 @@ public class Post implements Parcelable {
     private String itemCondition;
     private long itemPostTime;
     private String itemDescription;
+    private String postID;
 
     public Post(String itemName, long askingPrice, long zipcode, String sellerID, String category, String itemCondition,
-                long itemPostTime, String itemDescription) {
+                long itemPostTime, String itemDescription, String postID) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -105,6 +106,8 @@ public class Post implements Parcelable {
         this.itemCondition = postData[5];
         this.itemPostTime = Long.parseLong(postData[6]);
         this.itemDescription = postData[7];
+        this.postID = postData[8];
+
     }
 
     @Override
@@ -115,7 +118,7 @@ public class Post implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray(new String[] {this.itemName, String.valueOf(this.askingPrice), String.valueOf(this.zipcode),
-                 this.category, this.itemCondition, String.valueOf(this.itemPostTime)});
+                 this.sellerID, this.category, this.itemCondition, String.valueOf(this.itemPostTime), this.itemDescription, this.postID});
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -127,4 +130,12 @@ public class Post implements Parcelable {
             return new Post[size];
         }
     };
+
+    public String getPostID() {
+        return postID;
+    }
+
+    public void setPostID(String postID) {
+        this.postID = postID;
+    }
 }

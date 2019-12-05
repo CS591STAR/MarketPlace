@@ -59,7 +59,6 @@ dependencies {
 
     // Firebase UI
     implementation 'com.firebaseui:firebase-ui-database:3.3.1'
-    
 
 
 }
