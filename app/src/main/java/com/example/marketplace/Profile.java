@@ -1,11 +1,11 @@
 package com.example.marketplace;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class Profile extends Fragment {
 
@@ -24,6 +32,9 @@ public class Profile extends Fragment {
     Button btnPosts;
     Button btnChats;
     TextView txtUni;
+    Drawable imgDraw;
+    private FirebaseUser mFirebaseUser;
+
 
     public Profile() {
 
@@ -48,6 +59,23 @@ public class Profile extends Fragment {
             }
         });
         txtUni = view.findViewById(R.id.txtUni);
+
+        mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+
+        txtDisplayName.setText(mFirebaseUser.getDisplayName());
+        txtEmail.setText(mFirebaseUser.getEmail());
+
+
+        try {
+            URL url = new URL(mFirebaseUser.getPhotoUrl().toString());
+            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            Drawable d = new BitmapDrawable(getResources(), image);
+            imgUser.setImageDrawable(d);
+        } catch(IOException e) {
+            Toast.makeText(getActivity(), "hui", Toast.LENGTH_SHORT).show();
+            System.out.println(e);
+        }
+
 
         return view;
     }

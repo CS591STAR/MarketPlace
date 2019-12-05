@@ -4,19 +4,21 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.ParseException;
+
 public class Post implements Parcelable {
 
     private String itemName;
-    private int askingPrice;
-    private int zipcode;
+    private long askingPrice;
+    private long zipcode;
     private String sellerID;
     private String category;
     private String itemCondition;
-    private String itemPostTime;
+    private long itemPostTime;
     private String itemDescription;
 
-    public Post(String itemName, int askingPrice, int zipcode, String sellerID, String category, String itemCondition,
-                String itemPostTime, String itemDescription) {
+    public Post(String itemName, long askingPrice, long zipcode, String sellerID, String category, String itemCondition,
+                long itemPostTime, String itemDescription) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -35,19 +37,19 @@ public class Post implements Parcelable {
         return this.itemName;
     }
 
-    public void setAskingPrice(int askingPrice) {
+    public void setAskingPrice(long askingPrice) {
         this.askingPrice = askingPrice;
     }
 
-    public int getAskingPrice(){
+    public long getAskingPrice(){
         return this.askingPrice;
     }
 
-    public void setZipcode(int zipcode) {
+    public void setZipcode(long zipcode) {
         this.zipcode = zipcode;
     }
 
-    public int getZipcode(){
+    public long getZipcode(){
         return this.zipcode;
     }
 
@@ -76,11 +78,11 @@ public class Post implements Parcelable {
         return this.itemCondition;
     }
 
-    public void setItemPostTime(String itemPostTime) {
+    public void setItemPostTime(long itemPostTime) {
         this.itemPostTime = itemPostTime;
     }
 
-    public String getItemPostTime(){
+    public long getItemPostTime(){
         return this.itemPostTime;
     }
 
@@ -94,7 +96,6 @@ public class Post implements Parcelable {
 
     public Post(Parcel in) {
         String[] postData = new String[8];
-
         in.readStringArray(postData);
         this.itemName = postData[0];
         this.askingPrice = Integer.parseInt(postData[1]);
@@ -102,7 +103,7 @@ public class Post implements Parcelable {
         this.sellerID = postData[3];
         this.category = postData[4];
         this.itemCondition = postData[5];
-        this.itemPostTime = postData[6];
+        this.itemPostTime = Long.parseLong(postData[6]);
         this.itemDescription = postData[7];
     }
 

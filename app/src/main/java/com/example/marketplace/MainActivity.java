@@ -6,9 +6,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener {
+public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener {
 
     User you;
     MarketFeed marketFeed;
@@ -22,6 +23,10 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         setContentView(R.layout.activity_main);
 
         Bundle data = getIntent().getExtras();
@@ -76,6 +81,11 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.addToBackStack(null);
         ft.commit();
 
+    }
+
+    @Override
+    public void returnToFeed() {
+        openFeed();
     }
 
     @Override
