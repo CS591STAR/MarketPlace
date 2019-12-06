@@ -35,7 +35,7 @@ public class ViewPost extends Fragment {
     private FirebaseUser mFirebaseUser;
     private String mUsername;
     private DatabaseReference mDatabase;
-
+    private DatabaseReference mDatabaseZip;
 
     public ViewPost(){
         //Required empty public constructor
@@ -73,7 +73,7 @@ public class ViewPost extends Fragment {
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mUsername = mFirebaseUser.getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
-
+        mDatabaseZip = FirebaseDatabase.getInstance().getReference().child("zipcodes");
 
         deletePost = view.findViewById(R.id.DeletePost);
         contactSeller = view.findViewById(R.id.contactSellerPost);
@@ -119,7 +119,10 @@ public class ViewPost extends Fragment {
     }
 
     private void deletePostFromDB() {
+        // delete from posts db
         mDatabase.child(post.getPostID()).removeValue();
+        // delete from zipcodes db
+        mDatabaseZip.child(post.getZipcode()).child(post.getPostID()).removeValue();
         Toast.makeText(getContext(), "Post deleted successfully!", Toast.LENGTH_SHORT).show();
         VPL.returnToFeed();
     }
