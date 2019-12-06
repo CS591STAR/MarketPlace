@@ -67,10 +67,17 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     }
 
     @Override
-    public void search() {
-
+    public void search(String keyword) {
+        searchByKeyword(keyword);
     }
 
+    public void searchByKeyword(String keyword){
+        SearchResultFragment resultFragment = new SearchResultFragment(keyword);
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragLayout, resultFragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
     @Override
     public void openFeed() {

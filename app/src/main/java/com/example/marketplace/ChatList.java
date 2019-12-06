@@ -3,34 +3,26 @@ package com.example.marketplace;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.facebook.login.Login;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -55,8 +47,6 @@ public class ChatList extends AppCompatActivity {
     private static final String TAG = "ChatList";
     public static final String MESSAGES_CHILD = "messages";
     public static final String ANONYMOUS = "anonymous";
-    private String mUsername;
-    private String mPhotoUrl;
 
     private RecyclerView chatlistRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
@@ -73,9 +63,6 @@ public class ChatList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
 
-        // Set default username is anonymous.
-        mUsername = ANONYMOUS;
-
         //enable return button in title bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -85,6 +72,7 @@ public class ChatList extends AppCompatActivity {
 
         // Initialize RecyclerView.
         chatlistRecyclerView = (RecyclerView) findViewById(R.id.chatlistRecyclerView);
+        chatlistRecyclerView.addItemDecoration(new DividerItemDecoration(chatlistRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
         chatlistRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -167,11 +155,6 @@ public class ChatList extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
-        } else {
-            mUsername = mFirebaseUser.getDisplayName();
-            if (mFirebaseUser.getPhotoUrl() != null) {
-                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-            }
         }
     }
 

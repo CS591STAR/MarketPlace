@@ -196,7 +196,6 @@ public class MarketFeed extends Fragment {
         return view;
     }
 
-
 //    @Override
 //    protected void onDestroy() {
 //
