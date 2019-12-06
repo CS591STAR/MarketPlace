@@ -41,14 +41,13 @@
             <TextView
                 android:id="@+id/txtUni"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/User_Uni" />
+                android:layout_height="wrap_content" />
 
             <Button
-                android:id="@+id/btnEdit"
+                android:id="@+id/btnPreferences"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Edit_Button" />
+                android:text="@string/Preferences_Button" />
         </LinearLayout>
     </LinearLayout>
 
@@ -59,18 +58,18 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnPosts"
+            android:id="@+id/btnCreate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Posts_Button" />
+            android:text="@string/Create_Button" />
 
         <Button
-            android:id="@+id/btnChats"
+            android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Chats_Button" />
+            android:text="@string/Delete_Button" />
     </LinearLayout>
 
 </LinearLayout>
