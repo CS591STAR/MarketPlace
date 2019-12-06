@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MarketPlace</string>
+    <string name="app_name">市场</string>
 
     <!-- TODO: Remove or change this placeholder text (or keep it as an easter egg for the grader to find it later) -->
 
@@ -9,37 +9,37 @@
     <string name="firebaseui_status_fmt">Firebase User: %s</string>
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
-    <string name="sign_in">Sign In</string>
+    <string name="sign_in">登录</string>
 
 
     <!--Main Activity-->
 
     <!--Market Feed-->
-    <string name="Create_Post">Create Post</string>
+    <string name="Create_Post">创建条目</string>
 
     <!--User's Profile-->
-    <string name="Image_Description">User\'s Photo</string>
-    <string name="User_Name">User\'s Name</string>
-    <string name="User_Email">User\'s Email</string>
-    <string name="User_Uni">User\'s University</string>
-    <string name="Edit_Button">Edit</string>
-    <string name="Posts_Button">Posts</string>
-    <string name="Chats_Button">Chats</string>
+    <string name="Image_Description">用户照片</string>
+    <string name="User_Name">用户名</string>
+    <string name="User_Email">用户邮箱</string>
+    <string name="User_Uni">用户大学</string>
+    <string name="Edit_Button">编辑</string>
+    <string name="Posts_Button">条目</string>
+    <string name="Chats_Button">聊天</string>
 
     <!--NavBar-->
     <string name="P_button">P</string>
     <string name="C_button">C</string>
-    <string name="Search_Line">Search</string>
+    <string name="Search_Line">搜索</string>
     <string name="S_button">S</string>
-    <string name="Feed_button">Feed</string>
+    <string name="Feed_button">浏览</string>
 
     <!--Post Form-->
-    <string name="Item_Name">Item Name</string>
-    <string name="Ask_Price">Asking Price</string>
-    <string name="Item_Zip">Item Zipcode</string>
-    <string name="Take_Picture">Picture</string>
-    <string name="Desc_Text">Item Description</string>
-    <string name="Post_Item">Post Item</string>
+    <string name="Item_Name">物品名</string>
+    <string name="Ask_Price">期望价格</string>
+    <string name="Item_Zip">物品邮编</string>
+    <string name="Take_Picture">图片</string>
+    <string name="Desc_Text">物品描述</string>
+    <string name="Post_Item">发布</string>
 
     <!--Other-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -112,22 +112,22 @@
 
 
     <string-array name="categories">
-        <item>Textbook</item>
-        <item>Furniture</item>
-        <item>Electronics</item>
-        <item>Other</item>
+        <item>书籍</item>
+        <item>家具</item>
+        <item>电子产品</item>
+        <item>其他</item>
     </string-array>
     <string-array name="itemConditions">
-        <item>Great Condition</item>
-        <item>Good Condition</item>
-        <item>Decent Condition</item>
-        <item>Poor Condition</item>
+        <item>状态极好</item>
+        <item>状态良好</item>
+        <item>状态一般</item>
+        <item>状态较差</item>
     </string-array>
 
     <!--Chat stuff-->
-    <string name="chatlist">Chat List</string>
-    <string name="chatroom">Chat Room</string>
-    <string name="sendbutton">send</string>
+    <string name="chatlist">聊天列表</string>
+    <string name="chatroom">聊天室</string>
+    <string name="sendbutton">发送</string>
 
 
     <string name="post_name">Post Name</string>

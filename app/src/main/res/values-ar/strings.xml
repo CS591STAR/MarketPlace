@@ -1,5 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources>
     <string name="app_name">MarketPlace</string>
 
     <!-- TODO: Remove or change this placeholder text (or keep it as an easter egg for the grader to find it later) -->
@@ -126,8 +125,8 @@
     </string-array>
 
     <!--Chat stuff-->
-    <string name="chatlist">聊天列表</string>
-    <string name="chatroom">聊天室</string>
+    <string name="chatlist">Chat List</string>
+    <string name="chatroom">Chat Room</string>
     <string name="sendbutton">send</string>
 
 
