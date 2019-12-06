@@ -9,7 +9,8 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, Profile.ProfileListener {
+
+public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, Profile.ProfileListener, ViewPost.ViewPostListener {
 
     User you;
     MarketFeed marketFeed;
@@ -17,9 +18,10 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     Chatroom chats;
     ItemPostForm itemPostForm;
     Preferences preferences;
-
+    ViewPost viewPost;
     LinearLayout fragLayout;
     FragmentManager fm;
+    Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +69,16 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     }
 
     @Override
-    public void search() {
+    public void search(String keyword) {
+        searchByKeyword(keyword);
+    }
 
+    public void searchByKeyword(String keyword){
+        SearchResultFragment resultFragment = new SearchResultFragment(keyword);
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragLayout, resultFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override
@@ -95,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.replace(R.id.fragLayout, itemPostForm, "ItemPostForm");
         ft.addToBackStack(null);
         ft.commit();
-
     }
 
     @Override
@@ -109,6 +118,4 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.addToBackStack(null);
         ft.commit();
     }
-
-
 }

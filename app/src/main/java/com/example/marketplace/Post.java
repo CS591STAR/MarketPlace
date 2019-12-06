@@ -10,15 +10,16 @@ public class Post implements Parcelable {
 
     private String itemName;
     private long askingPrice;
-    private long zipcode;
+    private String zipcode;
     private String sellerID;
     private String category;
     private String itemCondition;
     private long itemPostTime;
     private String itemDescription;
+    private String postID;
 
-    public Post(String itemName, long askingPrice, long zipcode, String sellerID, String category, String itemCondition,
-                long itemPostTime, String itemDescription) {
+    public Post(String itemName, long askingPrice, String zipcode, String sellerID, String category, String itemCondition,
+                long itemPostTime, String itemDescription, String postID) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -27,6 +28,7 @@ public class Post implements Parcelable {
         this.itemCondition = itemCondition;
         this.itemPostTime = itemPostTime;
         this.itemDescription = itemDescription;
+        this.postID = postID;
     }
 
     public void setItemName(String itemName) {
@@ -45,11 +47,11 @@ public class Post implements Parcelable {
         return this.askingPrice;
     }
 
-    public void setZipcode(long zipcode) {
+    public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
 
-    public long getZipcode(){
+    public String getZipcode(){
         return this.zipcode;
     }
 
@@ -99,12 +101,14 @@ public class Post implements Parcelable {
         in.readStringArray(postData);
         this.itemName = postData[0];
         this.askingPrice = Integer.parseInt(postData[1]);
-        this.zipcode = Integer.parseInt(postData[2]);
+        this.zipcode = postData[2];
         this.sellerID = postData[3];
         this.category = postData[4];
         this.itemCondition = postData[5];
         this.itemPostTime = Long.parseLong(postData[6]);
         this.itemDescription = postData[7];
+        this.postID = postData[8];
+
     }
 
     @Override
@@ -115,7 +119,7 @@ public class Post implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray(new String[] {this.itemName, String.valueOf(this.askingPrice), String.valueOf(this.zipcode),
-                 this.category, this.itemCondition, String.valueOf(this.itemPostTime)});
+                 this.sellerID, this.category, this.itemCondition, String.valueOf(this.itemPostTime), this.itemDescription, this.postID});
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -127,4 +131,12 @@ public class Post implements Parcelable {
             return new Post[size];
         }
     };
+
+    public String getPostID() {
+        return postID;
+    }
+
+    public void setPostID(String postID) {
+        this.postID = postID;
+    }
 }

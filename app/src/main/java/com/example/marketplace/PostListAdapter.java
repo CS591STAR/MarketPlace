@@ -1,5 +1,6 @@
 package com.example.marketplace;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +15,36 @@ import java.util.List;
 public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyViewHolder> {
 
     private List<Post> postList = new ArrayList<>();
+    public Post post;
+    ViewPost viewPost;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView postName, askingPriceTxt, itemPriceTxt;
         public ImageView postImage;
 
         public MyViewHolder(View view) {
             super(view);
+            view.setOnClickListener(this);
+
             postName = (TextView) view.findViewById(R.id.postName);
             askingPriceTxt = (TextView) view.findViewById(R.id.askingPriceTxt);
             itemPriceTxt = (TextView) view.findViewById(R.id.itemPriceTxt);
             postImage = (ImageView) view.findViewById(R.id.postImage);
+        }
+
+        @Override
+        public void onClick(View view) {
+            post = postList.get(getLayoutPosition());
+            Log.d("Clicked", "onClick " + getLayoutPosition() + " " + post.getItemName());
+
+            viewPost = new ViewPost(post);
+            MainActivity activity = (MainActivity) view.getContext();
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragLayout, viewPost)
+                    .addToBackStack(null).commit();
+
         }
     }
 
@@ -42,10 +62,11 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Post post = postList.get(position);
+        post = postList.get(position);
         holder.postName.setText(post.getItemName());
         holder.itemPriceTxt.setText(Long.toString(post.getAskingPrice()));
 //        holder.postImage.setImageURI();
+
     }
 
     @Override
