@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Profile extends Fragment {
@@ -58,6 +60,7 @@ public class Profile extends Fragment {
                 startActivity(new Intent(getContext(), ChatList.class));
             }
         });
+
         txtUni = view.findViewById(R.id.txtUni);
 
         mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
@@ -67,18 +70,11 @@ public class Profile extends Fragment {
             txtDisplayName.setText(mFirebaseUser.getDisplayName());
             txtEmail.setText(mFirebaseUser.getEmail());
 
-
-            try {
-                URL url = new URL(mFirebaseUser.getPhotoUrl().toString());
-                Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                Drawable d = new BitmapDrawable(getResources(), image);
-                imgUser.setImageDrawable(d);
-            } catch (IOException e) {
-                Toast.makeText(getActivity(), "Could not load the Image", Toast.LENGTH_SHORT).show();
-
-            }
+            Uri img = mFirebaseUser.getPhotoUrl();
+            GlideApp.with(this /* context */)
+                    .load(img)
+                    .into(imgUser);
         }
-
 
         return view;
     }

@@ -1,9 +1,11 @@
 package com.example.marketplace;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.storage.StorageReference;
+
+import java.net.URL;
 import java.text.ParseException;
 
 public class Post implements Parcelable {
@@ -17,6 +19,7 @@ public class Post implements Parcelable {
     private long itemPostTime;
     private String itemDescription;
     private String postID;
+    private URL image;
 
     public Post(String itemName, long askingPrice, String zipcode, String sellerID, String category, String itemCondition,
                 long itemPostTime, String itemDescription, String postID) {
@@ -138,5 +141,13 @@ public class Post implements Parcelable {
 
     public void setPostID(String postID) {
         this.postID = postID;
+    }
+
+    public URL getImage() {
+        return image;
+    }
+
+    public void URL(URL image) {
+        this.image = image;
     }
 }

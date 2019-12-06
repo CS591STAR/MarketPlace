@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -46,6 +49,7 @@ import static android.content.Context.CAMERA_SERVICE;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -92,6 +96,7 @@ public class ItemPostForm extends Fragment {
 
     Button AddImageItemPostButton;
     String postID;
+    String imageLink;
 
     public ItemPostForm() {
 
@@ -196,16 +201,26 @@ public class ItemPostForm extends Fragment {
 
         if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
             Log.i("here: ", "result code is ok");
+
             postImage = (Bitmap) data.getExtras().get("data");
             Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
 
             Log.i("here: ", "uri is fine");
 
-            StorageReference filepath = storageReference.child("Photos").child(postID).child(uri.getLastPathSegment());
+            // display image
+            GlideApp.with(this /* context */)
+                    .load(uri)
+                    .into(itemImage);
+
+            // upload image to cloud
+            final StorageReference filepath = storageReference.child("Photos").child(postID).child(uri.getLastPathSegment());
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Log.i("IMG", "upload worked");
+
+                     imageLink = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+
                     // Toast.makeText(getApplicationContext(),"upload worked", Toast.LENGTH_SHORT).show();
                 }
             });
