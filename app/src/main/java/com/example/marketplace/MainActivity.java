@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener {
+public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, ViewPost.ViewPostListener {
 
     User you;
     MarketFeed marketFeed;
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     // add search also
     LinearLayout fragLayout;
     FragmentManager fm;
+    Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         profile = new Profile();
         chats = new Chatroom();
         itemPostForm = new ItemPostForm();
-        viewPost = new ViewPost();
 
         fragLayout = findViewById(R.id.fragLayout);
         fm = getSupportFragmentManager();
@@ -110,18 +110,4 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.commit();
 
     }
-
-    @Override
-    public void selectedPost() {
-
-        if (viewPost == null) {
-            viewPost = new ViewPost();
-        }
-
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragLayout, viewPost, "ViewPost");
-        ft.addToBackStack(null);
-        ft.commit();
-    }
-
 }

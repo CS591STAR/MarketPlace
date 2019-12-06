@@ -28,6 +28,7 @@ public class Post implements Parcelable {
         this.itemCondition = itemCondition;
         this.itemPostTime = itemPostTime;
         this.itemDescription = itemDescription;
+        this.postID = postID;
     }
 
     public void setItemName(String itemName) {

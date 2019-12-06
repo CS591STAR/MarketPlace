@@ -77,7 +77,6 @@ public class MarketFeed extends Fragment {
 
     public interface MarketFeedListener {
         public void createPost();
-        public void selectedPost();
     }
 
     MarketFeedListener MFL;
