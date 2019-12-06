@@ -101,6 +101,5 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.replace(R.id.fragLayout, itemPostForm, "ItemPostForm");
         ft.addToBackStack(null);
         ft.commit();
-
     }
 }
