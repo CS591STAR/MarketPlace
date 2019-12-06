@@ -46,7 +46,7 @@ public class ViewPost extends Fragment {
     }
 
     public interface ViewPostListener {
-        public void returnToFeed();
+        public void openFeed();
         // add methods that we would need the activity to implement
     }
 
@@ -124,7 +124,7 @@ public class ViewPost extends Fragment {
         // delete from zipcodes db
         mDatabaseZip.child(post.getZipcode()).child(post.getPostID()).removeValue();
         Toast.makeText(getContext(), "Post deleted successfully!", Toast.LENGTH_SHORT).show();
-        VPL.returnToFeed();
+        VPL.openFeed();
     }
 
     private void updateUI() {
