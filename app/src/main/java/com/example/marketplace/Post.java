@@ -3,11 +3,6 @@ package com.example.marketplace;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.firebase.storage.StorageReference;
-
-import java.net.URL;
-import java.text.ParseException;
-
 public class Post implements Parcelable {
 
     private String itemName;
@@ -19,10 +14,10 @@ public class Post implements Parcelable {
     private long itemPostTime;
     private String itemDescription;
     private String postID;
-    private URL image;
+    private String image;
 
     public Post(String itemName, long askingPrice, String zipcode, String sellerID, String category, String itemCondition,
-                long itemPostTime, String itemDescription, String postID) {
+                long itemPostTime, String itemDescription, String postID, String image) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -32,6 +27,7 @@ public class Post implements Parcelable {
         this.itemPostTime = itemPostTime;
         this.itemDescription = itemDescription;
         this.postID = postID;
+        this.image = image;
     }
 
     public void setItemName(String itemName) {
@@ -66,7 +62,6 @@ public class Post implements Parcelable {
         return this.sellerID;
     }
 
-
     public void setCategory(String category) {
         this.category = category;
     }
@@ -100,7 +95,7 @@ public class Post implements Parcelable {
     }
 
     public Post(Parcel in) {
-        String[] postData = new String[8];
+        String[] postData = new String[9];
         in.readStringArray(postData);
         this.itemName = postData[0];
         this.askingPrice = Integer.parseInt(postData[1]);
@@ -111,7 +106,7 @@ public class Post implements Parcelable {
         this.itemPostTime = Long.parseLong(postData[6]);
         this.itemDescription = postData[7];
         this.postID = postData[8];
-
+        this.image = postData[9];
     }
 
     @Override
@@ -122,7 +117,7 @@ public class Post implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray(new String[] {this.itemName, String.valueOf(this.askingPrice), String.valueOf(this.zipcode),
-                 this.sellerID, this.category, this.itemCondition, String.valueOf(this.itemPostTime), this.itemDescription, this.postID});
+                 this.sellerID, this.category, this.itemCondition, String.valueOf(this.itemPostTime), this.itemDescription, this.postID, this.image});
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -143,11 +138,11 @@ public class Post implements Parcelable {
         this.postID = postID;
     }
 
-    public URL getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void URL(URL image) {
+    public void String(String image) {
         this.image = image;
     }
 }

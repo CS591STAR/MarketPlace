@@ -88,7 +88,12 @@ public class ViewPost extends Fragment {
         postTitle.setText(post.getItemName());
         postDescription.setText(post.getItemDescription());
         postCondition.setText(post.getItemCondition());
-//        postImage.setImageBitmap(post.get);
+
+        // display image
+        GlideApp.with(this /* context */)
+                .load(post.getImage())
+                .into(postImage);
+
         postPrice.setText(Long.toString(post.getAskingPrice()));
 
 

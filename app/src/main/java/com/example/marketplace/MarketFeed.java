@@ -165,23 +165,28 @@ public class MarketFeed extends Fragment {
                     while (iter.hasNext()){
                         DataSnapshot snap = iter.next();
                         String postID = snap.getKey();
-                        long askingPrice = (long) snap.child("askingPrice").getValue();
-                        String category = (String) snap.child("category").getValue();
-                        String itemDescription = (String) snap.child("itemDescription").getValue();
-                        String itemName = (String) snap.child("itemName").getValue();
+                        try {
+                            long askingPrice = (long) snap.child("askingPrice").getValue();
+                            String category = (String) snap.child("category").getValue();
+                            String itemDescription = (String) snap.child("itemDescription").getValue();
+                            String itemName = (String) snap.child("itemName").getValue();
 
-                        long itemPostTime = (long) snap.child("itemPostTime").getValue();
+                            long itemPostTime = (long) snap.child("itemPostTime").getValue();
 
-                        String sellerID = (String) snap.child("sellerID").getValue();
-                        String zipcode = (String) snap.child("zipcode").getValue();
-                        String itemCondition = (String) snap.child("itemCondition").getValue();
+                            String sellerID = (String) snap.child("sellerID").getValue();
+                            String zipcode = (String) snap.child("zipcode").getValue();
+                            String itemCondition = (String) snap.child("itemCondition").getValue();
+                            String image = (String) snap.child("image").getValue();
 
-
-                        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
-                                itemPostTime, itemDescription, postID);
-                        postList.add(post);
-                        //received results
-                        Log.i("post", post.getItemName() + " on nod " + postID);
+                            Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
+                                    itemPostTime, itemDescription, postID, image);
+                            postList.add(post);
+                            //received results
+                            Log.i("post", post.getItemName() + " on nod " + postID);
+                        }
+                        catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 // notify the adapter
