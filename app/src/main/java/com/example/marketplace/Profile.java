@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Profile extends Fragment {
@@ -30,11 +32,13 @@ public class Profile extends Fragment {
     private ImageView imgUser;
     private TextView txtDisplayName;
     private TextView txtEmail;
+    private TextView txtUni;
     private Button btnPreferences;
     private Button btnCreate;
     private Button btnDelete;
-    private TextView txtUni;
+
     private FirebaseUser mFirebaseUser;
+
 
     public Profile() {
 
@@ -62,6 +66,7 @@ public class Profile extends Fragment {
         imgUser = view.findViewById(R.id.imgUser);
         txtDisplayName = view.findViewById(R.id.txtDisplayName);
         txtEmail = view.findViewById(R.id.txtEmail);
+
         btnPreferences = view.findViewById(R.id.btnPreferences);
         btnCreate = view.findViewById(R.id.btnCreate);
         btnDelete = view.findViewById(R.id.btnDelete);
@@ -71,14 +76,12 @@ public class Profile extends Fragment {
         if (mFirebaseUser != null) {
             txtDisplayName.setText(mFirebaseUser.getDisplayName());
             txtEmail.setText(mFirebaseUser.getEmail());
-            try {
-                URL url = new URL(mFirebaseUser.getPhotoUrl().toString());
-                Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                Drawable d = new BitmapDrawable(getResources(), image);
-                imgUser.setImageDrawable(d);
-            } catch (IOException e) {
-                Toast.makeText(getActivity(), "Could not load the Image", Toast.LENGTH_SHORT).show();
-            }
+
+            Uri img = mFirebaseUser.getPhotoUrl();
+            GlideApp.with(this /* context */)
+                    .load(img)
+                    .into(imgUser);
+
         }
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +97,6 @@ public class Profile extends Fragment {
                 PL.openPreferences();
             }
         });
-
 
         return view;
     }

@@ -89,10 +89,10 @@ public class SearchResultFragment extends Fragment {
                         String sellerID = (String) snap.child("sellerID").getValue();
                         String zipcode = (String) snap.child("zipcode").getValue();
                         String itemCondition = (String) snap.child("itemCondition").getValue();
-
+                        String image = (String) snap.child("image").getValue();
 
                         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
-                                itemPostTime, itemDescription, postID);
+                                itemPostTime, itemDescription, postID, image);
                         if(post.getItemName().indexOf(keyword) >= 0 ){
                             Log.w(TAG, String.valueOf(post.getItemName().indexOf(keyword)));
                             postList.add(post);
