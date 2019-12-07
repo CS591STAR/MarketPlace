@@ -22,7 +22,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -55,6 +59,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import okhttp3.OkHttpClient;
@@ -96,7 +101,7 @@ public class ItemPostForm extends Fragment {
 
     Button AddImageItemPostButton;
     String postID;
-    String imageLink;
+    Uri imageLink;
 
     public ItemPostForm() {
 
@@ -237,16 +242,41 @@ public class ItemPostForm extends Fragment {
         Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
         // upload image to cloud
         final StorageReference filepath = storageReference.child("Photos").child(postID).child(uri.getLastPathSegment());
-        filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.i("IMG", "upload worked");
+//        filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                Log.i("IMG", "upload worked");
+//
+//                imageLink = taskSnapshot.getMetadata().getReference().getDownloadUrl().getResult().toString();
+//                Log.i("IMG", "download image at " + imageLink);
+//            }
+//        });
 
-                imageLink = filepath.getDownloadUrl().toString();
-                Log.i("IMG", "download image at" + imageLink);
+        UploadTask uploadTask = filepath.putFile(uri);
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return filepath.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                     imageLink = task.getResult();
+                } else {
+                    // Handle failures
+                    // ...
+                    Log.i("IMG", "could not upload image");
+                }
             }
         });
-}
+
+    }
 
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
