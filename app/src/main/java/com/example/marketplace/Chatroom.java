@@ -162,6 +162,12 @@ public class Chatroom extends AppCompatActivity {
             protected void onBindViewHolder(final MessageViewHolder viewHolder,
                                             int position,
                                             Message friendlyMessage) {
+
+                //if the message is sent by the current user, set the text bubble to a different color
+                if(friendlyMessage.getName() == mFirebaseUser.getDisplayName()){
+                    viewHolder.messageTextView.setBackgroundResource(R.drawable.rounded_rectangle_lightblue);
+                }
+
                 mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 if (friendlyMessage.getText() != null) {
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
