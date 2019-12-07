@@ -9,15 +9,16 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, ViewPost.ViewPostListener {
+
+public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, Profile.ProfileListener, ViewPost.ViewPostListener {
 
     User you;
     MarketFeed marketFeed;
     Profile profile;
     Chatroom chats;
     ItemPostForm itemPostForm;
+    Preferences preferences;
     ViewPost viewPost;
-    // add search also
     LinearLayout fragLayout;
     FragmentManager fm;
     Post post;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         profile = new Profile();
         chats = new Chatroom();
         itemPostForm = new ItemPostForm();
+        preferences = new Preferences();
 
         fragLayout = findViewById(R.id.fragLayout);
         fm = getSupportFragmentManager();
@@ -67,10 +69,17 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     }
 
     @Override
-    public void search() {
-
+    public void search(String keyword) {
+        searchByKeyword(keyword);
     }
 
+    public void searchByKeyword(String keyword){
+        SearchResultFragment resultFragment = new SearchResultFragment(keyword);
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragLayout, resultFragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
     @Override
     public void openFeed() {
@@ -87,11 +96,6 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     }
 
     @Override
-    public void returnToFeed() {
-        openFeed();
-    }
-
-    @Override
     public void createPost() {
 
         if (itemPostForm == null) {
@@ -102,4 +106,17 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.addToBackStack(null);
         ft.commit();
     }
+
+    @Override
+    public void openPreferences() {
+
+        if (preferences == null) {
+            preferences = new Preferences();
+        }
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragLayout, preferences, "Preferences");
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
 }

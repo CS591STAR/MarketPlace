@@ -5,6 +5,20 @@ import android.os.Parcelable;
 
 public class Post implements Parcelable {
 
+    public enum Category{
+        TEXTBOOK,
+        FURNITURE,
+        ELECTRONICS,
+        OTHER;
+    }
+
+    public enum Condition{
+        GREAT,
+        GOOD,
+        DECENT,
+        POOR
+    }
+
     private String itemName;
     private long askingPrice;
     private String zipcode;

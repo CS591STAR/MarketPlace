@@ -103,7 +103,7 @@ public class ItemPostForm extends Fragment {
     }
 
     public interface ItemPostFormListener {
-        public void returnToFeed();
+        public void openFeed();
         // add methods that we would need the activity to implement
     }
 
@@ -182,12 +182,13 @@ public class ItemPostForm extends Fragment {
                 }
 
                 writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        itemZipcodeTxt.getText().toString(), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
-                        ItemConditionDropDown.getSelectedItem().toString(), currentTime,
+                        itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition()].toString(),
+                        Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition()].toString(), currentTime,
                         postDescriptionText.getText().toString());
 
-                Toast.makeText(view.getContext(), "New post created", Toast.LENGTH_SHORT).show();
-                IPFL.returnToFeed();
+
+                Toast.makeText(view.getContext(),"New post created", Toast.LENGTH_SHORT).show();
+                IPFL.openFeed();
             }
         });
 

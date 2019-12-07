@@ -9,7 +9,7 @@
         android:id="@+id/filterByDistanceBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sort By Distance" />
+        android:text="@string/sort_by_distance" />
 
     <SeekBar
         android:id="@+id/distanceSeekBar"

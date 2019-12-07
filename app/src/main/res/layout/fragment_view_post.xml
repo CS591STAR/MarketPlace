@@ -47,13 +47,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight=".1"
-        android:text="Contact seller" />
+        android:text="@string/contact_seller" />
 
     <Button
         android:id="@+id/DeletePost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight=".1"
-        android:text="Delete post" />
+        android:text="@string/delete_post" />
 
 </LinearLayout>
