@@ -242,7 +242,7 @@ public class ItemPostForm extends Fragment {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.i("IMG", "upload worked");
 
-                imageLink = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                imageLink = filepath.getDownloadUrl().toString();
                 Log.i("IMG", "download image at" + imageLink);
             }
         });
@@ -267,7 +267,6 @@ public class ItemPostForm extends Fragment {
 
         // store every post relative to zipcode
         FirebaseDatabase.getInstance().getReference().child("zipcodes").child(String.valueOf(post.getZipcode())).child(postID).setValue(0);
-
     }
 
     long doGetRequest() throws IOException {

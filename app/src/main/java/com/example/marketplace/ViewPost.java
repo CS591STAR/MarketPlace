@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,6 @@ public class ViewPost extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_view_post, container, false);
-
 
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mUsername = mFirebaseUser.getUid();
@@ -134,13 +134,14 @@ public class ViewPost extends Fragment {
     }
 
     private void updateUI() {
-        if (mUsername != post.getSellerID()) {
-            deletePost.setVisibility(View.GONE);
-            contactSeller.setVisibility(View.VISIBLE);
-        }
-        else {
+        if (mUsername.equals(post.getSellerID())) {
             deletePost.setVisibility(View.VISIBLE);
             contactSeller.setVisibility(View.GONE);
+            Log.i("POSTID", "sellerID= " + post.getSellerID() + " currentUserID "+ mFirebaseUser.getUid());
+        }
+        else {
+            deletePost.setVisibility(View.GONE);
+            contactSeller.setVisibility(View.VISIBLE);
         }
     }
 }
