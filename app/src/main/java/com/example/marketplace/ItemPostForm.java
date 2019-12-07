@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -46,6 +49,7 @@ import static android.content.Context.CAMERA_SERVICE;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -92,6 +96,7 @@ public class ItemPostForm extends Fragment {
 
     Button AddImageItemPostButton;
     String postID;
+    String imageLink;
 
     public ItemPostForm() {
 
@@ -181,6 +186,7 @@ public class ItemPostForm extends Fragment {
                         Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition()].toString(), currentTime,
                         postDescriptionText.getText().toString());
 
+
                 Toast.makeText(view.getContext(),"New post created", Toast.LENGTH_SHORT).show();
                 IPFL.openFeed();
             }
@@ -194,25 +200,17 @@ public class ItemPostForm extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK) {
             Log.i("here: ", "result code is ok");
+
             postImage = (Bitmap) data.getExtras().get("data");
-            Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
 
-            Log.i("here: ", "uri is fine");
+            // display image
+            GlideApp.with(this /* context */)
+                    .load(postImage)
+                    .into(itemImage);
 
-            StorageReference filepath = storageReference.child("Photos").child(postID).child(uri.getLastPathSegment());
-            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.i("IMG", "upload worked");
-                    // Toast.makeText(getApplicationContext(),"upload worked", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-//            Toast.makeText(getContext(), "result code not ok?", Toast.LENGTH_SHORT).show();
-            Log.i("IMG", "upload did not work");
-
+            itemImage.setVisibility(View.VISIBLE);
         }
     }
 
@@ -220,7 +218,7 @@ public class ItemPostForm extends Fragment {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode){
+        switch (requestCode) {
             case PERMISSION_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -234,6 +232,23 @@ public class ItemPostForm extends Fragment {
         }
     }
 
+    private void uploadToCloud(Bitmap image) {
+
+        Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
+        // upload image to cloud
+        final StorageReference filepath = storageReference.child("Photos").child(postID).child(uri.getLastPathSegment());
+        filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.i("IMG", "upload worked");
+
+                imageLink = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                Log.i("IMG", "download image at" + imageLink);
+            }
+        });
+}
+
+
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -244,12 +259,14 @@ public class ItemPostForm extends Fragment {
     private void writeNewPost(String itemName, int askingPrice, String zipcode, String sellerID, String category, String itemCondition,
                               Long itemPostTime, String itemDescription) {
 
-        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription, postID);
+        // upload image to cloud
+        uploadToCloud(postImage);
+
+        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription, postID, imageLink);
         mDatabase.child(postID).setValue(post);
 
         // store every post relative to zipcode
         FirebaseDatabase.getInstance().getReference().child("zipcodes").child(String.valueOf(post.getZipcode())).child(postID).setValue(0);
-//        mDatabase.child(String.valueOf(zipcode)).setValue(post);
 
     }
 
