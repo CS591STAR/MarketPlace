@@ -29,10 +29,10 @@ public class Post implements Parcelable {
     private long itemPostTime;
     private String itemDescription;
     private String postID;
-    private Uri image;
+    private String image;
 
     public Post(String itemName, long askingPrice, String zipcode, String sellerID, String category, String itemCondition,
-                long itemPostTime, String itemDescription, String postID, Uri image) {
+                long itemPostTime, String itemDescription, String postID, String image) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -110,7 +110,7 @@ public class Post implements Parcelable {
     }
 
     public Post(Parcel in) {
-        String[] postData = new String[9];
+        String[] postData = new String[10];
         in.readStringArray(postData);
         this.itemName = postData[0];
         this.askingPrice = Integer.parseInt(postData[1]);
@@ -121,7 +121,7 @@ public class Post implements Parcelable {
         this.itemPostTime = Long.parseLong(postData[6]);
         this.itemDescription = postData[7];
         this.postID = postData[8];
-        this.image = Uri.parse(postData[9]);
+        this.image = postData[9];
     }
 
     @Override
@@ -153,11 +153,11 @@ public class Post implements Parcelable {
         this.postID = postID;
     }
 
-    public Uri getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Uri image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }

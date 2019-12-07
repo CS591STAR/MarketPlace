@@ -1,7 +1,6 @@
 package com.example.marketplace;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -90,7 +89,7 @@ public class SearchResultFragment extends Fragment {
                         String sellerID = (String) snap.child("sellerID").getValue();
                         String zipcode = (String) snap.child("zipcode").getValue();
                         String itemCondition = (String) snap.child("itemCondition").getValue();
-                        Uri image = (Uri) snap.child("image").getValue();
+                        String image = (String) snap.child("image").getValue();
 
                         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
                                 itemPostTime, itemDescription, postID, image);
