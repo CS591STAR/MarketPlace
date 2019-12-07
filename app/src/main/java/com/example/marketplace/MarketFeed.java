@@ -157,7 +157,6 @@ public class MarketFeed extends Fragment {
         mDatabase.child("posts").orderByChild("itemPostTime").addValueEventListener( new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
-                Log.i("dataInside",dataSnapshot.getValue().toString());
 
                 postList.clear();
                 if(dataSnapshot.hasChildren()){
