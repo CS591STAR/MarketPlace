@@ -22,9 +22,9 @@
     <string name="User_Name">用户名</string>
     <string name="User_Email">用户邮箱</string>
     <string name="User_Uni">用户大学</string>
-    <string name="Edit_Button">编辑</string>
-    <string name="Posts_Button">条目</string>
-    <string name="Chats_Button">聊天</string>
+    <string name="Preferences_Button">偏好设置</string>
+    <string name="Create_Button">创建</string>
+    <string name="Delete_Button">删除</string>
 
     <!--NavBar-->
     <string name="P_button">P</string>
@@ -37,7 +37,6 @@
     <string name="Item_Name">物品名</string>
     <string name="Ask_Price">期望价格</string>
     <string name="Item_Zip">物品邮编</string>
-    <string name="Take_Picture">图片</string>
     <string name="Desc_Text">物品描述</string>
     <string name="Post_Item">发布</string>
 
@@ -67,7 +66,7 @@
     <string name="get_custom_token">Get Token</string>
     <string name="create_account">Create Account</string>
     <string name="send_link">Send Link</string>
-    <string name="sign_out">Sign Out</string>
+    <string name="sign_out">登出</string>
     <string name="verify_email">Verify Email</string>
     <string name="disconnect">Disconnect</string>
     <string name="loading">Loading…</string>
@@ -130,8 +129,23 @@
     <string name="sendbutton">发送</string>
 
 
-    <string name="post_name">Post Name</string>
-    <string name="item_pic">Picture of the Item</string>
-    <string name="price">Price:</string>
+    <string name="post_name">条目名称</string>
+    <string name="price">价格:</string>
     <string name="textview">TextView</string>
+    <string name="apply">应用</string>
+    <string name="sort_by_distance">根据距离排序</string>
+    <string name="contact_seller">联系卖家</string>
+    <string name="delete_post">删除条目</string>
+    <string name="add_Picture">添加图片</string>
+    <string name="item_pic">Picture of the Item</string>
+    <string name="change_email">更改邮箱</string>
+    <string name="change_name">更改姓名</string>
+    <string name="change_search_radius">更改搜索半径</string>
+    <string name="change_university">更改大学</string>
+    <string name="change_zipcode">更改邮编</string>
+    <string name="hint_input_email">输入你的邮箱</string>
+    <string name="hint_input_name">输入你的姓名</string>
+    <string name="hint_input_radius">你想查找距离你多远的物品？</string>
+    <string name="hint_input_university">你在哪里学习？</string>
+    <string name="hint_input_zipcode">输入你的邮编</string>
 </resources>

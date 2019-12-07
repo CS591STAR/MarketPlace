@@ -8,6 +8,20 @@ import java.text.ParseException;
 
 public class Post implements Parcelable {
 
+    public enum Category{
+        TEXTBOOK,
+        FURNITURE,
+        ELECTRONICS,
+        OTHER;
+    }
+
+    public enum Condition{
+        GREAT,
+        GOOD,
+        DECENT,
+        POOR
+    }
+
     private String itemName;
     private long askingPrice;
     private String zipcode;
@@ -108,7 +122,6 @@ public class Post implements Parcelable {
         this.itemPostTime = Long.parseLong(postData[6]);
         this.itemDescription = postData[7];
         this.postID = postData[8];
-
     }
 
     @Override
@@ -119,7 +132,7 @@ public class Post implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray(new String[] {this.itemName, String.valueOf(this.askingPrice), String.valueOf(this.zipcode),
-                 this.sellerID, this.category, this.itemCondition, String.valueOf(this.itemPostTime), this.itemDescription, this.postID});
+                 this.sellerID, this.category.toString(), this.itemCondition.toString(), String.valueOf(this.itemPostTime), this.itemDescription, this.postID});
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
