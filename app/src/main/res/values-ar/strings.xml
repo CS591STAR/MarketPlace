@@ -1,6 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
-    <string name="app_name">MarketPlace</string>
+<resources>
 
     <!-- TODO: Remove or change this placeholder text (or keep it as an easter egg for the grader to find it later) -->
 
@@ -10,37 +8,25 @@
     <string name="firebaseui_status_fmt">Firebase User: %s</string>
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
-    <string name="sign_in">Sign In</string>
 
 
     <!--Main Activity-->
 
     <!--Market Feed-->
-    <string name="Create_Post">Create Post</string>
 
     <!--User's Profile-->
-    <string name="Image_Description">User\'s Photo</string>
     <string name="User_Name">User\'s Name</string>
     <string name="User_Email">User\'s Email</string>
     <string name="User_Uni">User\'s University</string>
-    <string name="Edit_Button">Edit</string>
-    <string name="Posts_Button">Posts</string>
-    <string name="Chats_Button">Chats</string>
 
     <!--NavBar-->
     <string name="P_button">P</string>
     <string name="C_button">C</string>
-    <string name="Search_Line">Search</string>
     <string name="S_button">S</string>
-    <string name="Feed_button">Feed</string>
 
     <!--Post Form-->
     <string name="Item_Name">Item Name</string>
-    <string name="Ask_Price">Asking Price</string>
     <string name="Item_Zip">Item Zipcode</string>
-    <string name="Take_Picture">Picture</string>
-    <string name="Desc_Text">Item Description</string>
-    <string name="Post_Item">Post Item</string>
 
     <!--Other-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -68,7 +54,6 @@
     <string name="get_custom_token">Get Token</string>
     <string name="create_account">Create Account</string>
     <string name="send_link">Send Link</string>
-    <string name="sign_out">Sign Out</string>
     <string name="verify_email">Verify Email</string>
     <string name="disconnect">Disconnect</string>
     <string name="loading">Loading…</string>
@@ -126,13 +111,12 @@
     </string-array>
 
     <!--Chat stuff-->
-    <string name="chatlist">聊天列表</string>
-    <string name="chatroom">聊天室</string>
-    <string name="sendbutton">send</string>
 
 
     <string name="post_name">Post Name</string>
     <string name="item_pic">Picture of the Item</string>
-    <string name="price">Price:</string>
     <string name="textview">TextView</string>
+    <string name="sort_by_distance">sort by distance</string>
+    <string name="Image_Description">User\'s Photo</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

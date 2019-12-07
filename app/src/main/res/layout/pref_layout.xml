@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:text="Change Name" />
+        android:text="@string/change_name" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="What is your Name?"
+            android:hint="@string/hint_input_name"
             android:inputType="textPersonName" />
 
         <Button
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:text="Change Email" />
+        android:text="@string/change_email" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="What is your Email?"
+            android:hint="@string/hint_input_email"
             android:inputType="textPersonName" />
 
         <Button
@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:text="Change University" />
+        android:text="@string/change_university" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="Where do you study?"
+            android:hint="@string/hint_input_university"
             android:inputType="textPersonName" />
 
         <Button
@@ -98,7 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:text="Change Zipcode" />
+        android:text="@string/change_zipcode" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="Where do you live?"
+            android:hint="@string/hint_input_zipcode"
             android:inputType="textPersonName" />
 
         <Button
@@ -128,7 +128,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:text="Change Search Radius" />
+        android:text="@string/change_search_radius" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="How far do you want to see items?"
+            android:hint="@string/hint_input_radius"
             android:inputType="textPersonName" />
 
         <Button

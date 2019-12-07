@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
 
-        android:hint="Asking Price"
+        android:hint="@string/Ask_Price"
         android:inputType="numberDecimal" />
 
 
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
 
-        android:hint="Item Zipcode"
+        android:hint="@string/Item_Zip"
         android:inputType="number" />
 
 
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:text="Add Picture" />
+        android:text="@string/add_Picture" />
 
 
     <ImageView

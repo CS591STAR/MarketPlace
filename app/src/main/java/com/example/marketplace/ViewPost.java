@@ -87,7 +87,7 @@ public class ViewPost extends Fragment {
         // set post info
         postTitle.setText(post.getItemName());
         postDescription.setText(post.getItemDescription());
-        postCondition.setText(post.getItemCondition());
+        postCondition.setText(getResources().getStringArray(R.array.categories)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
 //        postImage.setImageBitmap(post.get);
         postPrice.setText(Long.toString(post.getAskingPrice()));
 
