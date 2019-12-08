@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         itemPostForm = new ItemPostForm();
         preferences = new Preferences();
 
+        //set eBay API ready
+        EBayAPI.getInstance().getToken();
+
         fragLayout = findViewById(R.id.fragLayout);
         fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
