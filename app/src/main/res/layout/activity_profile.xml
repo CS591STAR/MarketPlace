@@ -23,31 +23,46 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_weight="5"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtDisplayName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/User_Name" />
 
             <TextView
                 android:id="@+id/txtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/User_Email" />
 
             <TextView
                 android:id="@+id/txtUni"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:gravity="center" />
 
             <Button
                 android:id="@+id/btnPreferences"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/Preferences_Button" />
+
+            <TextView
+                android:id="@+id/txtRating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/user_s_rating" />
+
+            <RatingBar
+                android:id="@+id/rbUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 
