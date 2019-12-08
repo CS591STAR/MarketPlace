@@ -31,9 +31,7 @@
     <string name="User_Email">User\'s Email</string>
     <string name="User_Uni">User\'s University</string>
     <string name="Preferences_Button">Preferences</string>
-    <string name="Create_Button">Create</string>
-    <string name="Delete_Button">Delete</string>
-    <string name="users_ratring">User\'s Rating</string>
+
 
     <!--NavBar-->
     <string name="P_button">P</string>
@@ -162,5 +160,7 @@
     <string name="ItemCategorySpinner">ItemCategorySpinner</string>
     <string name="overall_rating">Overall Rating:</string>
     <string name="all_user_s_posts">All User\'s Posts</string>
+    <string name="please_rate_this_user">Please Rate this User</string>
+    <string name="give_your_rating_for_this_user">Give your rating for this user?</string>
 
 </resources>
