@@ -162,5 +162,7 @@
     <string name="all_user_s_posts">All User\'s Posts</string>
     <string name="please_rate_this_user">Please Rate this User</string>
     <string name="give_your_rating_for_this_user">Give your rating for this user?</string>
+    <string name="amazon">Amazon</string>
+    <string name="ebay">Ebay</string>
 
 </resources>

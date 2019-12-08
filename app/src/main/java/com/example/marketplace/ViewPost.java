@@ -28,8 +28,11 @@ public class ViewPost extends Fragment {
     Button contactSeller;
     TextView postTitle;
     TextView postPrice;
+    TextView txtAmazon;
+    TextView txtEbay;
     TextView postDescription;
-    TextView postCondition;
+    TextView conditionPost;
+    TextView categoryPost;
     ImageView postImage;
     Post post;
 
@@ -79,10 +82,12 @@ public class ViewPost extends Fragment {
         contactSeller = view.findViewById(R.id.contactSellerPost);
         postTitle = view.findViewById(R.id.titlePost);
         postPrice = view.findViewById(R.id.pricePost);
-        postCondition = view.findViewById(R.id.conditionPost);
+        conditionPost = view.findViewById(R.id.conditionPost);
         postDescription = view.findViewById(R.id.descriptionPost);
         postImage = view.findViewById(R.id.imagePost);
-
+        txtAmazon = view.findViewById(R.id.txtAmazon);
+        txtEbay = view.findViewById(R.id.txtEbay);
+        categoryPost = view.findViewById(R.id.categoryPost);
 
         // set post info
         postTitle.setText(post.getItemName());
@@ -94,9 +99,17 @@ public class ViewPost extends Fragment {
                 .load(post.getImage())
                 .into(postImage);
 
-        postCondition.setText(getResources().getStringArray(R.array.itemConditions)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
+        conditionPost.setText(getResources().getStringArray(R.array.itemConditions)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
 
-        postPrice.setText(Long.toString(post.getAskingPrice()));
+
+        String userPrice = "User's Price:\n$" + post.getAskingPrice();
+        postPrice.setText(userPrice);
+
+        String amazonPrice = "Amazon's Price:\n$" + post.getAskingPrice(); // change to api call
+        txtAmazon.setText(amazonPrice);
+
+        String ebayPrice = "Ebay's Price:\n$" + post.getAskingPrice(); // change to api call
+        txtEbay.setText(ebayPrice);
 
 
         // update UI
