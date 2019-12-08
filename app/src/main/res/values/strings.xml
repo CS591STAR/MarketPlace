@@ -77,7 +77,7 @@
     <string name="hint_input_name">What is your name?</string>
     <string name="hint_input_university">Where do you study?</string>
     <string name="hint_input_zipcode">What is your zip code?</string>
-    <string name="hint_input_radius">How far would you like to see items?</string>
+    <string name="hint_input_radius">How far do you search?</string>
 
     <!--Other-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
