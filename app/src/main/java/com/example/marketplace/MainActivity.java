@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     LinearLayout fragLayout;
     FragmentManager fm;
     Post post;
+    NavBarFragment navBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,11 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
         fragLayout = findViewById(R.id.fragLayout);
         fm = getSupportFragmentManager();
+
         FragmentTransaction ft = fm.beginTransaction();
+
+        navBar = (NavBarFragment) fm.findFragmentById(R.id.navBar);
+//        ft.hide(navBar);
         ft.add(R.id.fragLayout, marketFeed, "Market Feed");
         ft.addToBackStack(null);
         ft.commit();
@@ -56,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
             profile = new Profile();
         }
         FragmentTransaction ft = fm.beginTransaction();
+        ft.hide(navBar);
+
         ft.replace(R.id.fragLayout, profile, "Profile");
         ft.addToBackStack(null);
         ft.commit();
@@ -113,7 +120,10 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         if (preferences == null) {
             preferences = new Preferences();
         }
+
+
         FragmentTransaction ft = fm.beginTransaction();
+
         ft.replace(R.id.fragLayout, preferences, "Preferences");
         ft.addToBackStack(null);
         ft.commit();

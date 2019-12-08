@@ -113,7 +113,7 @@ public class Post implements Parcelable {
         String[] postData = new String[10];
         in.readStringArray(postData);
         this.itemName = postData[0];
-        this.askingPrice = Integer.parseInt(postData[1]);
+        this.askingPrice = Long.parseLong(postData[1]);
         this.zipcode = postData[2];
         this.sellerID = postData[3];
         this.category = postData[4];

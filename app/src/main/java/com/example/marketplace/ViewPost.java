@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class ViewPost extends Fragment {
     TextView postCondition;
     ImageView postImage;
     Post post;
+
 
     private FirebaseUser mFirebaseUser;
     private String mUsername;
@@ -82,6 +84,7 @@ public class ViewPost extends Fragment {
         postCondition = view.findViewById(R.id.conditionPost);
         postDescription = view.findViewById(R.id.descriptionPost);
         postImage = view.findViewById(R.id.imagePost);
+
 
 
         // set post info

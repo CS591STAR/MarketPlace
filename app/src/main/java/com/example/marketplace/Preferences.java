@@ -27,6 +27,8 @@ public class Preferences extends Fragment {
     private EditText edit5;
     private Button btn5;
 
+
+
     public Preferences() {
 
     }
