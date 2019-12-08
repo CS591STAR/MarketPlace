@@ -5,11 +5,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/filterByDistanceBtn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sort_by_distance" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/filterByDistanceBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/sort_by_distance" />
+
+        <Spinner
+            android:id="@+id/sprCategory"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5" />
+
+        <Button
+            android:id="@+id/btnSortByPrice"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/sort_by_price" />
+    </LinearLayout>
 
     <SeekBar
         android:id="@+id/distanceSeekBar"

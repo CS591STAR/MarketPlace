@@ -189,6 +189,7 @@ public class ItemPostForm extends Fragment {
 
                 Toast.makeText(view.getContext(),"New post created", Toast.LENGTH_SHORT).show();
                 IPFL.openFeed();
+
             }
         });
 

@@ -93,7 +93,7 @@ public class ViewPost extends Fragment {
                 .load(post.getImage())
                 .into(postImage);
 
-        postCondition.setText(getResources().getStringArray(R.array.categories)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
+        postCondition.setText(getResources().getStringArray(R.array.itemConditions)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
 
         postPrice.setText(Long.toString(post.getAskingPrice()));
 
