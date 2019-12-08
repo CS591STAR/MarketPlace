@@ -29,6 +29,13 @@
         android:text="@string/view_post_price" />
 
     <TextView
+        android:id="@+id/tvEBaySuggestedPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".01"
+        android:text="@string/eBay_suggested_price" />
+
+    <TextView
         android:id="@+id/conditionPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
