@@ -150,8 +150,13 @@
     <string name="change_zipcode">更改邮编</string>
     <string name="hint_input_email">输入你的邮箱</string>
     <string name="hint_input_name">输入你的姓名</string>
-    <string name="hint_input_radius">你想查找距离你多远的物品？</string>
+    <string name="hint_input_radius">输入搜索半径</string>
     <string name="hint_input_university">你在哪里学习？</string>
     <string name="hint_input_zipcode">输入你的邮编</string>
     <string name="sort_by_price">价格排序</string>
+    <string name="users_ratring">用户评价</string>
+    <string name="view_post_condition">状态</string>
+    <string name="view_post_description">描述</string>
+    <string name="view_post_price">价格</string>
+    <string name="view_post_title">名称</string>
 </resources>

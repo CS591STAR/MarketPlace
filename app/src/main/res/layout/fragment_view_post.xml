@@ -19,28 +19,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight=".01"
-        android:text="title" />
+        android:text="@string/view_post_title" />
 
     <TextView
         android:id="@+id/pricePost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight=".01"
-        android:text="price" />
+        android:text="@string/view_post_price" />
 
     <TextView
         android:id="@+id/conditionPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight=".01"
-        android:text="itemCondtion" />
+        android:text="@string/view_post_condition" />
 
     <TextView
         android:id="@+id/descriptionPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight=".1"
-        android:text="description" />
+        android:text="@string/view_post_description" />
 
     <Button
         android:id="@+id/contactSellerPost"

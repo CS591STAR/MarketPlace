@@ -33,6 +33,7 @@
     <string name="Preferences_Button">Preferences</string>
     <string name="Create_Button">Create</string>
     <string name="Delete_Button">Delete</string>
+    <string name="users_ratring">User\'s Rating</string>
 
     <!--NavBar-->
     <string name="P_button">P</string>
@@ -76,6 +77,10 @@
     <!--Fragment View Post-->
     <string name="contact_seller">contact seller</string>
     <string name="delete_post">delete post</string>
+    <string name="view_post_title">Title </string>
+    <string name="view_post_price">Price </string>
+    <string name="view_post_condition">Condition </string>
+    <string name="view_post_description">Description </string>
 
     <!--Preference-->
     <string name="change_name">Change Name</string>
@@ -155,5 +160,7 @@
     <string name="custom_auth_signin_status_user">User ID: %s</string>
     <string name="custom_auth_signin_status_failed">Error: sign in failed</string>
     <string name="ItemCategorySpinner">ItemCategorySpinner</string>
+    <string name="change_email">Change Email</string>
+    <string name="hint_input_email">What is your email?</string>
 
 </resources>
