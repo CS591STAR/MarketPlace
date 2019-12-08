@@ -1,10 +1,13 @@
 package com.example.marketplace;
 
 
+import android.app.Activity;
+import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,16 +39,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.w3c.dom.Text;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -62,9 +75,13 @@ public class MarketFeed extends Fragment {
     Button filterByDistanceBtn;
     SharedPreferences sharedPref;
     String mileRadius;
-    String zipCodesInRadius;
+    ArrayList<String> zipCodesInRadius = new ArrayList<>();
+    ArrayList<String> zipcodesToCompare = new ArrayList<>();
+//    ArrayList<String> postIDs = new ArrayList<>();
+
 
     private DatabaseReference mDatabase;
+    private DatabaseReference zipcodeDatabase;
 
 
     private List<Post> postList = new ArrayList<>();
@@ -131,7 +148,6 @@ public class MarketFeed extends Fragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
@@ -233,13 +249,71 @@ public class MarketFeed extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()){
-                    zipCodesInRadius = response.body().string();
-                    Log.i("it worked: ", zipCodesInRadius);
+                if (response.isSuccessful()) {
+
+                    try {
+                        JSONArray fetchResponse = new JSONObject(response.body().string()).getJSONArray("zip_codes");
+                        for (int obj = 0; obj < fetchResponse.length(); obj++) {
+                            JSONObject zipcode_inresponse = fetchResponse.getJSONObject(obj);
+                            zipCodesInRadius.add(zipcode_inresponse.getString("zip_code"));
+                        }
+                        sortByDistance();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                postListAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    } catch (JSONException e) {
+                        Log.i("onresponse", "not successful");
+                    }
+
                 } else {
-                    Log.i("did not ", "fucking work");
+                    Log.i("zipcode api fetch ", "did not work");
                 }
             }
         });
+    }
+
+    public void sortByDistance(){
+        mDatabase.child("zipcodes").orderByKey().addValueEventListener( new ValueEventListener(){
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    Log.i("sort gets us here:", "3");
+                    zipcodesToCompare.add(snapshot.getKey());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        postList.clear();
+        Log.i("sort gets us here:", "1");
+        for(String zipcodetocompare : zipcodesToCompare) {
+            Log.i("BITCH", zipcodetocompare);
+            Log.i("CUNT", zipCodesInRadius.toString());
+            if (zipCodesInRadius.contains(zipcodetocompare)) {
+                String postID = mDatabase.child("zipcodes").child(zipcodetocompare).getKey();
+                Log.i("sort gets us here:", "2");
+                DatabaseReference postRef = mDatabase.child("posts").child(postID);
+                postRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Post post = new Post((Parcel) dataSnapshot.getValue());
+                        postList.add(post);
+                        Log.i("FUCK", post.toString());
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        }
     }
 }
