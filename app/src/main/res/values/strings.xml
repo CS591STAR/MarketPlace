@@ -16,6 +16,14 @@
     <!--Market Feed-->
     <string name="Create_Post">Create Post</string>
     <string name="sort_by_distance">sort by distance</string>
+    <string name="sort_by_price">sort by price</string>
+    <string-array name="categories_including_all_categories_option">
+        <item>All Categories</item>
+        <item>Textbook</item>
+        <item>Furniture</item>
+        <item>Electronics</item>
+        <item>Other</item>
+    </string-array>
 
     <!--User's Profile-->
     <string name="Image_Description">User\'s Photo</string>
