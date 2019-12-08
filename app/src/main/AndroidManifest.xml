@@ -33,7 +33,9 @@
             android:name=".Chatroom"
             android:label="@string/chatroom"
             android:launchMode="singleTop" />
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            />
         <activity android:name=".Profile" />
         <activity android:name=".LoginActivity">
             <intent-filter>

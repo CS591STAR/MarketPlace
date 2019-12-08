@@ -171,10 +171,16 @@ public class MarketFeed extends Fragment {
         sprCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                currentQuery.removeEventListener(basicValueEventListener);
-//                if(i == 0){
-//                }
-//                else{
+                if(currentQuery != null){
+                    currentQuery.removeEventListener(basicValueEventListener);
+                }
+                if(i == 0){
+                    currentQuery = mDatabase.child("posts").orderByChild("category");
+                    currentQuery.addValueEventListener(basicValueEventListener);
+                }
+                else{
+                    currentQuery = mDatabase.child("posts").orderByChild("category").equalTo(Post.Category.values()[i-1].toString());
+                    currentQuery.addValueEventListener(basicValueEventListener);
 //                    for(int index = 0; index < postList.size(); index++){
 //                        String currentCategory = postList.get(index).getCategory();
 //                        String neededCategory = Post.Category.values()[i-1].toString();
@@ -184,7 +190,7 @@ public class MarketFeed extends Fragment {
 //                        }
 //                    }
 //                    postListAdapter.notifyDataSetChanged();
-//                }
+                }
             }
 
             @Override
