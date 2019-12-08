@@ -88,6 +88,7 @@ public class ViewPost extends Fragment {
         postTitle.setText(post.getItemName());
         postDescription.setText(post.getItemDescription());
 
+        Log.i("VIEW", "image link is: " + post.getImage());
         // display image
         GlideApp.with(this /* context */)
                 .load(post.getImage())

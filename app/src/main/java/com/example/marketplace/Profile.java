@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,8 @@ public class Profile extends Fragment {
     private Button btnPreferences;
     private Button btnCreate;
     private Button btnDelete;
+    private TextView txtRating;
+    private RatingBar rbUser;
 
     private FirebaseUser mFirebaseUser;
 
@@ -66,11 +69,12 @@ public class Profile extends Fragment {
         imgUser = view.findViewById(R.id.imgUser);
         txtDisplayName = view.findViewById(R.id.txtDisplayName);
         txtEmail = view.findViewById(R.id.txtEmail);
-
         btnPreferences = view.findViewById(R.id.btnPreferences);
         btnCreate = view.findViewById(R.id.btnCreate);
         btnDelete = view.findViewById(R.id.btnDelete);
         txtUni = view.findViewById(R.id.txtUni);
+        txtRating = view.findViewById(R.id.txtRating);
+        rbUser = view.findViewById(R.id.rbUser);
 
         mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         if (mFirebaseUser != null) {

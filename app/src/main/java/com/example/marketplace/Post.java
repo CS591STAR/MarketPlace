@@ -1,5 +1,6 @@
 package com.example.marketplace;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -109,7 +110,7 @@ public class Post implements Parcelable {
     }
 
     public Post(Parcel in) {
-        String[] postData = new String[9];
+        String[] postData = new String[10];
         in.readStringArray(postData);
         this.itemName = postData[0];
         this.askingPrice = Integer.parseInt(postData[1]);
@@ -131,7 +132,7 @@ public class Post implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray(new String[] {this.itemName, String.valueOf(this.askingPrice), String.valueOf(this.zipcode),
-                 this.sellerID, this.category, this.itemCondition, String.valueOf(this.itemPostTime), this.itemDescription, this.postID, this.image});
+                 this.sellerID, this.category, this.itemCondition, String.valueOf(this.itemPostTime), this.itemDescription, this.postID, this.image.toString()});
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -156,7 +157,7 @@ public class Post implements Parcelable {
         return image;
     }
 
-    public void String(String image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }
