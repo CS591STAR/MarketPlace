@@ -17,9 +17,6 @@ public class Preferences extends Fragment {
     private TextView txt1;
     private EditText edit1;
     private Button btn1;
-    private TextView txt2;
-    private EditText edit2;
-    private Button btn2;
     private TextView txt3;
     private EditText edit3;
     private Button btn3;
@@ -55,9 +52,6 @@ public class Preferences extends Fragment {
         txt1 = view.findViewById(R.id.txt1);
         edit1 = view.findViewById(R.id.edit1);
         btn1 = view.findViewById(R.id.btn1);
-        txt2 = view.findViewById(R.id.txt2);
-        edit2 = view.findViewById(R.id.edit2);
-        btn2 = view.findViewById(R.id.btn2);
         txt3 = view.findViewById(R.id.txt3);
         edit3 = view.findViewById(R.id.edit3);
         btn3 = view.findViewById(R.id.btn3);

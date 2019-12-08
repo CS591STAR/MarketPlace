@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_marginStart="50dp"
+    android:layout_marginTop="50dp"
+    android:layout_marginEnd="50dp"
+    android:layout_marginBottom="50dp"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/txt1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:text="@string/change_name" />
+        android:gravity="center"
+        android:text="@string/change_name"
+        android:textSize="25sp"
+        android:textStyle="italic" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,41 +44,14 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/txt2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.2"
-        android:text="@string/change_email" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edit2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/hint_input_email"
-            android:inputType="textPersonName" />
-
-        <Button
-            android:id="@+id/btn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/apply" />
-    </LinearLayout>
-
-    <TextView
         android:id="@+id/txt3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:text="@string/change_university" />
+        android:gravity="center"
+        android:text="@string/change_university"
+        android:textSize="25sp"
+        android:textStyle="italic" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -98,7 +81,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:text="@string/change_zipcode" />
+        android:gravity="center"
+        android:text="@string/change_zipcode"
+        android:textSize="25sp"
+        android:textStyle="italic" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -128,7 +114,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:text="@string/change_search_radius" />
+        android:gravity="center"
+        android:text="@string/change_search_radius"
+        android:textSize="25sp"
+        android:textStyle="italic" />
 
     <LinearLayout
         android:layout_width="match_parent"

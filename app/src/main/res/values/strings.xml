@@ -70,13 +70,11 @@
     <string name="delete_post">delete post</string>
 
     <!--Preference-->
-    <string name="change_name">change name</string>
-    <string name="change_email">change email</string>
-    <string name="change_university">change university</string>
-    <string name="change_zipcode">change zip code</string>
-    <string name="change_search_radius">change search radius</string>
+    <string name="change_name">Change Name</string>
+    <string name="change_university">Change University</string>
+    <string name="change_zipcode">Change Zip code</string>
+    <string name="change_search_radius">Change Search radius</string>
     <string name="hint_input_name">What is your name?</string>
-    <string name="hint_input_email">What is your email?</string>
     <string name="hint_input_university">Where do you study?</string>
     <string name="hint_input_zipcode">What is your zip code?</string>
     <string name="hint_input_radius">How far would you like to see items?</string>
