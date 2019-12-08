@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,7 +15,7 @@
             android:id="@+id/messengerImageView"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/ic_account_circle_black_36dp"/>
+            android:src="@drawable/ic_account_circle_black_36dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +28,6 @@
                 android:id="@+id/messageTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_weight="0"
                 android:background="@drawable/rounded_rectangle_white"
                 android:paddingLeft="@dimen/message_horizontal_margin"
@@ -44,12 +44,6 @@
                 android:background="@color/colorPrimary"
                 android:scaleType="fitCenter" />
 
-            <TextView
-                android:id="@+id/messengerTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
 
     </LinearLayout>
