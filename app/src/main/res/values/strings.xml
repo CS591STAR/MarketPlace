@@ -161,7 +161,7 @@
     <string name="custom_auth_signin_status_user">User ID: %s</string>
     <string name="custom_auth_signin_status_failed">Error: sign in failed</string>
     <string name="ItemCategorySpinner">ItemCategorySpinner</string>
-    <string name="change_email">Change Email</string>
-    <string name="hint_input_email">What is your email?</string>
+    <string name="overall_rating">Overall Rating:</string>
+    <string name="all_user_s_posts">All User\'s Posts</string>
 
 </resources>
