@@ -1,6 +1,11 @@
 package com.example.marketplace;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -23,7 +28,7 @@ public class EBayAPI {
     private String token;
     private JSONObject response;
 
-    private String str = "EBayAPI";
+    private static final String str = "EBayAPI";
 
     private static EBayAPI instance;
 
@@ -47,7 +52,7 @@ public class EBayAPI {
     /**
      * programmatically get the token for later API request
      */
-    private void getToken() {
+    public void getToken() {
         //new okHttp object
         OkHttpClient client = new OkHttpClient();
 
@@ -86,7 +91,7 @@ public class EBayAPI {
     }
 
     //search items by keyword
-    public void searchItem(String keyword, int limit){
+    public void searchItemAndFillIn(final FragmentActivity activity, final String keyword, int limit){
         if(!isTokenValid){
             getToken();
         }
@@ -118,7 +123,24 @@ public class EBayAPI {
                     try {
                         String responseBody = response.body().string();
                         JSONObject object = new JSONObject(responseBody);
-                        setResponse(object);
+                        //get the list of items
+                        JSONArray array = object.getJSONArray("itemSummaries");
+                        //get only the 1st item (which should be the most relevant)
+                        object = array.getJSONObject(0);
+                        //get the image
+                        String url = object.getJSONObject("image").getString("imageUrl");
+                        //get the price
+                        JSONObject priceObject = object.getJSONObject("price");
+                        final String price = priceObject.getString("value")+" "+priceObject.getString("currency");
+                        Log.w(str, "keyword: " + keyword);
+                        Log.w(str, "price: " + price);
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TextView tvEBaySuggestedPrice = activity.findViewById(R.id.txtEbay);
+                                tvEBaySuggestedPrice.setText(price);
+                            }
+                        });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -130,7 +152,15 @@ public class EBayAPI {
         });
     }
 
-    public void searchItem(String keyword){
-        searchItem(keyword, 1);
+    public void searchItem(FragmentActivity activity, String keyword){
+        searchItemAndFillIn(activity, keyword, 1);
+    }
+
+    public String getItemPrice() throws JSONException {
+        if(response == null){
+            return "No result";
+        }
+
+        return response.getString("value") + " " + response.getString("currency");
     }
 }

@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
+import org.json.JSONException;
+
 public class ViewPost extends Fragment {
 
     Button deletePost;
@@ -40,6 +42,7 @@ public class ViewPost extends Fragment {
     private String mUsername;
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseZip;
+    private static final String TAG = "VIEW_POST";
 
     public ViewPost(){
         //Required empty public constructor
@@ -85,9 +88,14 @@ public class ViewPost extends Fragment {
         conditionPost = view.findViewById(R.id.conditionPost);
         postDescription = view.findViewById(R.id.descriptionPost);
         postImage = view.findViewById(R.id.imagePost);
+
         txtAmazon = view.findViewById(R.id.txtAmazon);
         txtEbay = view.findViewById(R.id.txtEbay);
         categoryPost = view.findViewById(R.id.categoryPost);
+
+        EBayAPI mEBay = EBayAPI.getInstance();
+        Log.w(TAG, "Start eBay request");
+        mEBay.searchItem(getActivity(), post.getItemName());
 
         // set post info
         postTitle.setText(post.getItemName());
@@ -108,9 +116,8 @@ public class ViewPost extends Fragment {
         String amazonPrice = "Amazon's Price:\n$" + post.getAskingPrice(); // change to api call
         txtAmazon.setText(amazonPrice);
 
-        String ebayPrice = "Ebay's Price:\n$" + post.getAskingPrice(); // change to api call
-        txtEbay.setText(ebayPrice);
-
+        // String ebayPrice = "Ebay's Price:\n$" + post.getAskingPrice(); // change to api call
+        // txtEbay.setText(ebayPrice);
 
         // update UI
         updateUI();
