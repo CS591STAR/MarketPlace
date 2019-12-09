@@ -93,7 +93,14 @@ public class ViewPost extends Fragment {
         txtEbay = view.findViewById(R.id.txtEbay);
         categoryPost = view.findViewById(R.id.categoryPost);
 
-        txtEbay.setText(txtEbay.getText().toString() + post.geteBayPrice());
+        String price;
+        if(post.geteBayPrice() == null){
+            price = "No result";
+        }
+        else{
+            price = post.geteBayPrice();
+        }
+        txtEbay.setText(txtEbay.getText().toString() + price);
 
         // set post info
         postTitle.setText(post.getItemName());

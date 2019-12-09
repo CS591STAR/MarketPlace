@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,10 +17,10 @@ import androidx.fragment.app.Fragment;
 
 public class NavBarFragment extends Fragment {
 
-    Button btnProfile;
-    Button btnChat;
+    ImageButton btnProfile;
+    ImageButton btnChat;
     EditText txtSearch;
-    Button btnSearch;
+    ImageButton btnSearch;
     Button btnFeed;
 
     private static final String TAG = "NAVBAR";

@@ -94,11 +94,10 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
     @Override
     public void openFeed() {
-
+        marketFeed = (MarketFeed) fm.findFragmentByTag("Market Feed");
         if (marketFeed == null) {
             marketFeed = new MarketFeed();
         }
-        marketFeed = (MarketFeed) fm.findFragmentByTag("Market Feed");
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragLayout, marketFeed);
         ft.addToBackStack(null);
