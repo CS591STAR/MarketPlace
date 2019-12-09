@@ -206,6 +206,7 @@ public class MarketFeed extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
 
+        //initialize a default event listener
         if(basicValueEventListener == null) {
             basicValueEventListener = new ValueEventListener() {
                 @Override
@@ -255,6 +256,7 @@ public class MarketFeed extends Fragment {
         if(currentQuery != null){
             currentQuery.removeEventListener(basicValueEventListener);
         }
+        //order item by post time
         currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
         currentQuery.addValueEventListener(basicValueEventListener);
 
