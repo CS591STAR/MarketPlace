@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,7 +22,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,11 +53,13 @@ import static android.content.Context.CAMERA_SERVICE;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import okhttp3.OkHttpClient;
@@ -92,13 +101,14 @@ public class ItemPostForm extends Fragment {
 
     Button AddImageItemPostButton;
     String postID;
+    String imageLink;
 
     public ItemPostForm() {
 
     }
 
     public interface ItemPostFormListener {
-        public void returnToFeed();
+        public void openFeed();
         // add methods that we would need the activity to implement
     }
 
@@ -176,13 +186,16 @@ public class ItemPostForm extends Fragment {
                     currentTime = date.getTime();
                 }
 
-                writeNewPost(itemNameTxt.getText().toString(), Integer.parseInt(String.valueOf(itemAskingPriceTxt.getText())),
-                        itemZipcodeTxt.getText().toString(), mUsername, ItemCategoryDropdown.getSelectedItem().toString(),
-                        ItemConditionDropDown.getSelectedItem().toString(), currentTime,
-                        postDescriptionText.getText().toString());
+                Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
+                        itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition()].toString(),
+                        Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition()].toString(), currentTime,
+                        postDescriptionText.getText().toString(), postID, "");
+
+                uploadToCloud(postImage, post);
 
                 Toast.makeText(view.getContext(),"New post created", Toast.LENGTH_SHORT).show();
-                IPFL.returnToFeed();
+                IPFL.openFeed();
+
             }
         });
 
@@ -194,25 +207,17 @@ public class ItemPostForm extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK) {
             Log.i("here: ", "result code is ok");
+
             postImage = (Bitmap) data.getExtras().get("data");
-            Uri uri = getImageUri(getActivity().getApplicationContext(), postImage);
 
-            Log.i("here: ", "uri is fine");
+            // display image
+            GlideApp.with(this /* context */)
+                    .load(postImage)
+                    .into(itemImage);
 
-            StorageReference filepath = storageReference.child("Photos").child(postID).child(uri.getLastPathSegment());
-            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.i("IMG", "upload worked");
-                    // Toast.makeText(getApplicationContext(),"upload worked", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-//            Toast.makeText(getContext(), "result code not ok?", Toast.LENGTH_SHORT).show();
-            Log.i("IMG", "upload did not work");
-
+            itemImage.setVisibility(View.VISIBLE);
         }
     }
 
@@ -220,7 +225,7 @@ public class ItemPostForm extends Fragment {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode){
+        switch (requestCode) {
             case PERMISSION_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -234,6 +239,49 @@ public class ItemPostForm extends Fragment {
         }
     }
 
+    private void uploadToCloud(Bitmap image, final Post post) {
+
+        Uri uri = getImageUri(getActivity().getApplicationContext(), image);
+        // upload image to cloud
+        final StorageReference filepath = storageReference.child("Photos").child(postID).child(uri.getLastPathSegment());
+
+        UploadTask uploadTask = filepath.putFile(uri);
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return filepath.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    imageLink = task.getResult().toString();
+                    Log.i("IMG", "download image at " + imageLink);
+                    post.setImage(imageLink);
+
+                    mDatabase.child(postID).setValue(post);
+                    Log.i("IMGPOST", "download image at " + post.getImage());
+
+                    // store every post relative to zipcode
+                    FirebaseDatabase.getInstance().getReference().child("zipcodes").child(String.valueOf(post.getZipcode())).child(postID).setValue(0);
+
+
+
+                } else {
+                    // Handle failures
+                    // ...
+                    Log.i("IMG", "could not upload image");
+                }
+            }
+        });
+    }
+
+
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -241,17 +289,15 @@ public class ItemPostForm extends Fragment {
         return Uri.parse(path);
     }
 
-    private void writeNewPost(String itemName, int askingPrice, String zipcode, String sellerID, String category, String itemCondition,
-                              Long itemPostTime, String itemDescription) {
-
-        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription, postID);
-        mDatabase.child(postID).setValue(post);
-
-        // store every post relative to zipcode
-        FirebaseDatabase.getInstance().getReference().child("zipcodes").child(String.valueOf(post.getZipcode())).child(postID).setValue(0);
-//        mDatabase.child(String.valueOf(zipcode)).setValue(post);
-
-    }
+//    private void writeNewPost(String itemName, int askingPrice, String zipcode, String sellerID, String category, String itemCondition,
+//                              Long itemPostTime, String itemDescription, String image) {
+//
+//        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription, postID, image);
+//        mDatabase.child(postID).setValue(post);
+//
+//        // store every post relative to zipcode
+//        FirebaseDatabase.getInstance().getReference().child("zipcodes").child(String.valueOf(post.getZipcode())).child(postID).setValue(0);
+//    }
 
     long doGetRequest() throws IOException {
         Request request = new Request.Builder()

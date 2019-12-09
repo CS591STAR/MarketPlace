@@ -9,17 +9,19 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener {
+
+public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, Profile.ProfileListener, ViewPost.ViewPostListener {
 
     User you;
     MarketFeed marketFeed;
     Profile profile;
     Chatroom chats;
     ItemPostForm itemPostForm;
+    Preferences preferences;
     ViewPost viewPost;
-    // add search also
     LinearLayout fragLayout;
     FragmentManager fm;
+    Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,10 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         profile = new Profile();
         chats = new Chatroom();
         itemPostForm = new ItemPostForm();
-        viewPost = new ViewPost();
+        preferences = new Preferences();
+
+        //set eBay API ready
+        EBayAPI.getInstance().getToken();
 
         fragLayout = findViewById(R.id.fragLayout);
         fm = getSupportFragmentManager();
@@ -67,10 +72,17 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     }
 
     @Override
-    public void search() {
-
+    public void search(String keyword) {
+        searchByKeyword(keyword);
     }
 
+    public void searchByKeyword(String keyword){
+        SearchResultFragment resultFragment = new SearchResultFragment(keyword);
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragLayout, resultFragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
     @Override
     public void openFeed() {
@@ -87,11 +99,6 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     }
 
     @Override
-    public void returnToFeed() {
-        openFeed();
-    }
-
-    @Override
     public void createPost() {
 
         if (itemPostForm == null) {
@@ -101,18 +108,16 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.replace(R.id.fragLayout, itemPostForm, "ItemPostForm");
         ft.addToBackStack(null);
         ft.commit();
-
     }
 
     @Override
-    public void selectedPost() {
+    public void openPreferences() {
 
-        if (viewPost == null) {
-            viewPost = new ViewPost();
+        if (preferences == null) {
+            preferences = new Preferences();
         }
-
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragLayout, viewPost, "ViewPost");
+        ft.replace(R.id.fragLayout, preferences, "Preferences");
         ft.addToBackStack(null);
         ft.commit();
     }

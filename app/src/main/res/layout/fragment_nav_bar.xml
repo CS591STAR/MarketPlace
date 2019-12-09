@@ -25,8 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="4"
         android:autofillHints=""
-        android:inputType="text"
-        android:text="@string/Search_Line" />
+        android:hint="@string/Search_Line"
+        android:inputType="text" />
 
     <Button
         android:id="@+id/btnSort"

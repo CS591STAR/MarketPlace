@@ -60,14 +60,12 @@ public class Chatroom extends AppCompatActivity {
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView messageTextView;
         ImageView messageImageView;
-        TextView messengerTextView;
         CircleImageView messengerImageView;
 
         public MessageViewHolder(View v) {
             super(v);
             messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
             messageImageView = (ImageView) itemView.findViewById(R.id.messageImageView);
-            messengerTextView = (TextView) itemView.findViewById(R.id.messengerTextView);
             messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageView);
         }
     }
@@ -80,6 +78,7 @@ public class Chatroom extends AppCompatActivity {
     private String mUsername;
     private String mPhotoUrl;
     public static final String TALKER_ID = "talkToID";
+    private String talkerName;
     private String talkerID;
 
     private Button mSendButton;
@@ -162,8 +161,23 @@ public class Chatroom extends AppCompatActivity {
             protected void onBindViewHolder(final MessageViewHolder viewHolder,
                                             int position,
                                             Message friendlyMessage) {
+
+                //set the title to name of whom you are talking to
+                if(getSupportActionBar().getTitle() == getResources().getString(R.string.chatroom)){
+                    if(!friendlyMessage.getName().equals(mUsername)){
+                        getSupportActionBar().setTitle(friendlyMessage.getName());
+                    }
+                }
+
                 mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 if (friendlyMessage.getText() != null) {
+                    //if the message is sent by the current user, set the text bubble to a different color
+                    if(friendlyMessage.getName().equals(mFirebaseUser.getDisplayName())){
+                        viewHolder.messageTextView.setBackgroundResource(R.drawable.rounded_rectangle_lightblue);
+                    }
+                    else{
+                        viewHolder.messageTextView.setBackgroundResource(R.drawable.rounded_rectangle_white);
+                    }
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
                     viewHolder.messageImageView.setVisibility(ImageView.GONE);
@@ -197,7 +211,6 @@ public class Chatroom extends AppCompatActivity {
                 }
 
 
-                viewHolder.messengerTextView.setText(friendlyMessage.getName());
                 if (friendlyMessage.getPhotoUrl() == null) {
                     viewHolder.messengerImageView.setImageDrawable(ContextCompat.getDrawable(Chatroom.this,
                             R.drawable.ic_account_circle_black_36dp));
@@ -436,7 +449,6 @@ public class Chatroom extends AppCompatActivity {
                     }
                 });
     }
-
 
     private void sendNotification() throws JSONException {
         String FCM_API = "https://fcm.googleapis.com/fcm/send";

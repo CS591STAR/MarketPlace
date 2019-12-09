@@ -10,10 +10,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="5"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgUser"
             android:layout_width="0dp"
             android:layout_height="180dp"
@@ -23,54 +24,84 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_weight="5"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtDisplayName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/User_Name" />
 
             <TextView
                 android:id="@+id/txtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/User_Email" />
 
             <TextView
                 android:id="@+id/txtUni"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/User_Uni" />
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/txtStars"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:gravity="center"
+                android:text="@string/overall_rating" />
 
             <Button
-                android:id="@+id/btnEdit"
+                android:id="@+id/btnPreferences"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/Preferences_Button" />
+
+            <TextView
+                android:id="@+id/txtRating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Edit_Button" />
+                android:gravity="center"
+                android:text="@string/give_your_rating_for_this_user" />
+
+            <RatingBar
+                android:id="@+id/rbUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numStars="5" />
+
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/txtPosts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
-        android:orientation="horizontal">
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:text="@string/all_user_s_posts" />
 
-        <Button
-            android:id="@+id/btnPosts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/Posts_Button" />
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent" />
 
-        <Button
-            android:id="@+id/btnChats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/Chats_Button" />
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7" />
 
 </LinearLayout>

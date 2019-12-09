@@ -28,12 +28,16 @@
 
         <activity
             android:name=".ChatList"
-            android:label="@string/chatlist" />
+            android:label="@string/chatlist"
+            android:theme="@style/ChatTheme"/>
         <activity
             android:name=".Chatroom"
             android:label="@string/chatroom"
-            android:launchMode="singleTop" />
-        <activity android:name=".MainActivity" />
+            android:launchMode="singleTop"
+            android:theme="@style/ChatTheme"/>
+        <activity
+            android:name=".MainActivity"
+            />
         <activity android:name=".Profile" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -43,6 +47,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MarketFeed" />
+        <activity android:name=".Preferences" />
         <activity android:name=".ZipCodeAPI" />
         <activity android:name=".ItemPostForm"
             android:windowSoftInputMode="adjustPan"

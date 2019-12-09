@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">MarketPlace</string>
 
     <!-- TODO: Remove or change this placeholder text (or keep it as an easter egg for the grader to find it later) -->
 
@@ -9,87 +8,25 @@
     <string name="firebaseui_status_fmt">Firebase User: %s</string>
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
-    <string name="sign_in">Sign In</string>
+
 
     <!--Main Activity-->
 
     <!--Market Feed-->
-    <string name="Create_Post">Create Post</string>
-    <string name="sort_by_distance">sort by distance</string>
-    <string name="sort_by_price">sort by price</string>
-    <string-array name="categories_including_all_categories_option">
-        <item>All Categories</item>
-        <item>Textbook</item>
-        <item>Furniture</item>
-        <item>Electronics</item>
-        <item>Other</item>
-    </string-array>
 
     <!--User's Profile-->
-    <string name="Image_Description">User\'s Photo</string>
     <string name="User_Name">User\'s Name</string>
     <string name="User_Email">User\'s Email</string>
     <string name="User_Uni">User\'s University</string>
-    <string name="Preferences_Button">Preferences</string>
-
 
     <!--NavBar-->
     <string name="P_button">P</string>
     <string name="C_button">C</string>
-    <string name="Search_Line">Search</string>
     <string name="S_button">S</string>
-    <string name="Feed_button">Feed</string>
 
     <!--Post Form-->
     <string name="Item_Name">Item Name</string>
-    <string name="Ask_Price">Asking Price</string>
     <string name="Item_Zip">Item Zipcode</string>
-    <string name="add_Picture">add Picture</string>
-    <string name="Desc_Text">Item Description</string>
-    <string name="Post_Item">Post Item</string>
-    <string-array name="categories">
-        <item>Textbook</item>
-        <item>Furniture</item>
-        <item>Electronics</item>
-        <item>Other</item>
-    </string-array>
-    <string-array name="itemConditions">
-        <item>Great Condition</item>
-        <item>Good Condition</item>
-        <item>Decent Condition</item>
-        <item>Poor Condition</item>
-    </string-array>
-
-    <!--Chat stuff-->
-    <string name="chatlist">Chat List</string>
-    <string name="chatroom">Chat Room</string>
-    <string name="sendbutton">send</string>
-
-    <!--Market Feed Row-->
-    <string name="post_name">Post Name</string>
-    <string name="item_pic">Picture of the Item</string>
-    <string name="price">Price:</string>
-    <string name="textview">TextView</string>
-    <string name="apply">Apply</string>
-
-    <!--Fragment View Post-->
-    <string name="contact_seller">contact seller</string>
-    <string name="delete_post">delete post</string>
-    <string name="view_post_title">Title </string>
-    <string name="view_post_price">Price </string>
-    <string name="view_post_condition">Condition </string>
-    <string name="view_post_description">Description </string>
-    <string name="eBay_suggested_price">eBay-suggested Price </string>
-
-    <!--Preference-->
-    <string name="change_name">Change Name</string>
-    <string name="change_university">Change University</string>
-    <string name="change_zipcode">Change Zip code</string>
-    <string name="change_search_radius">Change Search radius</string>
-    <string name="hint_input_name">What is your name?</string>
-    <string name="hint_input_university">Where do you study?</string>
-    <string name="hint_input_zipcode">What is your zip code?</string>
-    <string name="hint_input_radius">How far do you search?</string>
 
     <!--Other-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -117,7 +54,6 @@
     <string name="get_custom_token">Get Token</string>
     <string name="create_account">Create Account</string>
     <string name="send_link">Send Link</string>
-    <string name="sign_out">Sign Out</string>
     <string name="verify_email">Verify Email</string>
     <string name="disconnect">Disconnect</string>
     <string name="loading">Loading…</string>
@@ -159,11 +95,28 @@
     <string name="custom_auth_signin_status_user">User ID: %s</string>
     <string name="custom_auth_signin_status_failed">Error: sign in failed</string>
     <string name="ItemCategorySpinner">ItemCategorySpinner</string>
-    <string name="overall_rating">Overall Rating:</string>
-    <string name="all_user_s_posts">All User\'s Posts</string>
-    <string name="please_rate_this_user">Please Rate this User</string>
-    <string name="give_your_rating_for_this_user">Give your rating for this user?</string>
-    <string name="amazon">Amazon</string>
-    <string name="ebay">Ebay</string>
 
+
+    <string-array name="categories">
+        <item>Textbook</item>
+        <item>Furniture</item>
+        <item>Electronics</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="itemConditions">
+        <item>Great Condition</item>
+        <item>Good Condition</item>
+        <item>Decent Condition</item>
+        <item>Poor Condition</item>
+    </string-array>
+
+    <!--Chat stuff-->
+
+
+    <string name="post_name">Post Name</string>
+    <string name="item_pic">Picture of the Item</string>
+    <string name="textview">TextView</string>
+    <string name="sort_by_distance">sort by distance</string>
+    <string name="Image_Description">User\'s Photo</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

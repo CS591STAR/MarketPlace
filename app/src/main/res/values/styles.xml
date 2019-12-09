@@ -5,6 +5,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:background">@color/bone</item>
+
+    </style>
+    <style name="ChatTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">true</item>
     </style>
 
     <!-- Activity with no Title -->
@@ -19,7 +29,9 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:layout_marginRight">4dp</item>
         <item name="android:layout_marginLeft">4dp</item>
-        <item name="android:textColor">@android:color/white</item>
+<!--        <item name="android:shape">rectangle</item>-->
+<!--        <item name="android:radius">20dp</item>-->
+        <item name="android:textColor">@color/bone</item>
     </style>
 
     <!-- Light EditTexts -->
@@ -44,6 +56,11 @@
     <style name="ThemeOverlay.MyTitleText" parent="AppTheme">
         <item name="android:gravity">center</item>
         <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="AppTheme.PopUpTheme" >
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
 </resources>

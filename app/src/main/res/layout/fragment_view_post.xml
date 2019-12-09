@@ -7,53 +7,134 @@
     android:orientation="vertical"
     tools:context=".ViewPost" >
 
-    <ImageView
-        android:id="@+id/imagePost"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".5"
-        tools:src="@tools:sample/avatars" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/titlePost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".01"
-        android:text="title" />
+        <ImageView
+            android:id="@+id/imagePost"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            tools:src="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/pricePost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".01"
-        android:text="price" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/conditionPost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".01"
-        android:text="itemCondtion" />
+            <TextView
+                android:id="@+id/txtAmazon"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/amazon"
+                android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/descriptionPost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".1"
-        android:text="description" />
+            <TextView
+                android:id="@+id/txtEbay"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/ebay"
+                android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/contactSellerPost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".1"
-        android:text="Contact seller" />
+            <TextView
+                android:id="@+id/pricePost"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/view_post_price"
+                android:textSize="18sp" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/DeletePost"
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".1"
-        android:text="Delete post" />
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/titlePost"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="clip_vertical"
+            android:text="@string/view_post_title" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/contactSellerPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".1"
+                android:text="@string/contact_seller" />
+
+            <Button
+                android:id="@+id/DeletePost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".1"
+                android:text="@string/delete_post" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.05"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/conditionPost"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="@string/view_post_condition" />
+
+        <TextView
+            android:id="@+id/categoryPost"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="category" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/descriptionPost"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="@string/view_post_description" />
+
+        <Button
+            android:id="@+id/btnUser"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="User's Profile" />
+
+    </LinearLayout>
 
 </LinearLayout>

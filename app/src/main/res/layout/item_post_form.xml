@@ -1,78 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/itemNameTxt"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/Item_Name"
-        android:inputType="textPersonName" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/itemAskingPriceTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        android:hint="Asking Price"
-        android:inputType="numberDecimal" />
+            <EditText
+                android:id="@+id/itemNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/Item_Name"
+                android:inputType="textPersonName" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/itemAskingPriceTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+
+                    android:ems="10"
+                    android:hint="@string/Ask_Price"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/itemZipcodeTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+
+                    android:ems="10"
+                    android:hint="@string/Item_Zip"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/ItemConditionDropDown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/ItemCategoryDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/AddImageItemPostButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:text="@string/add_Picture" />
+
+            <ImageView
+                android:id="@+id/itemImage"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:visibility="visible" />
+
+            <EditText
+                android:id="@+id/postDescriptionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/Desc_Text"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/savePostButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Post_Item" />
+
+        </LinearLayout>
+    </ScrollView>
 
 
-    <EditText
-        android:id="@+id/itemZipcodeTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-
-        android:hint="Item Zipcode"
-        android:inputType="number" />
-
-
-    <Spinner
-        android:id="@+id/ItemCategoryDropdown"
-        android:layout_width="match_parent"
-        android:layout_height="52dp" />
-
-    <Spinner
-        android:id="@+id/ItemConditionDropDown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/AddImageItemPostButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:text="Add Picture" />
-
-
-    <ImageView
-        android:id="@+id/itemImage"
-        android:layout_width="match_parent"
-
-        android:layout_height="wrap_content"
-
-        android:visibility="invisible"
-        tools:srcCompat="@tools:sample/avatars[0]" />
-
-    <EditText
-        android:id="@+id/postDescriptionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/Desc_Text"
-        android:inputType="textPersonName"
-        android:importantForAutofill="no" />
-
-    <Button
-        android:id="@+id/savePostButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Post_Item" />
-
-</LinearLayout>
+</RelativeLayout>
