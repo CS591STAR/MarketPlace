@@ -79,19 +79,15 @@ public class MarketFeed extends Fragment {
     Button filterByDistanceBtn;
     SharedPreferences sharedPref;
     String mileRadius;
-<<<<<<< HEAD
-    ArrayList<String> zipCodesInRadius = new ArrayList<>();
-    ArrayList<String> zipcodesToCompare = new ArrayList<>();
-//    ArrayList<String> postIDs = new ArrayList<>();
 
-=======
-    String zipCodesInRadius;
     private Button btnSortByPrice;
     private Spinner sprCategory;
->>>>>>> 12dedad531d14b3f31f166be82e8fb36a3455c7e
 
     private DatabaseReference mDatabase;
     private DatabaseReference zipcodeDatabase;
+
+    ArrayList<String> zipCodesInRadius = new ArrayList<>();
+    ArrayList<String> zipcodesToCompare = new ArrayList<>();
 
     private List<Post> postList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -139,7 +135,7 @@ public class MarketFeed extends Fragment {
         postListAdapter = new PostListAdapter(postList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
         filterByDistanceBtn = view.findViewById(R.id.filterByDistanceBtn);
@@ -179,7 +175,6 @@ public class MarketFeed extends Fragment {
                 mileRadius = String.valueOf(distanceSeekBar.getProgress());
                 try {
                     zipcodesInRadius();
-                    Log.i("SORT", "sort by distance");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -192,15 +187,14 @@ public class MarketFeed extends Fragment {
         sprCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(currentQuery != null){
+                if (currentQuery != null) {
                     currentQuery.removeEventListener(basicValueEventListener);
                 }
-                if(i == 0){
+                if (i == 0) {
                     currentQuery = mDatabase.child("posts").orderByChild("category");
                     currentQuery.addValueEventListener(basicValueEventListener);
-                }
-                else{
-                    currentQuery = mDatabase.child("posts").orderByChild("category").equalTo(Post.Category.values()[i-1].toString());
+                } else {
+                    currentQuery = mDatabase.child("posts").orderByChild("category").equalTo(Post.Category.values()[i - 1].toString());
                     currentQuery.addValueEventListener(basicValueEventListener);
 //                    for(int index = 0; index < postList.size(); index++){
 //                        String currentCategory = postList.get(index).getCategory();
@@ -229,12 +223,13 @@ public class MarketFeed extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
 
-        if(basicValueEventListener == null) {
+        if (basicValueEventListener == null) {
             basicValueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     postList.clear();
+
                     if (dataSnapshot.hasChildren()) {
                         Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
                         while (iter.hasNext()) {
@@ -270,10 +265,12 @@ public class MarketFeed extends Fragment {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                };
+                }
+
+                ;
             };
         }
-        if(currentQuery != null){
+        if (currentQuery != null) {
             currentQuery.removeEventListener(basicValueEventListener);
         }
         currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
@@ -288,13 +285,13 @@ public class MarketFeed extends Fragment {
         currentQuery.addValueEventListener(basicValueEventListener);
     }
 
-    private void sortByPostTime(){
+    private void sortByPostTime() {
         currentQuery.removeEventListener(basicValueEventListener);
         currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
         currentQuery.addValueEventListener(basicValueEventListener);
     }
 
-    private void filterByCategory(int category){
+    private void filterByCategory(int category) {
         ;
     }
 
@@ -311,6 +308,11 @@ public class MarketFeed extends Fragment {
 //    }
 
     public void zipcodesInRadius() throws IOException {
+        Log.i("SORT", "sort by distance");
+
+        // clear lists
+        zipCodesInRadius.clear();
+        zipcodesToCompare.clear();
 
         // for now we are using a sample zipcode until we retrieve it from the user properly
         String sampleZip = "02128";
@@ -336,7 +338,7 @@ public class MarketFeed extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     Log.i("API", "call to api success");
-                    zipCodesInRadius.clear();
+
                     try {
                         JSONArray fetchResponse = new JSONObject(response.body().string()).getJSONArray("zip_codes");
                         for (int obj = 0; obj < fetchResponse.length(); obj++) {
@@ -363,56 +365,68 @@ public class MarketFeed extends Fragment {
         });
     }
 
-    public void sortByDistance(){
+    public void sortByDistance() {
 
-        final Map<String, ArrayList<String>> zipcodes = new HashMap<>();
-
-        mDatabase.child("zipcodes").orderByKey().addValueEventListener( new ValueEventListener(){
+        postList.clear();
+        currentQuery.removeEventListener(basicValueEventListener);
+        mDatabase.child("zipcodes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                Map<String, ArrayList<String>> zipcodes = new HashMap<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String currentZipCode = snapshot.getKey(); // Key for hashmap
+                    Log.i("CURR", "current zipcode is " + currentZipCode);
                     zipcodesToCompare.add(currentZipCode);
                     ArrayList<String> postsInZipcode = new ArrayList<>();
-                    for (DataSnapshot zipcodeChildren: dataSnapshot.getChildren()) {
+                    for (DataSnapshot zipcodeChildren : snapshot.getChildren()) {
                         postsInZipcode.add(zipcodeChildren.getKey());
                     }
+                    Log.i("inside", postsInZipcode.toString());
                     zipcodes.put(currentZipCode, postsInZipcode);
                 }
+                Log.i("HASHMAPBITCH", zipcodes.toString());
+
+                mDatabase.child("zipcodes").removeEventListener(this);
+
+//                postList.clear();
+//                postListAdapter.notifyDataSetChanged();
+//                Log.i("sort gets us here:", "1");
+                Log.i("sort gets us here:", zipcodesToCompare.toString());
+                for (String zipcodetocompare : zipcodesToCompare) {
+                    Log.i("BITCH", zipcodetocompare);
+                    Log.i("CUNT", zipCodesInRadius.toString());
+
+
+                    if (zipCodesInRadius.contains(zipcodetocompare)) {
+                        for (String postID : zipcodes.get(zipcodetocompare)) {
+                            DatabaseReference postRef = mDatabase.child("posts").child(postID);
+                            postRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Log.i("Bitch3x", dataSnapshot.toString());
+                                    if (dataSnapshot != null) {
+                                        Post post = new Post((HashMap<String, Object>) dataSnapshot.getValue());
+                                        postList.add(post);
+                                        Log.i("FUCK", post.toString());
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                        Collections.reverse(postList);
+                        postListAdapter.notifyDataSetChanged();
+                    }
+                }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
-        Log.i("HASHMAPBITCH", zipcodes.toString());
-
-        postList.clear();
-        Log.i("sort gets us here:", "1");
-        for(String zipcodetocompare : zipcodesToCompare) {
-            Log.i("BITCH", zipcodetocompare);
-            Log.i("CUNT", zipCodesInRadius.toString());
-
-            if (zipCodesInRadius.contains(zipcodetocompare)) {
-
-                DatabaseReference postRef = mDatabase.child("posts").child(zipcodetocompare);
-
-                postRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Post post = new Post((Parcel) dataSnapshot.getValue());
-                        postList.add(post);
-                        Log.i("FUCK", post.toString());
-                    }
-
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        }
     }
 }
