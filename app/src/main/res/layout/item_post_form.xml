@@ -35,7 +35,8 @@
 
                     android:ems="10"
                     android:hint="@string/Ask_Price"
-                    android:inputType="numberDecimal" />
+                    android:inputType="number"
+                    android:maxLength="20" />
 
                 <EditText
                     android:id="@+id/itemZipcodeTxt"
@@ -44,7 +45,8 @@
 
                     android:ems="10"
                     android:hint="@string/Item_Zip"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:maxLength="6" />
             </LinearLayout>
 
             <Spinner
