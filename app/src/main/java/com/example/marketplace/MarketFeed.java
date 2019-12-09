@@ -17,6 +17,7 @@ import android.widget.Button;
 
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -80,6 +81,7 @@ public class MarketFeed extends Fragment {
 
     private Button btnSortByPrice;
     private Spinner sprCategory;
+    private ProgressBar pbFeed;
 
     private DatabaseReference mDatabase;
     private DatabaseReference zipcodeDatabase;
@@ -136,6 +138,7 @@ public class MarketFeed extends Fragment {
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
         filterByDistanceBtn = view.findViewById(R.id.filterByDistanceBtn);
         distanceSeekBar = view.findViewById(R.id.distanceSeekBar);
+        pbFeed = view.findViewById(R.id.pbFeed);
 
         //add button for sorting by price
         btnSortByPrice = view.findViewById(R.id.btnSortByPrice);
@@ -194,15 +197,6 @@ public class MarketFeed extends Fragment {
                 } else {
                     currentQuery = mDatabase.child("posts").orderByChild("category").equalTo(Post.Category.values()[i - 1].toString());
                     currentQuery.addValueEventListener(basicValueEventListener);
-//                    for(int index = 0; index < postList.size(); index++){
-//                        String currentCategory = postList.get(index).getCategory();
-//                        String neededCategory = Post.Category.values()[i-1].toString();
-//                        Log.w(TAG, "Category: " + currentCategory + " " + neededCategory);
-//                        if(!currentCategory.equals(neededCategory)) {
-//                            postList.remove(index);
-//                        }
-//                    }
-//                    postListAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -229,6 +223,7 @@ public class MarketFeed extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     postList.clear();
+                    pbFeed.setVisibility(View.INVISIBLE);
 
                     if (dataSnapshot.hasChildren()) {
                         Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
