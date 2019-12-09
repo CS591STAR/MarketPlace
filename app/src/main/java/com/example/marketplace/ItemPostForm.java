@@ -178,6 +178,8 @@ public class ItemPostForm extends Fragment {
             @Override
             public void onClick(View view) {
 
+
+
                 try {
                     currentTime = doGetRequest();
                 } catch (IOException e) {
@@ -186,8 +188,10 @@ public class ItemPostForm extends Fragment {
                     currentTime = date.getTime();
                 }
 
+                //get first 3 words in item name and search it in eBay
                 EBayAPI eBayAPI = EBayAPI.getInstance();
-                eBayAPI.searchItem(itemNameTxt.getText().toString());
+                String itemName = itemNameTxt.getText().toString();
+                eBayAPI.searchItem(firstWords(itemName, 3));
 
                 Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
                         itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition()].toString(),
@@ -203,6 +207,21 @@ public class ItemPostForm extends Fragment {
         });
 
         return view;
+    }
+
+    private String firstWords(String input, int words) {
+        for (int i = 0; i < input.length(); i++) {
+            // When a space is encountered, reduce words remaining by 1.
+            if (input.charAt(i) == ' ') {
+                words--;
+            }
+            // If no more words remaining, return a substring.
+            if (words == 0) {
+                return input.substring(0, i);
+            }
+        }
+        // Error case.
+        return "";
     }
 
     @Override

@@ -151,6 +151,14 @@ public class MarketFeed extends Fragment {
 
         // give the seek bar a max value of 5 miles
         distanceSeekBar.setMax(5);
+        //hide seek bar before use it
+        distanceSeekBar.setVisibility(View.GONE);
+        filterByDistanceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                distanceSeekBar.setVisibility(View.VISIBLE);
+            }
+        });
 
         filterByDistanceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,7 +279,7 @@ public class MarketFeed extends Fragment {
             currentQuery.removeEventListener(basicValueEventListener);
         }
         //order item by post time
-        currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
+        currentQuery = mDatabase.child("posts").orderByKey();
         currentQuery.addValueEventListener(basicValueEventListener);
 
         return view;
