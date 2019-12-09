@@ -58,7 +58,6 @@ public class Profile extends Fragment {
     private DatabaseReference mDatabase;
     private FirebaseUser mFirebaseUser;
 
-
     public Profile() {
 
     }
@@ -134,7 +133,9 @@ public class Profile extends Fragment {
 
                 ratingValString = String.valueOf(dataSnapshot.child("rating").getValue());
                 ratingVal = Double.parseDouble(ratingValString);
-                numRatings = (long) (dataSnapshot.child("numRatings").getValue());
+                if(dataSnapshot.child("numRating").getValue() != null){
+                    numRatings = (long) (dataSnapshot.child("numRatings").getValue());
+                }
 
                 String overall = getResources().getString(R.string.overall_rating);
                 ratingString = overall + " " + ratingVal + " stars";
