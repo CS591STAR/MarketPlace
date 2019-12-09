@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
 
 
 public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, Profile.ProfileListener, ViewPost.ViewPostListener {
@@ -109,7 +111,11 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     }
 
     public void searchByKeyword(String keyword){
-        SearchResultFragment resultFragment = new SearchResultFragment(keyword);
+        Query query = null;
+        if(marketFeed != null){
+            query = marketFeed.getCurrentQuery();
+        }
+        SearchResultFragment resultFragment = new SearchResultFragment(keyword, query);
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragLayout, resultFragment);
         ft.addToBackStack(null);
