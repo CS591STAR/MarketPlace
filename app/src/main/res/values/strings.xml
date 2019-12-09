@@ -72,10 +72,8 @@
     <string name="contact_seller">contact seller</string>
     <string name="delete_post">delete post</string>
     <string name="view_post_title">Title </string>
-    <string name="view_post_price">Price </string>
     <string name="view_post_condition">Condition </string>
     <string name="view_post_description">Description </string>
-    <string name="eBay_suggested_price">eBay-suggested Price: </string>
 
     <!--Preference-->
     <string name="change_name">Change Name</string>
@@ -92,7 +90,8 @@
     <string name="overall_rating">Overall Rating:</string>
     <string name="all_user_s_posts">All User\'s Posts</string>
     <string name="give_your_rating_for_this_user">Give your rating for this user?</string>
-    <string name="amazon">Amazon</string>
-    <string name="ebay">Ebay</string>
+    <string name="ebay_s_suggested_price_n">Ebay\'s Suggested Price:\n</string>
+    <string name="user_s_price_n">User\'s Price:\n</string>
+    <string name="amazon_s_suggested_price_n">Amazon\'s Suggested Price:\n</string>
 
 </resources>

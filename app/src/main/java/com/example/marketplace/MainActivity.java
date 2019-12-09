@@ -1,5 +1,6 @@
 package com.example.marketplace;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -10,7 +11,13 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.Query;
 
 
@@ -27,6 +34,12 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     FragmentManager fm;
     Post post;
 
+    NavBarFragment navBar;
+    String userID;
+    FirebaseUser mFirebaseUser;
+
+    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
         setContentView(R.layout.activity_main);
 
-        Bundle data = getIntent().getExtras();
-        you = data.getParcelable("user");
 
         marketFeed = new MarketFeed();
         profile = new Profile();
@@ -50,10 +61,35 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
         fragLayout = findViewById(R.id.fragLayout);
         fm = getSupportFragmentManager();
+
         FragmentTransaction ft = fm.beginTransaction();
+
+        navBar = (NavBarFragment) fm.findFragmentById(R.id.navBar);
+//        ft.hide(navBar);
         ft.add(R.id.fragLayout, marketFeed, "Market Feed");
         ft.addToBackStack(null);
         ft.commit();
+
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+        userID = mFirebaseUser.getUid();
+
+
+        mDatabase.orderByKey().equalTo(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (!dataSnapshot.exists()) {
+                    User you = new User(mFirebaseUser.getUid(), mFirebaseUser.getDisplayName(), mFirebaseUser.getEmail(), mFirebaseUser.getPhotoUrl().toString(), "", 5, 1, 0);
+                    mDatabase.child(userID).setValue(you);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -63,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
             profile = new Profile();
         }
         FragmentTransaction ft = fm.beginTransaction();
+//        ft.hide(navBar);
+
         ft.replace(R.id.fragLayout, profile, "Profile");
         ft.addToBackStack(null);
         ft.commit();
@@ -123,7 +161,10 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         if (preferences == null) {
             preferences = new Preferences();
         }
+
+
         FragmentTransaction ft = fm.beginTransaction();
+
         ft.replace(R.id.fragLayout, preferences, "Preferences");
         ft.addToBackStack(null);
         ft.commit();

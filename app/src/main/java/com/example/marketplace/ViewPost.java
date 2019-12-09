@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ public class ViewPost extends Fragment {
     TextView categoryPost;
     ImageView postImage;
     Post post;
+
 
     private FirebaseUser mFirebaseUser;
     private String mUsername;
@@ -102,6 +104,7 @@ public class ViewPost extends Fragment {
         }
         txtEbay.setText(txtEbay.getText().toString() + price);
 
+
         // set post info
         postTitle.setText(post.getItemName());
         postDescription.setText(post.getItemDescription());
@@ -116,14 +119,11 @@ public class ViewPost extends Fragment {
 
         categoryPost.setText(getResources().getStringArray(R.array.categories)[Post.Category.valueOf(post.getCategory()).ordinal()]);
 
-        String userPrice = "User's Price:\n$" + post.getAskingPrice();
+        String userPrice = postPrice.getText().toString() + "$" + post.getAskingPrice();
         postPrice.setText(userPrice);
 
-        String amazonPrice = "Amazon's Price:\n$" + post.getAskingPrice(); // change to api call
+        String amazonPrice = txtAmazon.getText().toString() + "$" + post.getAskingPrice(); // change to api call
         txtAmazon.setText(amazonPrice);
-
-        // String ebayPrice = "Ebay's Price:\n$" + post.getAskingPrice(); // change to api call
-        // txtEbay.setText(ebayPrice);
 
         // update UI
         updateUI();

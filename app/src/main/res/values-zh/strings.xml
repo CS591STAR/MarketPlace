@@ -83,7 +83,6 @@
     <string name="sort_by_price">价格排序</string>
     <string name="view_post_condition">状态</string>
     <string name="view_post_description">描述</string>
-    <string name="view_post_price">价格</string>
     <string name="view_post_title">名称</string>
     <string name="overall_rating">总体评价：</string>
     <string name="give_your_rating_for_this_user">对该用户评分</string>
