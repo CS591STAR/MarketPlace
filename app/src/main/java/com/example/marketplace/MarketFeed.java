@@ -174,7 +174,9 @@ public class MarketFeed extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mileRadius = String.valueOf(distanceSeekBar.getProgress());
                 try {
+                    recyclerView.getRecycledViewPool().clear();
                     zipcodesInRadius();
+                    postListAdapter.notifyDataSetChanged();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -345,15 +347,16 @@ public class MarketFeed extends Fragment {
                             JSONObject zipcode_inresponse = fetchResponse.getJSONObject(obj);
                             zipCodesInRadius.add(zipcode_inresponse.getString("zip_code"));
                         }
-
+//                        recyclerView.getRecycledViewPool().clear();
                         sortByDistance();
-
+//
 //                        getActivity().runOnUiThread(new Runnable() {
 //                            @Override
 //                            public void run() {
 //                                postListAdapter.notifyDataSetChanged();
 //                            }
 //                        });
+
                     } catch (JSONException e) {
                         Log.i("onresponse", "not successful");
                     }
@@ -367,7 +370,6 @@ public class MarketFeed extends Fragment {
 
     public void sortByDistance() {
 
-        postList.clear();
         currentQuery.removeEventListener(basicValueEventListener);
         mDatabase.child("zipcodes").addValueEventListener(new ValueEventListener() {
             @Override
@@ -388,7 +390,7 @@ public class MarketFeed extends Fragment {
 
                 mDatabase.child("zipcodes").removeEventListener(this);
 
-//                postList.clear();
+                postList.clear();
 //                postListAdapter.notifyDataSetChanged();
 //                Log.i("sort gets us here:", "1");
                 Log.i("sort gets us here:", zipcodesToCompare.toString());
@@ -417,8 +419,7 @@ public class MarketFeed extends Fragment {
                                 }
                             });
                         }
-                        Collections.reverse(postList);
-                        postListAdapter.notifyDataSetChanged();
+
                     }
                 }
             }
@@ -427,6 +428,7 @@ public class MarketFeed extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
+//        Collections.reverse(postList);
+//        postListAdapter.notifyDataSetChanged();
     }
 }
