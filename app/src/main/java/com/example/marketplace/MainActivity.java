@@ -1,13 +1,24 @@
 package com.example.marketplace;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.LinearLayout;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
 
 
 public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, Profile.ProfileListener, ViewPost.ViewPostListener {
@@ -22,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     LinearLayout fragLayout;
     FragmentManager fm;
     Post post;
+    String userID;
+    FirebaseUser mFirebaseUser;
+
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
         setContentView(R.layout.activity_main);
 
-        Bundle data = getIntent().getExtras();
-        you = data.getParcelable("user");
 
         marketFeed = new MarketFeed();
         profile = new Profile();
@@ -50,6 +63,27 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.add(R.id.fragLayout, marketFeed, "Market Feed");
         ft.addToBackStack(null);
         ft.commit();
+
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+        userID = mFirebaseUser.getUid();
+
+
+        mDatabase.orderByKey().equalTo(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (!dataSnapshot.exists()) {
+                    User you = new User(mFirebaseUser.getUid(), mFirebaseUser.getDisplayName(), mFirebaseUser.getEmail(), mFirebaseUser.getPhotoUrl().toString(), "", 5, 1, 0);
+                    mDatabase.child(userID).setValue(you);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -77,7 +111,11 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     }
 
     public void searchByKeyword(String keyword){
-        SearchResultFragment resultFragment = new SearchResultFragment(keyword);
+        Query query = null;
+        if(marketFeed != null){
+            query = marketFeed.getCurrentQuery();
+        }
+        SearchResultFragment resultFragment = new SearchResultFragment(keyword, query);
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragLayout, resultFragment);
         ft.addToBackStack(null);
@@ -86,11 +124,10 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
     @Override
     public void openFeed() {
-
+        marketFeed = (MarketFeed) fm.findFragmentByTag("Market Feed");
         if (marketFeed == null) {
             marketFeed = new MarketFeed();
         }
-        marketFeed = (MarketFeed) fm.findFragmentByTag("Market Feed");
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragLayout, marketFeed);
         ft.addToBackStack(null);

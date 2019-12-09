@@ -92,8 +92,6 @@ public class MarketFeed extends Fragment {
     private PostListAdapter postListAdapter;
     private ValueEventListener basicValueEventListener;
     private Query currentQuery;
-    private Query queryByPostTime;
-    private Query queryByPrice;
 
     private static final String TAG = "FEED";
 
@@ -223,7 +221,9 @@ public class MarketFeed extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
 
-        if (basicValueEventListener == null) {
+        //initialize a default event listener
+        if(basicValueEventListener == null) {
+
             basicValueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -247,9 +247,11 @@ public class MarketFeed extends Fragment {
                                 String zipcode = (String) snap.child("zipcode").getValue();
                                 String itemCondition = (String) snap.child("itemCondition").getValue();
                                 String image = (String) snap.child("image").getValue();
+                                String eBayPrice = (String) snap.child("eBayPrice").getValue();
+                                String amazonPrice = (String) snap.child("amazonPrice").getValue();
 
                                 Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
-                                        itemPostTime, itemDescription, postID, image);
+                                        itemPostTime, itemDescription, postID, image, eBayPrice, amazonPrice);
                                 postList.add(post);
                                 //received results
                                 Log.i("post", post.getItemName() + " on nod " + postID);
@@ -273,6 +275,7 @@ public class MarketFeed extends Fragment {
         if (currentQuery != null) {
             currentQuery.removeEventListener(basicValueEventListener);
         }
+        //order item by post time
         currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
         currentQuery.addValueEventListener(basicValueEventListener);
 
@@ -291,8 +294,8 @@ public class MarketFeed extends Fragment {
         currentQuery.addValueEventListener(basicValueEventListener);
     }
 
-    private void filterByCategory(int category) {
-        ;
+    public Query getCurrentQuery(){
+        return currentQuery;
     }
 
 //    @Override

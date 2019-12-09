@@ -7,6 +7,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.firebase.database.DatabaseReference;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,10 +29,19 @@ public class EBayAPI {
     private boolean isTokenValid = false;
     private String token;
     private JSONObject response;
+    public static String eBayPrice;
 
-    private static final String str = "EBayAPI";
+    private static final String TAG = "EBayAPI";
 
     private static EBayAPI instance;
+
+    public static String geteBayPrice() {
+        return eBayPrice;
+    }
+
+    public static void seteBayPrice(String eBayPrice) {
+        EBayAPI.eBayPrice = eBayPrice;
+    }
 
     private EBayAPI(){}
 
@@ -91,7 +102,7 @@ public class EBayAPI {
     }
 
     //search items by keyword
-    public void searchItemAndFillIn(final FragmentActivity activity, final String keyword, int limit){
+    public void searchItemAndFillIn(final String keyword, int limit){
         if(!isTokenValid){
             getToken();
         }
@@ -132,16 +143,9 @@ public class EBayAPI {
                         //get the price
                         JSONObject priceObject = object.getJSONObject("price");
                         final String price = priceObject.getString("value")+" "+priceObject.getString("currency");
-                        Log.w(str, "keyword: " + keyword);
-                        Log.w(str, "price: " + price);
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                TextView tvEBaySuggestedPrice = activity.findViewById(R.id.txtEbay);
-                                String ebayPrice = "Ebay's Suggested Price:\n" + price;
-                                tvEBaySuggestedPrice.setText(ebayPrice);
-                            }
-                        });
+                        Log.w(TAG, "keyword: " + keyword);
+                        Log.w(TAG, "price: " + price);
+                        eBayPrice = price;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -153,8 +157,8 @@ public class EBayAPI {
         });
     }
 
-    public void searchItem(FragmentActivity activity, String keyword){
-        searchItemAndFillIn(activity, keyword, 1);
+    public void searchItem(String keyword){
+        searchItemAndFillIn(keyword, 1);
     }
 
     public String getItemPrice() throws JSONException {

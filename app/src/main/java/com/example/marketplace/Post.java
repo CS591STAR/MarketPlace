@@ -1,7 +1,6 @@
 package com.example.marketplace;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class Post {
 
@@ -21,6 +20,8 @@ public class Post {
 
     private String itemName;
     private long askingPrice;
+    private String eBayPrice;
+    private String amazonPrice;
     private String zipcode;
     private String sellerID;
     private String category;
@@ -28,10 +29,27 @@ public class Post {
     private long itemPostTime;
     private String itemDescription;
     private String postID;
+
+    public String geteBayPrice() {
+        return eBayPrice;
+    }
+
+    public void seteBayPrice(String eBayPrice) {
+        this.eBayPrice = eBayPrice;
+    }
+
+    public String getAmazonPrice() {
+        return amazonPrice;
+    }
+
+    public void setAmazonPrice(String amazonPrice) {
+        this.amazonPrice = amazonPrice;
+    }
+
     private String image;
 
     public Post(String itemName, long askingPrice, String zipcode, String sellerID, String category, String itemCondition,
-                long itemPostTime, String itemDescription, String postID, String image) {
+                long itemPostTime, String itemDescription, String postID, String image, String eBayPrice, String amazonPrice) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -42,6 +60,8 @@ public class Post {
         this.itemDescription = itemDescription;
         this.postID = postID;
         this.image = image;
+        this.eBayPrice = eBayPrice;
+        this.amazonPrice = amazonPrice;
     }
 
     public void setItemName(String itemName) {
