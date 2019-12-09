@@ -97,7 +97,6 @@ public class ViewPost extends Fragment {
         Log.w(TAG, "Start eBay request");
         mEBay.searchItem(getActivity(), post.getItemName());
 
-        AmazonAPI mamazonAPI = AmazonAPI.getInstance();
 
         // set post info
         postTitle.setText(post.getItemName());

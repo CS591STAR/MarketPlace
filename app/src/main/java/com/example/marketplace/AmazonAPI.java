@@ -1,5 +1,8 @@
 package com.example.marketplace;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
@@ -20,6 +23,7 @@ public class AmazonAPI {
 
     private static AmazonAPI instance;
     private JSONObject response;
+    private String amazonPrice;
 
     private AmazonAPI() {
     }
@@ -39,7 +43,7 @@ public class AmazonAPI {
         response = res;
     }
 
-    public void getAmazonPrice(final FragmentActivity activity, final String keyword, int limit) {
+    public void getAmazonPrice(final FragmentActivity activity, final String keyword) {
         OkHttpClient client = new OkHttpClient();
         String url = "https://amazon-price1.p.rapidapi.com/search?keywords=" + "macbook" + "&marketplace=US";
 
@@ -60,8 +64,10 @@ public class AmazonAPI {
                 String responseBody = response.body().string();
                 try {
                     JSONArray jsonArray = new JSONArray(responseBody);
-                    String price = (String) jsonArray.getJSONObject(0).get("price");
-                    Log.i("amazoncall",price);
+                    amazonPrice = (String) jsonArray.getJSONObject(0).get("price");
+                    Bundle sendPrice = new Bundle();
+                    sendPrice.putString("amazonPrice", amazonPrice);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
