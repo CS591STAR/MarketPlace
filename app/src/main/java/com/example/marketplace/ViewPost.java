@@ -93,9 +93,7 @@ public class ViewPost extends Fragment {
         txtEbay = view.findViewById(R.id.txtEbay);
         categoryPost = view.findViewById(R.id.categoryPost);
 
-        EBayAPI mEBay = EBayAPI.getInstance();
-        Log.w(TAG, "Start eBay request");
-        mEBay.searchItem(getActivity(), post.getItemName());
+        txtEbay.setText(txtEbay.getText().toString() + post.geteBayPrice());
 
         // set post info
         postTitle.setText(post.getItemName());
@@ -109,6 +107,7 @@ public class ViewPost extends Fragment {
 
         conditionPost.setText(getResources().getStringArray(R.array.itemConditions)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
 
+        categoryPost.setText(getResources().getStringArray(R.array.categories)[Post.Category.valueOf(post.getCategory()).ordinal()]);
 
         String userPrice = "User's Price:\n$" + post.getAskingPrice();
         postPrice.setText(userPrice);

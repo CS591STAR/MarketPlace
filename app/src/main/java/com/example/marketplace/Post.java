@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.DatabaseReference;
+
 public class Post implements Parcelable {
 
     public enum Category{
@@ -22,6 +24,8 @@ public class Post implements Parcelable {
 
     private String itemName;
     private long askingPrice;
+    private String eBayPrice;
+    private String amazonPrice;
     private String zipcode;
     private String sellerID;
     private String category;
@@ -29,10 +33,27 @@ public class Post implements Parcelable {
     private long itemPostTime;
     private String itemDescription;
     private String postID;
+
+    public String geteBayPrice() {
+        return eBayPrice;
+    }
+
+    public void seteBayPrice(String eBayPrice) {
+        this.eBayPrice = eBayPrice;
+    }
+
+    public String getAmazonPrice() {
+        return amazonPrice;
+    }
+
+    public void setAmazonPrice(String amazonPrice) {
+        this.amazonPrice = amazonPrice;
+    }
+
     private String image;
 
     public Post(String itemName, long askingPrice, String zipcode, String sellerID, String category, String itemCondition,
-                long itemPostTime, String itemDescription, String postID, String image) {
+                long itemPostTime, String itemDescription, String postID, String image, String eBayPrice, String amazonPrice) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -43,6 +64,8 @@ public class Post implements Parcelable {
         this.itemDescription = itemDescription;
         this.postID = postID;
         this.image = image;
+        this.eBayPrice = eBayPrice;
+        this.amazonPrice = amazonPrice;
     }
 
     public void setItemName(String itemName) {
