@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -83,6 +84,8 @@ public class MarketFeed extends Fragment {
 
     private DatabaseReference mDatabase;
     private DatabaseReference zipcodeDatabase;
+    private String userID;
+    private FirebaseUser mFireBaseUser;
 
     ArrayList<String> zipCodesInRadius = new ArrayList<>();
     ArrayList<String> zipcodesToCompare = new ArrayList<>();
@@ -92,6 +95,8 @@ public class MarketFeed extends Fragment {
     private PostListAdapter postListAdapter;
     private ValueEventListener basicValueEventListener;
     private Query currentQuery;
+
+    private String userZipcode;
 
     private static final String TAG = "FEED";
 
@@ -136,6 +141,9 @@ public class MarketFeed extends Fragment {
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
         filterByDistanceBtn = view.findViewById(R.id.filterByDistanceBtn);
         distanceSeekBar = view.findViewById(R.id.distanceSeekBar);
+
+        mFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        userID = mFireBaseUser.getUid();
 
         //add button for sorting by price
         btnSortByPrice = view.findViewById(R.id.btnSortByPrice);
@@ -317,10 +325,20 @@ public class MarketFeed extends Fragment {
         zipCodesInRadius.clear();
         zipcodesToCompare.clear();
 
-        // for now we are using a sample zipcode until we retrieve it from the user properly
-        String sampleZip = "02128";
-        String redLineAPIEndPoint = "https://redline-redline-zipcode.p.rapidapi.com/rest/radius.json/" + sampleZip + "/" + mileRadius + "/mile";
+        // Get the user's zipcode
+        mDatabase.child("users").child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userZipcode = dataSnapshot.child("zip").getValue().toString();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        String redLineAPIEndPoint = "https://redline-redline-zipcode.p.rapidapi.com/rest/radius.json/" + userZipcode + "/" + mileRadius + "/mile";
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
