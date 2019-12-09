@@ -24,7 +24,7 @@ public class AmazonAPI {
 
     private static AmazonAPI instance;
     private JSONObject response;
-    private String amazonPrice;
+    private static String amazonPrice;
 
     private AmazonAPI() {
     }
@@ -36,6 +36,14 @@ public class AmazonAPI {
         return instance;
     }
 
+    public static String getAmazonPrice() {
+        return amazonPrice;
+    }
+
+    public static void setAmazonPrice(String eBayPrice) {
+        AmazonAPI.amazonPrice = amazonPrice;
+    }
+
     public JSONObject getResponse() {
         return response;
     }
@@ -44,7 +52,7 @@ public class AmazonAPI {
         response = res;
     }
 
-    public void getAmazonPrice(final FragmentActivity activity, final String keyword) {
+    public void getAmazonPrice(final String keyword) {
         OkHttpClient client = new OkHttpClient();
         String url = "https://amazon-price1.p.rapidapi.com/search?keywords=" + keyword + "&marketplace=US";
 
@@ -62,28 +70,25 @@ public class AmazonAPI {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String responseBody = response.body().string();
-                try {
-                    JSONArray jsonArray = new JSONArray(responseBody);
-                    amazonPrice = (String) jsonArray.getJSONObject(0).get("price");
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            TextView txtAmazon = activity.findViewById(R.id.txtAmazon);
-                            String amznPrice = "Amazon's Suggested Price:\n" + amazonPrice;
-                            txtAmazon.setText(amznPrice);
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (response.isSuccessful()) {
+                    String responseBody = response.body().string();
+                    try {
+                        JSONArray jsonArray = new JSONArray(responseBody);
+                        final String price = (String) jsonArray.getJSONObject(0).get("price");
+                        amazonPrice = price;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Log.i("error: ", "error here!" );
                 }
             }
         });
 
     }
 
-    public void searchItem (FragmentActivity activity, String keyword){
-            getAmazonPrice(activity, keyword);
+    public void searchItem (String keyword){
+            getAmazonPrice(keyword);
         }
 }
 
