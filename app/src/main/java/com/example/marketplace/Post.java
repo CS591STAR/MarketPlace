@@ -1,10 +1,8 @@
 package com.example.marketplace;
 
-import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.HashMap;
 
-public class Post implements Parcelable {
+public class Post {
 
     public enum Category{
         TEXTBOOK,
@@ -22,6 +20,8 @@ public class Post implements Parcelable {
 
     private String itemName;
     private long askingPrice;
+    private String eBayPrice;
+    private String amazonPrice;
     private String zipcode;
     private String sellerID;
     private String category;
@@ -29,10 +29,27 @@ public class Post implements Parcelable {
     private long itemPostTime;
     private String itemDescription;
     private String postID;
+
+    public String geteBayPrice() {
+        return eBayPrice;
+    }
+
+    public void seteBayPrice(String eBayPrice) {
+        this.eBayPrice = eBayPrice;
+    }
+
+    public String getAmazonPrice() {
+        return amazonPrice;
+    }
+
+    public void setAmazonPrice(String amazonPrice) {
+        this.amazonPrice = amazonPrice;
+    }
+
     private String image;
 
     public Post(String itemName, long askingPrice, String zipcode, String sellerID, String category, String itemCondition,
-                long itemPostTime, String itemDescription, String postID, String image) {
+                long itemPostTime, String itemDescription, String postID, String image, String eBayPrice, String amazonPrice) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -43,6 +60,8 @@ public class Post implements Parcelable {
         this.itemDescription = itemDescription;
         this.postID = postID;
         this.image = image;
+        this.eBayPrice = eBayPrice;
+        this.amazonPrice = amazonPrice;
     }
 
     public void setItemName(String itemName) {
@@ -109,41 +128,20 @@ public class Post implements Parcelable {
         this.itemDescription = itemDescription;
     }
 
-    public Post(Parcel in) {
-        String[] postData = new String[10];
-        in.readStringArray(postData);
-        this.itemName = postData[0];
-        this.askingPrice = Integer.parseInt(postData[1]);
-        this.zipcode = postData[2];
-        this.sellerID = postData[3];
-        this.category = postData[4];
-        this.itemCondition = postData[5];
-        this.itemPostTime = Long.parseLong(postData[6]);
-        this.itemDescription = postData[7];
-        this.postID = postData[8];
-        this.image = postData[9];
+    public Post(HashMap<String, Object> post) {
+        this.itemName = post.get("itemName").toString();
+        this.askingPrice = Long.parseLong(post.get("askingPrice").toString());
+        this.zipcode = post.get("zipcode").toString();
+        this.sellerID = post.get("sellerID").toString();
+        this.category = post.get("category").toString();
+        this.itemCondition = post.get("itemCondition").toString();
+        this.itemPostTime = Long.parseLong(post.get("itemPostTime").toString());
+        this.itemDescription = post.get("itemDescription").toString();
+        this.postID = post.get("postID").toString();
+        this.image = post.get("image").toString();
+        this.eBayPrice = post.get("eBayPrice").toString();
+        this.amazonPrice = post.get("amazonPrice").toString();
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[] {this.itemName, String.valueOf(this.askingPrice), String.valueOf(this.zipcode),
-                 this.sellerID, this.category, this.itemCondition, String.valueOf(this.itemPostTime), this.itemDescription, this.postID, this.image.toString()});
-    }
-
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Post createFromParcel(Parcel in) {
-            return new Post(in);
-        }
-
-        public Post[] newArray(int size) {
-            return new Post[size];
-        }
-    };
 
     public String getPostID() {
         return postID;

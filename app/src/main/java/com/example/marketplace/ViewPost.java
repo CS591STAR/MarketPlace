@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ public class ViewPost extends Fragment {
     TextView categoryPost;
     ImageView postImage;
     Post post;
+
 
     private FirebaseUser mFirebaseUser;
     private String mUsername;
@@ -93,9 +95,15 @@ public class ViewPost extends Fragment {
         txtEbay = view.findViewById(R.id.txtEbay);
         categoryPost = view.findViewById(R.id.categoryPost);
 
-        EBayAPI mEBay = EBayAPI.getInstance();
-        Log.w(TAG, "Start eBay request");
-        mEBay.searchItem(getActivity(), post.getItemName());
+        String price;
+        if(post.geteBayPrice() == null){
+            price = "No result";
+        }
+        else{
+            price = post.geteBayPrice();
+        }
+        txtEbay.setText(txtEbay.getText().toString() + price);
+
 
 
         // set post info
@@ -110,15 +118,16 @@ public class ViewPost extends Fragment {
 
         conditionPost.setText(getResources().getStringArray(R.array.itemConditions)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
 
+        categoryPost.setText(getResources().getStringArray(R.array.categories)[Post.Category.valueOf(post.getCategory()).ordinal()]);
 
-        String userPrice = "User's Price:\n$" + post.getAskingPrice();
+        String userPrice = postPrice.getText().toString() + "$" + post.getAskingPrice();
         postPrice.setText(userPrice);
 
 //        String amazonPrice = "Amazon's Price:\n$" + post.getAskingPrice(); // change to api call
 //        txtAmazon.setText(amazonPrice);
 
-        // String ebayPrice = "Ebay's Price:\n$" + post.getAskingPrice(); // change to api call
-        // txtEbay.setText(ebayPrice);
+        String amazonPrice = txtAmazon.getText().toString() + "$" + post.getAskingPrice(); // change to api call
+        txtAmazon.setText(amazonPrice);
 
         // update UI
         updateUI();
