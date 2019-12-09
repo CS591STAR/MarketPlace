@@ -114,8 +114,8 @@ public class ViewPost extends Fragment {
         String userPrice = "User's Price:\n$" + post.getAskingPrice();
         postPrice.setText(userPrice);
 
-        String amazonPrice = "Amazon's Price:\n$" + post.getAskingPrice(); // change to api call
-        txtAmazon.setText(amazonPrice);
+//        String amazonPrice = "Amazon's Price:\n$" + post.getAskingPrice(); // change to api call
+//        txtAmazon.setText(amazonPrice);
 
         // String ebayPrice = "Ebay's Price:\n$" + post.getAskingPrice(); // change to api call
         // txtEbay.setText(ebayPrice);

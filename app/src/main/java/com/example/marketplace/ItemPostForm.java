@@ -185,10 +185,10 @@ public class ItemPostForm extends Fragment {
                     Date date = new Date();
                     currentTime = date.getTime();
                 }
-
-                AmazonAPI amazonAPI = AmazonAPI.getInstance();
-                String amazonPrice = amazonAPI.getAmazonPrice(itemNameTxt.getText().toString());
-//                amazonAPI.getAmazonPrice(mDatabase.child(postID).child("eBayPrice"), itemNameTxt.getText().toString());
+//
+//                AmazonAPI amazonAPI = AmazonAPI.getInstance();
+//                String amazonPrice = amazonAPI.getAmazonPrice(itemNameTxt.getText().toString());
+////                amazonAPI.getAmazonPrice(mDatabase.child(postID).child("eBayPrice"), itemNameTxt.getText().toString());
 
                 Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
                         itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition()].toString(),

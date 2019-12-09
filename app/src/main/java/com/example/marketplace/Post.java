@@ -30,10 +30,9 @@ public class Post implements Parcelable {
     private String itemDescription;
     private String postID;
     private String image;
-    private long amazonPrice;
 
     public Post(String itemName, long askingPrice, String zipcode, String sellerID, String category, String itemCondition,
-                long itemPostTime, String itemDescription, String postID, String image, long amazonPrice) {
+                long itemPostTime, String itemDescription, String postID, String image) {
         this.itemName = itemName;
         this.askingPrice = askingPrice;
         this.zipcode = zipcode;
@@ -44,15 +43,6 @@ public class Post implements Parcelable {
         this.itemDescription = itemDescription;
         this.postID = postID;
         this.image = image;
-        this.amazonPrice = amazonPrice;
-    }
-
-    public long getAmazonPrice() {
-        return amazonPrice;
-    }
-
-    public void setAmazonPrice(long amazonPrice) {
-        this.amazonPrice = amazonPrice;
     }
 
     public void setItemName(String itemName) {

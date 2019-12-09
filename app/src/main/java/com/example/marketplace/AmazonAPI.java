@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -45,7 +46,7 @@ public class AmazonAPI {
 
     public void getAmazonPrice(final FragmentActivity activity, final String keyword) {
         OkHttpClient client = new OkHttpClient();
-        String url = "https://amazon-price1.p.rapidapi.com/search?keywords=" + "macbook" + "&marketplace=US";
+        String url = "https://amazon-price1.p.rapidapi.com/search?keywords=" + keyword + "&marketplace=US";
 
         Request request = new Request.Builder()
                 .url("https://amazon-price1.p.rapidapi.com/search?keywords=macbook&marketplace=US")
@@ -65,9 +66,14 @@ public class AmazonAPI {
                 try {
                     JSONArray jsonArray = new JSONArray(responseBody);
                     amazonPrice = (String) jsonArray.getJSONObject(0).get("price");
-                    Bundle sendPrice = new Bundle();
-                    sendPrice.putString("amazonPrice", amazonPrice);
-
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            TextView txtAmazon = activity.findViewById(R.id.txtAmazon);
+                            String amznPrice = "Amazon's Suggested Price:\n" + amazonPrice;
+                            txtAmazon.setText(amznPrice);
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -76,8 +82,8 @@ public class AmazonAPI {
 
     }
 
-    //        public void searchItem (FragmentActivity activity, String keyword){
-//            getAmazonPrice(activity, keyword, 1);
-//        }
+    public void searchItem (FragmentActivity activity, String keyword){
+            getAmazonPrice(activity, keyword);
+        }
 }
 
