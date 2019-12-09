@@ -155,6 +155,7 @@ public class MarketFeed extends Fragment {
                 mileRadius = String.valueOf(distanceSeekBar.getProgress());
                 try {
                     zipcodesInRadius();
+                    Log.i("SORT", "sort by distance");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -227,6 +228,7 @@ public class MarketFeed extends Fragment {
 //    }
 
     public void zipcodesInRadius() throws IOException {
+
         // for now we are using a sample zipcode until we retrieve it from the user properly
         String sampleZip = "02128";
         String redLineAPIEndPoint = "https://redline-redline-zipcode.p.rapidapi.com/rest/radius.json/" + sampleZip + "/" + mileRadius + "/mile";
@@ -250,20 +252,23 @@ public class MarketFeed extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-
+                    Log.i("API", "call to api success");
+                    zipCodesInRadius.clear();
                     try {
                         JSONArray fetchResponse = new JSONObject(response.body().string()).getJSONArray("zip_codes");
                         for (int obj = 0; obj < fetchResponse.length(); obj++) {
                             JSONObject zipcode_inresponse = fetchResponse.getJSONObject(obj);
                             zipCodesInRadius.add(zipcode_inresponse.getString("zip_code"));
                         }
+
                         sortByDistance();
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                postListAdapter.notifyDataSetChanged();
-                            }
-                        });
+
+//                        getActivity().runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                postListAdapter.notifyDataSetChanged();
+//                            }
+//                        });
                     } catch (JSONException e) {
                         Log.i("onresponse", "not successful");
                     }
@@ -276,12 +281,20 @@ public class MarketFeed extends Fragment {
     }
 
     public void sortByDistance(){
+
+        final Map<String, ArrayList<String>> zipcodes = new HashMap<>();
+
         mDatabase.child("zipcodes").orderByKey().addValueEventListener( new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    Log.i("sort gets us here:", "3");
-                    zipcodesToCompare.add(snapshot.getKey());
+                    String currentZipCode = snapshot.getKey(); // Key for hashmap
+                    zipcodesToCompare.add(currentZipCode);
+                    ArrayList<String> postsInZipcode = new ArrayList<>();
+                    for (DataSnapshot zipcodeChildren: dataSnapshot.getChildren()) {
+                        postsInZipcode.add(zipcodeChildren.getKey());
+                    }
+                    zipcodes.put(currentZipCode, postsInZipcode);
                 }
             }
             @Override
@@ -290,15 +303,18 @@ public class MarketFeed extends Fragment {
             }
         });
 
+        Log.i("HASHMAPBITCH", zipcodes.toString());
+
         postList.clear();
         Log.i("sort gets us here:", "1");
         for(String zipcodetocompare : zipcodesToCompare) {
             Log.i("BITCH", zipcodetocompare);
             Log.i("CUNT", zipCodesInRadius.toString());
+
             if (zipCodesInRadius.contains(zipcodetocompare)) {
-                String postID = mDatabase.child("zipcodes").child(zipcodetocompare).getKey();
-                Log.i("sort gets us here:", "2");
-                DatabaseReference postRef = mDatabase.child("posts").child(postID);
+
+                DatabaseReference postRef = mDatabase.child("posts").child(zipcodetocompare);
+
                 postRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
