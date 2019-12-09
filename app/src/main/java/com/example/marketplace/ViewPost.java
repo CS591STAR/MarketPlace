@@ -109,6 +109,7 @@ public class ViewPost extends Fragment {
 
         conditionPost.setText(getResources().getStringArray(R.array.itemConditions)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
 
+        categoryPost.setText(getResources().getStringArray(R.array.categories)[Post.Category.valueOf(post.getCategory()).ordinal()]);
 
         String userPrice = "User's Price:\n$" + post.getAskingPrice();
         postPrice.setText(userPrice);

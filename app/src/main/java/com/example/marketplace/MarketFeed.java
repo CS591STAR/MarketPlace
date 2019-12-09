@@ -77,8 +77,6 @@ public class MarketFeed extends Fragment {
     private PostListAdapter postListAdapter;
     private ValueEventListener basicValueEventListener;
     private Query currentQuery;
-    private Query queryByPostTime;
-    private Query queryByPrice;
 
     private static final String TAG = "FEED";
 
@@ -273,8 +271,8 @@ public class MarketFeed extends Fragment {
         currentQuery.addValueEventListener(basicValueEventListener);
     }
 
-    private void filterByCategory(int category){
-        ;
+    public Query getCurrentQuery(){
+        return currentQuery;
     }
 
 //    @Override

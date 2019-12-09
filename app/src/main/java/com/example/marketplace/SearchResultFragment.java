@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class SearchResultFragment extends Fragment {
     private PostListAdapter postListAdapter;
 
     private DatabaseReference mDatabase;
+    private Query query;
 
     private static final String TAG = "SEARCH";
 
@@ -44,8 +46,9 @@ public class SearchResultFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public SearchResultFragment(String keyword){
+    public SearchResultFragment(String keyword, Query query){
         this.keyword = keyword;
+        this.query = query;
         Log.w(TAG, "The keyword is " + keyword);
     }
 
@@ -66,7 +69,7 @@ public class SearchResultFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
 
-        mDatabase.child("posts").orderByChild("itemName").addValueEventListener( new ValueEventListener(){
+        query.addValueEventListener( new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
                 if(dataSnapshot.exists()){
@@ -93,7 +96,7 @@ public class SearchResultFragment extends Fragment {
 
                         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
                                 itemPostTime, itemDescription, postID, image);
-                        if(post.getItemName().indexOf(keyword) >= 0 ){
+                        if(post.getItemName().toLowerCase().indexOf(keyword.toLowerCase()) >= 0 ){
                             Log.w(TAG, String.valueOf(post.getItemName().indexOf(keyword)));
                             postList.add(post);
                         }
