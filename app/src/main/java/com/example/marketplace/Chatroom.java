@@ -78,7 +78,6 @@ public class Chatroom extends AppCompatActivity {
     private String mUsername;
     private String mPhotoUrl;
     public static final String TALKER_ID = "talkToID";
-    private String talkerName;
     private String talkerID;
 
     private Button mSendButton;
