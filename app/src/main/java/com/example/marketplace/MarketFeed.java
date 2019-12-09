@@ -347,15 +347,15 @@ public class MarketFeed extends Fragment {
                             JSONObject zipcode_inresponse = fetchResponse.getJSONObject(obj);
                             zipCodesInRadius.add(zipcode_inresponse.getString("zip_code"));
                         }
-//                        recyclerView.getRecycledViewPool().clear();
                         sortByDistance();
-//
-//                        getActivity().runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                postListAdapter.notifyDataSetChanged();
-//                            }
-//                        });
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                                        recyclerView.getRecycledViewPool().clear();
+                                postListAdapter.notifyDataSetChanged();
+                            }
+                        });
 
                     } catch (JSONException e) {
                         Log.i("onresponse", "not successful");
@@ -407,9 +407,13 @@ public class MarketFeed extends Fragment {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     Log.i("Bitch3x", dataSnapshot.toString());
                                     if (dataSnapshot != null) {
-                                        Post post = new Post((HashMap<String, Object>) dataSnapshot.getValue());
-                                        postList.add(post);
-                                        Log.i("FUCK", post.toString());
+                                        try {
+                                            Post post = new Post((HashMap<String, Object>) dataSnapshot.getValue());
+                                            postList.add(post);
+                                            Log.i("FUCK", post.toString());
+                                        } catch (NullPointerException e) {
+                                            Log.e("NOPOST", "no-posts");
+                                        }
                                     }
                                 }
 
@@ -428,7 +432,12 @@ public class MarketFeed extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-//        Collections.reverse(postList);
-//        postListAdapter.notifyDataSetChanged();
+//                        getActivity().runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                postListAdapter.notifyDataSetChanged();
+//                            }
+//                        });
     }
+
 }
