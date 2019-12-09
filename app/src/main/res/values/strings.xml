@@ -76,7 +76,7 @@
     <string name="view_post_price">Price </string>
     <string name="view_post_condition">Condition </string>
     <string name="view_post_description">Description </string>
-    <string name="eBay_suggested_price">eBay-suggested Price </string>
+    <string name="eBay_suggested_price">eBay-suggested Price: </string>
 
     <!--Preference-->
     <string name="change_name">Change Name</string>

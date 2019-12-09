@@ -93,9 +93,7 @@ public class ViewPost extends Fragment {
         txtEbay = view.findViewById(R.id.txtEbay);
         categoryPost = view.findViewById(R.id.categoryPost);
 
-        EBayAPI mEBay = EBayAPI.getInstance();
-        Log.w(TAG, "Start eBay request");
-        mEBay.searchItem(getActivity(), post.getItemName());
+        txtEbay.setText(txtEbay.getText().toString() + post.geteBayPrice());
 
         // set post info
         postTitle.setText(post.getItemName());

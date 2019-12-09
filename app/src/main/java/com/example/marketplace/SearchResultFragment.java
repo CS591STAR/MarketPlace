@@ -93,9 +93,11 @@ public class SearchResultFragment extends Fragment {
                         String zipcode = (String) snap.child("zipcode").getValue();
                         String itemCondition = (String) snap.child("itemCondition").getValue();
                         String image = (String) snap.child("image").getValue();
+                        String eBayPrice = (String) snap.child("eBayPrice").getValue();
+                        String amazonPrice = (String) snap.child("amazonPrice").getValue();
 
                         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
-                                itemPostTime, itemDescription, postID, image);
+                                itemPostTime, itemDescription, postID, image, eBayPrice, amazonPrice);
                         if(post.getItemName().toLowerCase().indexOf(keyword.toLowerCase()) >= 0 ){
                             Log.w(TAG, String.valueOf(post.getItemName().indexOf(keyword)));
                             postList.add(post);

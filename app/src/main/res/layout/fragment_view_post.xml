@@ -41,7 +41,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/ebay"
+                android:text="@string/eBay_suggested_price"
                 android:textSize="18sp" />
 
             <TextView
