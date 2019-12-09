@@ -95,15 +95,22 @@ public class ViewPost extends Fragment {
         txtEbay = view.findViewById(R.id.txtEbay);
         categoryPost = view.findViewById(R.id.categoryPost);
 
-        String price;
-        if(post.geteBayPrice() == null){
-            price = "No result";
-        }
-        else{
-            price = post.geteBayPrice();
-        }
-        txtEbay.setText(txtEbay.getText().toString() + price);
+        String EbayPrice;
+        String AmazonPrice;
 
+        if(post.geteBayPrice() == null){
+            EbayPrice = "No result";
+        } else {
+            EbayPrice = post.geteBayPrice();
+        }
+        txtEbay.setText(txtEbay.getText().toString() + EbayPrice);
+
+        if(post.getAmazonPrice() == null){
+            AmazonPrice = "No result";
+        } else {
+            AmazonPrice = post.getAmazonPrice();
+        }
+        txtAmazon.setText(txtAmazon.getText().toString() + AmazonPrice);
 
         // set post info
         postTitle.setText(post.getItemName());
@@ -121,10 +128,7 @@ public class ViewPost extends Fragment {
 
         String userPrice = postPrice.getText().toString() + "$" + post.getAskingPrice();
         postPrice.setText(userPrice);
-
-        String amazonPrice = txtAmazon.getText().toString() + "$" + post.getAskingPrice(); // change to api call
-        txtAmazon.setText(amazonPrice);
-
+        
         // update UI
         updateUI();
 
