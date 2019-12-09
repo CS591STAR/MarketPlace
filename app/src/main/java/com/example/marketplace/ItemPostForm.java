@@ -189,6 +189,9 @@ public class ItemPostForm extends Fragment {
                 EBayAPI eBayAPI = EBayAPI.getInstance();
                 eBayAPI.searchItem(itemNameTxt.getText().toString());
 
+                AmazonAPI amazonAPI = AmazonAPI.getInstance();
+                amazonAPI.searchItem(itemNameTxt.getText().toString());
+
                 Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
                         itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition()].toString(),
                         Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition()].toString(), currentTime,
@@ -273,6 +276,12 @@ public class ItemPostForm extends Fragment {
                     }
                     else{
                         Log.w(TAG, "eBay price not got");
+                    }
+
+                    if (AmazonAPI.getAmazonPrice() != null){
+                        post.setAmazonPrice(AmazonAPI.getAmazonPrice());
+                    } else {
+                        Log.i("error here", "what should we do");
                     }
                     mDatabase.child(postID).setValue(post);
                     Log.i("IMGPOST", "download image at " + post.getImage());
