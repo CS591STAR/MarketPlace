@@ -8,7 +8,6 @@
     <string name="signed_out">Signed Out</string>
     <string name="firebaseui_status_fmt">Firebase User: %s</string>
     <string name="id_fmt">User ID: %s</string>
-    <string name="email_fmt">Email: %s</string>
     <string name="sign_in">登录</string>
 
 
@@ -16,15 +15,18 @@
 
     <!--Market Feed-->
     <string name="Create_Post">创建条目</string>
+    <string-array name="categories_including_all_categories_option">
+        <item>所有类别</item>
+        <item>书籍</item>
+        <item>家具</item>
+        <item>电子产品</item>
+        <item>其他</item>
+    </string-array>
 
     <!--User's Profile-->
-    <string name="Image_Description">用户照片</string>
     <string name="User_Name">用户名</string>
     <string name="User_Email">用户邮箱</string>
-    <string name="User_Uni">用户大学</string>
     <string name="Preferences_Button">偏好设置</string>
-    <string name="Create_Button">创建</string>
-    <string name="Delete_Button">删除</string>
 
     <!--NavBar-->
     <string name="P_button">P</string>
@@ -39,77 +41,6 @@
     <string name="Item_Zip">物品邮编</string>
     <string name="Desc_Text">物品描述</string>
     <string name="Post_Item">发布</string>
-
-    <!--Other-->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="label_google_sign_in">Firebase + Google Sign In</string>
-    <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>
-    <string name="label_facebook_login">Firebase + Facebook Login</string>
-    <string name="desc_facebook_login">Use a Facebook Login credential to authenticate with Firebase.</string>
-    <string name="label_twitter_login">Firebase + Twitter Login</string>
-    <string name="desc_twitter_login">Use a Twitter Login credential to authenticate with Firebase.</string>
-    <string name="label_emailpassword">Email/Password Authentication</string>
-    <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
-    <string name="label_passwordless">Passwordless Authentication</string>
-    <string name="desc_passwordless">Use only an email to authenticate with Firebase.</string>
-    <string name="label_phone_auth">Phone Number Authentication</string>
-    <string name="desc_phone_auth">Use a phone number to authenticate with Firebase.</string>
-    <string name="label_anonymous_auth">Anonymous Authentication</string>
-    <string name="desc_anonymous_auth">Sign in anonymously and then later upgrade to a full Firebase Auth user.</string>
-    <string name="label_custom_auth">Custom Authentication</string>
-    <string name="desc_custom_auth">Use a custom token signed by your own server to authenticate with Firebase.</string>
-    <string name="label_firebase_ui">FirebaseUI Auth</string>
-    <string name="desc_firebase_ui">Use the FirebaseUI-Android library to authenticate with Firebase.</string>
-    <string name="label_generic_idp">Generic IDP Auth</string>
-    <string name="desc_generic_idp">Use a generic identity provider, like Microsoft or Yahoo, to authenticate with Firebase.</string>
-    <string name="hint_user_id">User ID</string>
-    <string name="get_custom_token">Get Token</string>
-    <string name="create_account">Create Account</string>
-    <string name="send_link">Send Link</string>
-    <string name="sign_out">登出</string>
-    <string name="verify_email">Verify Email</string>
-    <string name="disconnect">Disconnect</string>
-    <string name="loading">Loading…</string>
-    <string name="custom_token">Custom Token</string>
-    <string name="signed_in">Signed In</string>
-    <string name="token_null">Token: null</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Password</string>
-    <string name="desc_firebase_lockup">Firebase logo and name</string>
-    <string name="auth_failed">Authentication failed</string>
-    <string name="start_phone_auth">Start</string>
-    <string name="verify_phone_auth">Verify</string>
-    <string name="resend_phone_auth">Resend</string>
-    <string name="hint_phone_number">Phone Number</string>
-    <string name="hint_verification_code">Verification Code</string>
-    <string name="status_code_sent">Code Sent</string>
-    <string name="status_verification_failed">Verification failed</string>
-    <string name="status_verification_succeeded">Verification succeeded</string>
-    <string name="status_sign_in_failed">Sign-in failed</string>
-    <string name="instant_validation">(instant validation)</string>
-    <string name="firebase_status_fmt">Firebase User: %s</string>
-    <string name="firebase_user_management">Firebase User Management</string>
-    <string name="google_status_fmt">Google User: %s</string>
-    <string name="google_title_text">Google Sign In</string>
-    <string name="facebook_status_fmt">Facebook User: %s</string>
-    <string name="facebook_title_text">Facebook Login</string>
-    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
-    <string name="emailpassword_title_text">Email and Password</string>
-    <string name="passwordless_status_fmt">Email User: %1$s (verified: %2$b)</string>
-    <string name="passwordless_title_text">Passwordless Sign In</string>
-    <string name="status_email_not_sent">Send link to your email to get started.</string>
-    <string name="status_email_sent">Link sent, check your email to continue.</string>
-    <string name="status_link_found">Link received, enter email to sign in.</string>
-    <string name="phone_title_text">Phone Number</string>
-    <string name="twitter_status_fmt">Twitter User: %s</string>
-    <string name="twitter_title_text">Twitter Login</string>
-    <string name="generic_title_text">Generic IDP Sign In\nwith Microsoft</string>
-    <string name="msft_status_fmt">Microsoft User: %s</string>
-    <string name="custom_auth_signin_status_user">User ID: %s</string>
-    <string name="custom_auth_signin_status_failed">Error: sign in failed</string>
-    <string name="ItemCategorySpinner">ItemCategorySpinner</string>
-
-
     <string-array name="categories">
         <item>书籍</item>
         <item>家具</item>
@@ -123,6 +54,9 @@
         <item>状态较差</item>
     </string-array>
 
+    <!--Other-->
+    <string name="sign_out">登出</string>
+
     <!--Chat stuff-->
     <string name="chatlist">聊天列表</string>
     <string name="chatroom">聊天室</string>
@@ -133,19 +67,27 @@
     <string name="price">价格:</string>
     <string name="textview">TextView</string>
     <string name="apply">应用</string>
-    <string name="sort_by_distance">根据距离排序</string>
+    <string name="sort_by_distance">距离排序</string>
     <string name="contact_seller">联系卖家</string>
     <string name="delete_post">删除条目</string>
     <string name="add_Picture">添加图片</string>
     <string name="item_pic">Picture of the Item</string>
-    <string name="change_email">更改邮箱</string>
     <string name="change_name">更改姓名</string>
     <string name="change_search_radius">更改搜索半径</string>
     <string name="change_university">更改大学</string>
     <string name="change_zipcode">更改邮编</string>
-    <string name="hint_input_email">输入你的邮箱</string>
     <string name="hint_input_name">输入你的姓名</string>
-    <string name="hint_input_radius">你想查找距离你多远的物品？</string>
+    <string name="hint_input_radius">输入搜索半径</string>
     <string name="hint_input_university">你在哪里学习？</string>
     <string name="hint_input_zipcode">输入你的邮编</string>
+    <string name="sort_by_price">价格排序</string>
+    <string name="view_post_condition">状态</string>
+    <string name="view_post_description">描述</string>
+    <string name="view_post_title">名称</string>
+    <string name="overall_rating">总体评价：</string>
+    <string name="give_your_rating_for_this_user">对该用户评分</string>
+    <string name="all_user_s_posts">用户条目</string>
+    <string name="eBay_suggested_price">易趣建议价格：</string>
+    <string name="ebay">易趣</string>
+    <string name="amazon">亚马逊</string>
 </resources>

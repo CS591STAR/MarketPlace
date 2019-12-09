@@ -1,6 +1,13 @@
 package com.example.marketplace;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+
+import com.google.firebase.database.DatabaseReference;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -22,10 +29,19 @@ public class EBayAPI {
     private boolean isTokenValid = false;
     private String token;
     private JSONObject response;
+    public static String eBayPrice;
 
-    private String str = "EBayAPI";
+    private static final String TAG = "EBayAPI";
 
     private static EBayAPI instance;
+
+    public static String geteBayPrice() {
+        return eBayPrice;
+    }
+
+    public static void seteBayPrice(String eBayPrice) {
+        EBayAPI.eBayPrice = eBayPrice;
+    }
 
     private EBayAPI(){}
 
@@ -47,7 +63,7 @@ public class EBayAPI {
     /**
      * programmatically get the token for later API request
      */
-    private void getToken() {
+    public void getToken() {
         //new okHttp object
         OkHttpClient client = new OkHttpClient();
 
@@ -86,7 +102,7 @@ public class EBayAPI {
     }
 
     //search items by keyword
-    public void searchItem(String keyword, int limit){
+    public void searchItemAndFillIn(final String keyword, int limit){
         if(!isTokenValid){
             getToken();
         }
@@ -118,7 +134,18 @@ public class EBayAPI {
                     try {
                         String responseBody = response.body().string();
                         JSONObject object = new JSONObject(responseBody);
-                        setResponse(object);
+                        //get the list of items
+                        JSONArray array = object.getJSONArray("itemSummaries");
+                        //get only the 1st item (which should be the most relevant)
+                        object = array.getJSONObject(0);
+                        //get the image
+                        String url = object.getJSONObject("image").getString("imageUrl");
+                        //get the price
+                        JSONObject priceObject = object.getJSONObject("price");
+                        final String price = priceObject.getString("value")+" "+priceObject.getString("currency");
+                        Log.w(TAG, "keyword: " + keyword);
+                        Log.w(TAG, "price: " + price);
+                        eBayPrice = price;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -131,6 +158,14 @@ public class EBayAPI {
     }
 
     public void searchItem(String keyword){
-        searchItem(keyword, 1);
+        searchItemAndFillIn(keyword, 1);
+    }
+
+    public String getItemPrice() throws JSONException {
+        if(response == null){
+            return "No result";
+        }
+
+        return response.getString("value") + " " + response.getString("currency");
     }
 }

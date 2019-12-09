@@ -186,15 +186,19 @@ public class ItemPostForm extends Fragment {
                     currentTime = date.getTime();
                 }
 
+                EBayAPI eBayAPI = EBayAPI.getInstance();
+                eBayAPI.searchItem(itemNameTxt.getText().toString());
+
                 Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
                         itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition()].toString(),
                         Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition()].toString(), currentTime,
-                        postDescriptionText.getText().toString(), postID, "");
+                        postDescriptionText.getText().toString(), postID, "", "", "");
 
                 uploadToCloud(postImage, post);
 
                 Toast.makeText(view.getContext(),"New post created", Toast.LENGTH_SHORT).show();
                 IPFL.openFeed();
+
             }
         });
 
@@ -263,6 +267,13 @@ public class ItemPostForm extends Fragment {
                     Log.i("IMG", "download image at " + imageLink);
                     post.setImage(imageLink);
 
+                    if(EBayAPI.geteBayPrice() != null){
+                        post.seteBayPrice(EBayAPI.geteBayPrice());
+                        Log.w(TAG, "eBay price got");
+                    }
+                    else{
+                        Log.w(TAG, "eBay price not got");
+                    }
                     mDatabase.child(postID).setValue(post);
                     Log.i("IMGPOST", "download image at " + post.getImage());
 

@@ -23,14 +23,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
+import org.json.JSONException;
+
 public class ViewPost extends Fragment {
 
     Button deletePost;
     Button contactSeller;
     TextView postTitle;
     TextView postPrice;
+    TextView txtAmazon;
+    TextView txtEbay;
     TextView postDescription;
-    TextView postCondition;
+    TextView conditionPost;
+    TextView categoryPost;
     ImageView postImage;
     Post post;
 
@@ -39,6 +44,7 @@ public class ViewPost extends Fragment {
     private String mUsername;
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseZip;
+    private static final String TAG = "VIEW_POST";
 
     public ViewPost(){
         //Required empty public constructor
@@ -81,10 +87,22 @@ public class ViewPost extends Fragment {
         contactSeller = view.findViewById(R.id.contactSellerPost);
         postTitle = view.findViewById(R.id.titlePost);
         postPrice = view.findViewById(R.id.pricePost);
-        postCondition = view.findViewById(R.id.conditionPost);
+        conditionPost = view.findViewById(R.id.conditionPost);
         postDescription = view.findViewById(R.id.descriptionPost);
         postImage = view.findViewById(R.id.imagePost);
 
+        txtAmazon = view.findViewById(R.id.txtAmazon);
+        txtEbay = view.findViewById(R.id.txtEbay);
+        categoryPost = view.findViewById(R.id.categoryPost);
+
+        String price;
+        if(post.geteBayPrice() == null){
+            price = "No result";
+        }
+        else{
+            price = post.geteBayPrice();
+        }
+        txtEbay.setText(txtEbay.getText().toString() + price);
 
 
         // set post info
@@ -97,10 +115,15 @@ public class ViewPost extends Fragment {
                 .load(post.getImage())
                 .into(postImage);
 
-        postCondition.setText(getResources().getStringArray(R.array.categories)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
+        conditionPost.setText(getResources().getStringArray(R.array.itemConditions)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
 
-        postPrice.setText(Long.toString(post.getAskingPrice()));
+        categoryPost.setText(getResources().getStringArray(R.array.categories)[Post.Category.valueOf(post.getCategory()).ordinal()]);
 
+        String userPrice = postPrice.getText().toString() + "$" + post.getAskingPrice();
+        postPrice.setText(userPrice);
+
+        String amazonPrice = txtAmazon.getText().toString() + "$" + post.getAskingPrice(); // change to api call
+        txtAmazon.setText(amazonPrice);
 
         // update UI
         updateUI();

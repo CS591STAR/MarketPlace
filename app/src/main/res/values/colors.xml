@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#039BE5</color>
-    <color name="colorPrimaryDark">#0288D1</color>
-    <color name="colorAccent">#FFA000</color>
+    <color name="colorPrimary">#cc7800</color>
+    <color name="colorPrimaryDark">#cc7800</color>
+    <color name="colorAccent">#942911</color>
+    <color name="bone">#f4f4f2</color>
 
-    <color name="grey_100">#F5F5F5</color>
-    <color name="grey_300">#E0E0E0</color>
-    <color name="grey_500">#9E9E9E</color>
+    <color name="grey_100">#143642</color>
+    <color name="grey_300">#f4e8c1</color>
+    <color name="grey_500">#f4e8c1</color>
 
-    <color name="light_blue">#ADD8E6</color>
 </resources>

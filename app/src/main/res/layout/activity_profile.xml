@@ -47,6 +47,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center" />
 
+            <TextView
+                android:id="@+id/txtStars"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:gravity="center"
+                android:text="@string/overall_rating" />
+
             <Button
                 android:id="@+id/btnPreferences"
                 android:layout_width="match_parent"
@@ -60,21 +67,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="User's Rating" />
+                android:text="@string/give_your_rating_for_this_user" />
 
             <RatingBar
                 android:id="@+id/rbUser"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:numStars="5" />
 
-            <TextView
-                android:id="@+id/txtStars"
-                android:layout_width="match_parent"
-                android:layout_height="39dp"
-                android:gravity="center_vertical"
-                android:text="@string/overall_rating" />
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent" />
 
     <TextView
         android:id="@+id/txtPosts"
@@ -83,6 +91,12 @@
         android:layout_weight="0.5"
         android:gravity="center"
         android:text="@string/all_user_s_posts" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

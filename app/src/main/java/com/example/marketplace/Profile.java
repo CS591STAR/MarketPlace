@@ -46,6 +46,10 @@ public class Profile extends Fragment {
     private RatingBar rbUser;
     private TextView txtStars;
     private TextView txtPosts;
+    String ratingString;
+    long numRatings;
+    double ratingVal;
+    String ratingValString;
 
     private List<Post> postList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -101,8 +105,8 @@ public class Profile extends Fragment {
 
         mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         if (mFirebaseUser != null) {
-            txtDisplayName.setText(mFirebaseUser.getDisplayName());
-            txtEmail.setText(mFirebaseUser.getEmail());
+//            txtDisplayName.setText(mFirebaseUser.getDisplayName());
+//            txtEmail.setText(mFirebaseUser.getEmail());
 
             Uri img = mFirebaseUser.getPhotoUrl();
             GlideApp.with(this /* context */)
@@ -110,21 +114,6 @@ public class Profile extends Fragment {
                     .into(imgUser);
         }
 
-        rbUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-
-                //save the rating to the database
-
-                Toast.makeText(getContext(), "Thank you for your feedback!", Toast.LENGTH_LONG).show();
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                rbUser.setRating(0);
-            }
-        });
 
         btnPreferences.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +124,52 @@ public class Profile extends Fragment {
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
+
+        mDatabase.child("users").child(mFirebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                txtDisplayName.setText(dataSnapshot.child("name").getValue().toString());
+                txtEmail.setText(dataSnapshot.child("email").getValue().toString());
+                txtUni.setText(dataSnapshot.child("uni").getValue().toString());
+
+                ratingValString = String.valueOf(dataSnapshot.child("rating").getValue());
+                ratingVal = Double.parseDouble(ratingValString);
+                numRatings = (long) (dataSnapshot.child("numRatings").getValue());
+
+                String overall = getResources().getString(R.string.overall_rating);
+                ratingString = overall + " " + ratingVal + " stars";
+
+
+                txtStars.setText(ratingString);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        rbUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+
+                double oldTotal = ratingVal * numRatings;
+                double newTotal = oldTotal + v;
+                double newNumRatings = numRatings + 1;
+                double newRating = newTotal / (numRatings + 1);
+
+                mDatabase.child("users").child(mFirebaseUser.getUid()).child("rating").setValue(newRating);
+                mDatabase.child("users").child(mFirebaseUser.getUid()).child("numRatings").setValue(newNumRatings);
+
+                Toast.makeText(getContext(), "Thank you for your feedback!", Toast.LENGTH_LONG).show();
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                rbUser.setRating(0);
+            }
+        });
 
         mDatabase.child("posts").orderByChild("sellerID").equalTo(mFirebaseUser.getUid()).addValueEventListener( new ValueEventListener(){
             @Override
@@ -158,9 +193,11 @@ public class Profile extends Fragment {
                             String zipcode = (String) snap.child("zipcode").getValue();
                             String itemCondition = (String) snap.child("itemCondition").getValue();
                             String image = (String) snap.child("image").getValue();
+                            String eBayPrice = (String) snap.child("eBayPrice").getValue();
+                            String amazonPrice = (String) snap.child("amazonPrice").getValue();
 
                             Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
-                                    itemPostTime, itemDescription, postID, image);
+                                    itemPostTime, itemDescription, postID, image, eBayPrice, amazonPrice);
                             postList.add(post);
                             //received results
                             Log.i("post", post.getItemName() + " on nod " + postID);
