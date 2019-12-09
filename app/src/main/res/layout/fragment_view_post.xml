@@ -86,7 +86,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:text="@string/view_post_condition"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/categoryPost"
@@ -94,7 +94,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:text="category"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
