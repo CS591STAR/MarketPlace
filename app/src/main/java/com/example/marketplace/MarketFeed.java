@@ -6,9 +6,7 @@ import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -383,21 +381,14 @@ public class MarketFeed extends Fragment {
                     for (DataSnapshot zipcodeChildren : snapshot.getChildren()) {
                         postsInZipcode.add(zipcodeChildren.getKey());
                     }
-                    Log.i("inside", postsInZipcode.toString());
                     zipcodes.put(currentZipCode, postsInZipcode);
                 }
-                Log.i("HASHMAPBITCH", zipcodes.toString());
 
                 mDatabase.child("zipcodes").removeEventListener(this);
 
                 postList.clear();
-//                postListAdapter.notifyDataSetChanged();
-//                Log.i("sort gets us here:", "1");
-                Log.i("sort gets us here:", zipcodesToCompare.toString());
-                for (String zipcodetocompare : zipcodesToCompare) {
-                    Log.i("BITCH", zipcodetocompare);
-                    Log.i("CUNT", zipCodesInRadius.toString());
 
+                for (String zipcodetocompare : zipcodesToCompare) {
 
                     if (zipCodesInRadius.contains(zipcodetocompare)) {
                         for (String postID : zipcodes.get(zipcodetocompare)) {
@@ -405,14 +396,11 @@ public class MarketFeed extends Fragment {
                             postRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    Log.i("Bitch3x", dataSnapshot.toString());
                                     if (dataSnapshot != null) {
                                         try {
                                             Post post = new Post((HashMap<String, Object>) dataSnapshot.getValue());
                                             postList.add(post);
-                                            Log.i("FUCK", post.toString());
                                         } catch (NullPointerException e) {
-                                            Log.e("NOPOST", "no-posts");
                                         }
                                     }
                                 }
@@ -423,7 +411,6 @@ public class MarketFeed extends Fragment {
                                 }
                             });
                         }
-
                     }
                 }
             }
@@ -432,12 +419,6 @@ public class MarketFeed extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-//                        getActivity().runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                postListAdapter.notifyDataSetChanged();
-//                            }
-//                        });
     }
 
 }
