@@ -17,18 +17,19 @@
             android:layout_weight="1"
             android:text="@string/sort_by_distance" />
 
-        <Spinner
-            android:id="@+id/sprCategory"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5" />
-
         <Button
             android:id="@+id/btnSortByPrice"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/sort_by_price" />
+
+        <Spinner
+            android:id="@+id/sprCategory"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5" />
+
     </LinearLayout>
 
     <SeekBar
