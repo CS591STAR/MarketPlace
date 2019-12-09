@@ -5,21 +5,27 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class User implements Parcelable {
+public class User {
 
     private String id;
     private String name;
     private String email;
     private String img;
-    // Collection of Chats
-    // Collection of Posts
-    // String university;
+    private String uni;
+    private double rating;
+    private double numRatings;
+    private int zip;
 
-    public User(String id, String name, String email, String img) {
+
+    public User(String id, String name, String email, String img, String uni, double rating, double numRatings, int zip) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.img = img;
+        this.uni = uni;
+        this.rating = rating;
+        this.zip = zip;
+        this.numRatings = numRatings;
     }
 
 
@@ -56,33 +62,27 @@ public class User implements Parcelable {
         this.img = img;
     }
 
-    // Parcelling part
-    public User(Parcel in) {
-        String[] data = new String[4];
-
-        in.readStringArray(data);
-        this.id = data[0];
-        this.name = data[1];
-        this.email = data[2];
-        this.img = data[3];
+    public String getUni() {
+        return this.uni;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setUni(String uni) {
+        this.uni = uni;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[] {this.id, this.name, this.email, this.img});
+    public double getRating() {
+        return this.rating;
     }
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
 
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public int getZip() {
+        return this.zip;
+    }
+
+    public void setZip() {
+        this.zip = zip;
+    }
 }

@@ -106,10 +106,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             findViewById(R.id.signInButton).setVisibility(View.GONE);
             findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
 
-            you = new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString());
 
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.putExtra("user", you);
+
             startActivity(intent);
         } else {
             // Signed out

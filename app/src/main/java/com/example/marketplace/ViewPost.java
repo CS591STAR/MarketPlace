@@ -110,14 +110,11 @@ public class ViewPost extends Fragment {
         conditionPost.setText(getResources().getStringArray(R.array.itemConditions)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
 
 
-        String userPrice = "User's Price:\n$" + post.getAskingPrice();
+        String userPrice = postPrice.getText().toString() + "$" + post.getAskingPrice();
         postPrice.setText(userPrice);
 
-        String amazonPrice = "Amazon's Price:\n$" + post.getAskingPrice(); // change to api call
+        String amazonPrice = txtAmazon.getText().toString() + "$" + post.getAskingPrice(); // change to api call
         txtAmazon.setText(amazonPrice);
-
-        // String ebayPrice = "Ebay's Price:\n$" + post.getAskingPrice(); // change to api call
-        // txtEbay.setText(ebayPrice);
 
         // update UI
         updateUI();

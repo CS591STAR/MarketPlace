@@ -32,7 +32,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/amazon"
+                android:text="@string/amazon_s_suggested_price_n"
                 android:textSize="18sp" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/ebay"
+                android:text="@string/ebay_s_suggested_price_n"
                 android:textSize="18sp" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/view_post_price"
+                android:text="@string/user_s_price_n"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -67,7 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:gravity="clip_vertical"
+            android:gravity="center_horizontal"
             android:text="@string/view_post_title" />
 
         <LinearLayout

@@ -138,7 +138,7 @@ public class EBayAPI {
                             @Override
                             public void run() {
                                 TextView tvEBaySuggestedPrice = activity.findViewById(R.id.txtEbay);
-                                String ebayPrice = "Ebay's Suggested Price:\n" + price;
+                                String ebayPrice = tvEBaySuggestedPrice.getText().toString() + " " + price;
                                 tvEBaySuggestedPrice.setText(ebayPrice);
                             }
                         });
