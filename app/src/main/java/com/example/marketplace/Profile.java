@@ -141,9 +141,7 @@ public class Profile extends Fragment {
 
                 ratingValString = String.valueOf(dataSnapshot.child("rating").getValue());
                 ratingVal = Double.parseDouble(ratingValString);
-                if(dataSnapshot.child("numRating").getValue() != null){
-                    numRatings = (long) (dataSnapshot.child("numRatings").getValue());
-                }
+                numRatings = (long) (dataSnapshot.child("numRatings").getValue());
 
                 String overall = getResources().getString(R.string.overall_rating);
                 ratingString = overall + " " + ratingVal + " stars";
