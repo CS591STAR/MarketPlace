@@ -62,6 +62,11 @@
     <string name="chatroom">Chat Room</string>
     <string name="sendbutton">send</string>
 
+    <!--Zip code request-->
+    <string name="enter_your_zip">Enter your zip code:</string>
+    <string name="zip_code_apply">Apply</string>
+    <string name="enter_your_university">Enter your university:</string>
+
     <!--Market Feed Row-->
     <string name="post_name">Post Name</string>
     <string name="item_pic">Picture of the Item</string>
