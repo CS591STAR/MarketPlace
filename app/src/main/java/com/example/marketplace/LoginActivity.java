@@ -29,10 +29,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private FirebaseAuth mAuth;
 
-    private TextView mStatusView;
-    private TextView mDetailView;
-    private TextView mDisplayName;
-    private TextView mPhoto;
     User you;
     
 
@@ -43,12 +39,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
-        mStatusView = findViewById(R.id.status);
-        mDetailView = findViewById(R.id.detail);
-        mDisplayName = findViewById(R.id.displayName);
-        mPhoto = findViewById(R.id.photo);
-
 
         findViewById(R.id.signInButton).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
@@ -97,10 +87,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // update UI depending on user status
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            // Signed in
-            mStatusView.setText(getString(R.string.firebaseui_status_fmt, user.getEmail()));
-            mDetailView.setText(getString(R.string.id_fmt, user.getUid()));
-
             //subscribe to the user's id to start receiving messages
             FirebaseMessaging.getInstance().subscribeToTopic(mAuth.getCurrentUser().getUid());
 
@@ -115,10 +101,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             startActivity(intent);
         } else {
-            // Signed out
-            mStatusView.setText(R.string.signed_out);
-            mDetailView.setText(null);
-
             findViewById(R.id.signInButton).setVisibility(View.VISIBLE);
             findViewById(R.id.signOutButton).setVisibility(View.GONE);
         }
