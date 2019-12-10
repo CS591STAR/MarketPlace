@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -178,7 +179,7 @@ public class ItemPostForm extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(ItemConditionDropDown.getSelectedItemPosition() == 0 || ItemCategoryDropdown.getSelectedItemPosition() == 0){
+                if (ItemConditionDropDown.getSelectedItemPosition() == 0 || ItemCategoryDropdown.getSelectedItemPosition() == 0) {
                     Toast.makeText(getContext(), "Please choose category and condition!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -191,6 +192,7 @@ public class ItemPostForm extends Fragment {
                     currentTime = date.getTime();
                 }
 
+//                if (TextUtils.isEmpty(itemNameTxt.getText()) && TextUtils.isEmpty(itemAskingPriceTxt.getText()) && TextUtils.isEmpty(itemZipcodeTxt.getText()) && TextUtils.isEmpty(postDescriptionText.getText()) && (itemImage != null)) {
                 //get first 3 words in item name and search it in eBay
                 EBayAPI eBayAPI = EBayAPI.getInstance();
                 String itemName = itemNameTxt.getText().toString();
@@ -200,17 +202,21 @@ public class ItemPostForm extends Fragment {
                 AmazonAPI amazonAPI = AmazonAPI.getInstance();
                 amazonAPI.searchItem(itemNameTxt.getText().toString());
 
-                Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
-                        itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition() - 1].toString(),
-                        Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition() - 1].toString(), currentTime,
-                        postDescriptionText.getText().toString(), postID, "", "", "");
+                if (isEmpty(itemAskingPriceTxt) || isEmpty(itemZipcodeTxt)) {
+                    Toast.makeText(getActivity(), "Cannot have empty fields!", Toast.LENGTH_LONG).show();
+                } else if (postImage == null) {
+                    Toast.makeText(getActivity(), "You need to add a picture!", Toast.LENGTH_LONG).show();
+                } else {
+                    Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
+                            itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition() - 1].toString(),
+                            Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition() - 1].toString(), currentTime,
+                            postDescriptionText.getText().toString(), postID, "", "", "");
 
-                uploadToCloud(postImage, post);
-
-                Toast.makeText(view.getContext(),"New post created", Toast.LENGTH_SHORT).show();
-                getActivity().finish();
-                IPFL.openFeed();
-
+                    uploadToCloud(postImage, post);
+                    Toast.makeText(view.getContext(), "New post created", Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
+                    IPFL.openFeed();
+                }
             }
         });
 
@@ -299,6 +305,13 @@ public class ItemPostForm extends Fragment {
                     Log.i("IMG", "download image at " + imageLink);
                     post.setImage(imageLink);
 
+                    if (AmazonAPI.getAmazonPrice() != null){
+                        Log.w("amznAPI", "Amazon price got");
+                        post.setAmazonPrice(AmazonAPI.getAmazonPrice());
+                    } else {
+                        Log.w("amznAPI", "Amazon price not got");
+                    }
+
                     if(EBayAPI.geteBayPrice() != null){
                         post.seteBayPrice(EBayAPI.geteBayPrice());
                         Log.w(TAG, "eBay price got");
@@ -307,11 +320,6 @@ public class ItemPostForm extends Fragment {
                         Log.w(TAG, "eBay price not got");
                     }
 
-                    if (AmazonAPI.getAmazonPrice() != null){
-                        post.setAmazonPrice(AmazonAPI.getAmazonPrice());
-                    } else {
-                        Log.i("error here", "what should we do");
-                    }
                     mDatabase.child(postID).setValue(post);
                     Log.i("IMGPOST", "download image at " + post.getImage());
 
@@ -354,6 +362,10 @@ public class ItemPostForm extends Fragment {
 
         Response response = client.newCall(request).execute();
         return Long.parseLong(response.body().string());
+    }
+
+    private boolean isEmpty(EditText myeditText) {
+        return myeditText.getText().toString().trim().length() == 0;
     }
 }
 
