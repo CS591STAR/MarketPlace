@@ -85,4 +85,12 @@ public class User {
     public void setZip() {
         this.zip = zip;
     }
+
+    public double getNumRatings() {
+        return numRatings;
+    }
+
+    public void setNumRatings(double numRatings) {
+        this.numRatings = numRatings;
+    }
 }
