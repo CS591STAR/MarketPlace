@@ -17,6 +17,7 @@ import android.widget.Button;
 
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -80,12 +81,15 @@ public class MarketFeed extends Fragment {
 
     private Button btnSortByPrice;
     private Spinner sprCategory;
+    private ProgressBar pbFeed;
 
     private DatabaseReference mDatabase;
     private DatabaseReference zipcodeDatabase;
 
     ArrayList<String> zipCodesInRadius = new ArrayList<>();
     ArrayList<String> zipcodesToCompare = new ArrayList<>();
+
+    Map<String, ArrayList<String>> zipcodes = new HashMap<>();
 
     private List<Post> postList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -125,6 +129,9 @@ public class MarketFeed extends Fragment {
         View view = inflater.inflate(R.layout.feed_layout, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.feed_recycler_view);
+        mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
+
+        buildZipcodeMap();
 
         btnCreatePost = view.findViewById(R.id.btnCreatePost);
         // init the adapter
@@ -136,6 +143,7 @@ public class MarketFeed extends Fragment {
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
         filterByDistanceBtn = view.findViewById(R.id.filterByDistanceBtn);
         distanceSeekBar = view.findViewById(R.id.distanceSeekBar);
+        pbFeed = view.findViewById(R.id.pbFeed);
 
         //add button for sorting by price
         btnSortByPrice = view.findViewById(R.id.btnSortByPrice);
@@ -148,6 +156,14 @@ public class MarketFeed extends Fragment {
 
         // give the seek bar a max value of 5 miles
         distanceSeekBar.setMax(5);
+        //hide seek bar before use it
+        distanceSeekBar.setVisibility(View.GONE);
+        filterByDistanceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                distanceSeekBar.setVisibility(View.VISIBLE);
+            }
+        });
 
         filterByDistanceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +175,16 @@ public class MarketFeed extends Fragment {
         distanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
+                if (b) {
+                    mileRadius = String.valueOf(i);
+                    if (mileRadius.equals("0")) {
+                        postList.clear();
+                        sortByPostTime();
+                        postListAdapter.notifyDataSetChanged();
+                    } else {
+                        zipcodesInRadius();
+                    }
+                }
             }
 
             @Override
@@ -168,14 +193,7 @@ public class MarketFeed extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mileRadius = String.valueOf(distanceSeekBar.getProgress());
-                try {
-                    recyclerView.getRecycledViewPool().clear();
-                    zipcodesInRadius();
-                    postListAdapter.notifyDataSetChanged();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
             }
         });
 
@@ -194,15 +212,6 @@ public class MarketFeed extends Fragment {
                 } else {
                     currentQuery = mDatabase.child("posts").orderByChild("category").equalTo(Post.Category.values()[i - 1].toString());
                     currentQuery.addValueEventListener(basicValueEventListener);
-//                    for(int index = 0; index < postList.size(); index++){
-//                        String currentCategory = postList.get(index).getCategory();
-//                        String neededCategory = Post.Category.values()[i-1].toString();
-//                        Log.w(TAG, "Category: " + currentCategory + " " + neededCategory);
-//                        if(!currentCategory.equals(neededCategory)) {
-//                            postList.remove(index);
-//                        }
-//                    }
-//                    postListAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -219,16 +228,15 @@ public class MarketFeed extends Fragment {
             }
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
-
         //initialize a default event listener
-        if(basicValueEventListener == null) {
+        if (basicValueEventListener == null) {
 
             basicValueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     postList.clear();
+                    pbFeed.setVisibility(View.INVISIBLE);
 
                     if (dataSnapshot.hasChildren()) {
                         Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
@@ -276,7 +284,7 @@ public class MarketFeed extends Fragment {
             currentQuery.removeEventListener(basicValueEventListener);
         }
         //order item by post time
-        currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
+        currentQuery = mDatabase.child("posts").orderByKey();
         currentQuery.addValueEventListener(basicValueEventListener);
 
         return view;
@@ -294,31 +302,46 @@ public class MarketFeed extends Fragment {
         currentQuery.addValueEventListener(basicValueEventListener);
     }
 
-    public Query getCurrentQuery(){
+    public Query getCurrentQuery() {
         return currentQuery;
     }
 
-//    @Override
-//    protected void onDestroy() {
-//
-//        sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPref.edit();
-//        Gson gson = new Gson();
-//        String youJson = gson.toJson(you);
-//        editor.putString("user", youJson);
-//        editor.commit();
-//        super.onDestroy();
-//    }
+    private void buildZipcodeMap() {
 
-    public void zipcodesInRadius() throws IOException {
+        // clear both lists
+        zipcodes.clear();
+        zipcodesToCompare.clear();
+
+        mDatabase.child("zipcodes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String currentZipCode = snapshot.getKey(); // Key for hashmap
+                    Log.i("CURR", "current zipcode is " + currentZipCode);
+                    zipcodesToCompare.add(currentZipCode);
+                    ArrayList<String> postsInZipcode = new ArrayList<>();
+                    for (DataSnapshot zipcodeChildren : snapshot.getChildren()) {
+                        postsInZipcode.add(zipcodeChildren.getKey());
+                    }
+                    zipcodes.put(currentZipCode, postsInZipcode);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void zipcodesInRadius() {
         Log.i("SORT", "sort by distance");
 
         // clear lists
         zipCodesInRadius.clear();
-        zipcodesToCompare.clear();
 
         // for now we are using a sample zipcode until we retrieve it from the user properly
-        String sampleZip = "02128";
+        String sampleZip = "02215";
         String redLineAPIEndPoint = "https://redline-redline-zipcode.p.rapidapi.com/rest/radius.json/" + sampleZip + "/" + mileRadius + "/mile";
 
         OkHttpClient client = new OkHttpClient();
@@ -348,15 +371,8 @@ public class MarketFeed extends Fragment {
                             JSONObject zipcode_inresponse = fetchResponse.getJSONObject(obj);
                             zipCodesInRadius.add(zipcode_inresponse.getString("zip_code"));
                         }
-                        sortByDistance();
 
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                                        recyclerView.getRecycledViewPool().clear();
-                                postListAdapter.notifyDataSetChanged();
-                            }
-                        });
+                        sortByDistance();
 
                     } catch (JSONException e) {
                         Log.i("onresponse", "not successful");
@@ -370,58 +386,47 @@ public class MarketFeed extends Fragment {
     }
 
     public void sortByDistance() {
-
-        currentQuery.removeEventListener(basicValueEventListener);
-        mDatabase.child("zipcodes").addValueEventListener(new ValueEventListener() {
+        postList.clear();
+        recyclerView.getRecycledViewPool().clear();
+        getActivity().runOnUiThread(new Runnable() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String, ArrayList<String>> zipcodes = new HashMap<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String currentZipCode = snapshot.getKey(); // Key for hashmap
-                    Log.i("CURR", "current zipcode is " + currentZipCode);
-                    zipcodesToCompare.add(currentZipCode);
-                    ArrayList<String> postsInZipcode = new ArrayList<>();
-                    for (DataSnapshot zipcodeChildren : snapshot.getChildren()) {
-                        postsInZipcode.add(zipcodeChildren.getKey());
-                    }
-                    zipcodes.put(currentZipCode, postsInZipcode);
-                }
-
-                mDatabase.child("zipcodes").removeEventListener(this);
-
-                postList.clear();
-
-                for (String zipcodetocompare : zipcodesToCompare) {
-
-                    if (zipCodesInRadius.contains(zipcodetocompare)) {
-                        for (String postID : zipcodes.get(zipcodetocompare)) {
-                            DatabaseReference postRef = mDatabase.child("posts").child(postID);
-                            postRef.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot != null) {
-                                        try {
-                                            Post post = new Post((HashMap<String, Object>) dataSnapshot.getValue());
-                                            postList.add(post);
-                                        } catch (NullPointerException e) {
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void run() {
+                postListAdapter.notifyDataSetChanged();
             }
         });
-    }
+            for (String zipcodetocompare : zipcodesToCompare) {
+            Log.i("SINGLE", "single zipcode is " + zipcodetocompare);
+            Log.i("Radius", "zipcodes returned from API " + zipCodesInRadius.toString());
+            if (zipCodesInRadius.contains(zipcodetocompare)) {
+                for (String postID : zipcodes.get(zipcodetocompare)) {
+                    Log.i("FETCH", "getting post with id " + postID + " from db");
+                    DatabaseReference postRef = mDatabase.child("posts").child(postID);
+                    postRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot != null) {
+                                try {
+                                    Post post = new Post((HashMap<String, Object>) dataSnapshot.getValue());
+                                    postList.add(post);
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            postListAdapter.notifyDataSetChanged();
+                                        }
+                                    });
+                                } catch (NullPointerException e) {
+                                }
+                            }
+                        }
 
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    postRef.removeEventListener(basicValueEventListener);
+                }
+            }
+        }
+    }
 }

@@ -29,6 +29,7 @@ public class ViewPost extends Fragment {
 
     Button deletePost;
     Button contactSeller;
+    Button btnUser;
     TextView postTitle;
     TextView postPrice;
     TextView txtAmazon;
@@ -38,7 +39,7 @@ public class ViewPost extends Fragment {
     TextView categoryPost;
     ImageView postImage;
     Post post;
-
+    private Button btnReport;
 
     private FirebaseUser mFirebaseUser;
     private String mUsername;
@@ -56,6 +57,7 @@ public class ViewPost extends Fragment {
 
     public interface ViewPostListener {
         public void openFeed();
+        public void openOtherProfile(String sellerID);
         // add methods that we would need the activity to implement
     }
 
@@ -83,6 +85,7 @@ public class ViewPost extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
         mDatabaseZip = FirebaseDatabase.getInstance().getReference().child("zipcodes");
 
+        btnUser = view.findViewById(R.id.btnUser);
         deletePost = view.findViewById(R.id.DeletePost);
         contactSeller = view.findViewById(R.id.contactSellerPost);
         postTitle = view.findViewById(R.id.titlePost);
@@ -94,9 +97,11 @@ public class ViewPost extends Fragment {
         txtAmazon = view.findViewById(R.id.txtAmazon);
         txtEbay = view.findViewById(R.id.txtEbay);
         categoryPost = view.findViewById(R.id.categoryPost);
+        btnReport = view.findViewById(R.id.btnReport);
 
         String EbayPrice = "No result";
         String AmazonPrice = "No result";
+
 
         if(!post.geteBayPrice().equals("")){
             EbayPrice = post.geteBayPrice();
@@ -142,6 +147,22 @@ public class ViewPost extends Fragment {
             }
         });
 
+        //set listener for report btn
+        btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "Thank you for your report!", Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
+            }
+        });
+
+        btnUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                VPL.openOtherProfile(post.getSellerID());
+            }
+        });
+
         return view;
     }
 
@@ -164,11 +185,13 @@ public class ViewPost extends Fragment {
         if (mUsername.equals(post.getSellerID())) {
             deletePost.setVisibility(View.VISIBLE);
             contactSeller.setVisibility(View.GONE);
+            btnUser.setVisibility(View.GONE);
             Log.i("POSTID", "sellerID= " + post.getSellerID() + " currentUserID "+ mFirebaseUser.getUid());
         }
         else {
             deletePost.setVisibility(View.GONE);
             contactSeller.setVisibility(View.VISIBLE);
+            btnUser.setVisibility(View.VISIBLE);
         }
     }
 }

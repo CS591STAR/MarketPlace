@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -78,7 +77,6 @@ public class Chatroom extends AppCompatActivity {
     private String mUsername;
     private String mPhotoUrl;
     public static final String TALKER_ID = "talkToID";
-    private String talkerName;
     private String talkerID;
 
     private Button mSendButton;
@@ -122,7 +120,7 @@ public class Chatroom extends AppCompatActivity {
         }
 
         // Initialize ProgressBar and RecyclerView.
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.pbChatroom);
         mMessageRecyclerView = (RecyclerView) findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
@@ -454,7 +452,7 @@ public class Chatroom extends AppCompatActivity {
         String FCM_API = "https://fcm.googleapis.com/fcm/send";
 
         String title = "Marketplace";
-        String message = "New messages received";
+        String message = "New message received";
 
         String topic = "/topics/" + talkerID;
         JSONObject notification = new JSONObject();

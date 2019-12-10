@@ -66,7 +66,8 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         post = postList.get(position);
         holder.postName.setText(post.getItemName());
-        holder.itemPriceTxt.setText(Long.toString(post.getAskingPrice()));
+        String priceLine = "$" + post.getAskingPrice();
+        holder.itemPriceTxt.setText(priceLine);
         GlideApp.with(context)
                 .load(post.getImage())
                 .into(holder.postImage);

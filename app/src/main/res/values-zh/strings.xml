@@ -87,7 +87,14 @@
     <string name="overall_rating">总体评价：</string>
     <string name="give_your_rating_for_this_user">对该用户评分</string>
     <string name="all_user_s_posts">用户条目</string>
-    <string name="eBay_suggested_price">易趣建议价格：</string>
-    <string name="ebay">易趣</string>
-    <string name="amazon">亚马逊</string>
+    <string name="ebay_s_suggested_price_n">易趣建议价格：\n</string>
+    <string name="user_s_price_n">用户要价：\n</string>
+    <string name="amazon_s_suggested_price_n">亚马逊建议价格：\n</string>
+    <string name="users_profile">查看用户</string>
+    <string name="view_post_category">类别</string>
+    <string name="report">投诉</string>
+    <string name="logout">登出</string>
+    <string name="zip_code_apply">应用</string>
+    <string name="enter_your_university">输入你的大学：</string>
+    <string name="enter_your_zip">输入你的邮编：</string>
 </resources>

@@ -28,6 +28,7 @@
     <string name="User_Name">User\'s Name</string>
     <string name="User_Email">User\'s Email</string>
     <string name="Preferences_Button">Preferences</string>
+    <string name="logout">Log Out</string>
 
     <!--NavBar-->
     <string name="P_button">P</string>
@@ -61,6 +62,11 @@
     <string name="chatroom">Chat Room</string>
     <string name="sendbutton">send</string>
 
+    <!--Zip code request-->
+    <string name="enter_your_zip">Enter your zip code:</string>
+    <string name="zip_code_apply">Apply</string>
+    <string name="enter_your_university">Enter your university:</string>
+
     <!--Market Feed Row-->
     <string name="post_name">Post Name</string>
     <string name="item_pic">Picture of the Item</string>
@@ -74,6 +80,9 @@
     <string name="view_post_title">Title </string>
     <string name="view_post_condition">Condition </string>
     <string name="view_post_description">Description </string>
+    <string name="users_profile">User\'s Profile</string>
+    <string name="view_post_category">Category</string>
+    <string name="report">report</string>
 
     <!--Preference-->
     <string name="change_name">Change Name</string>

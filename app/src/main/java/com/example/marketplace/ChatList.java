@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,10 +47,10 @@ public class ChatList extends AppCompatActivity {
 
     private static final String TAG = "ChatList";
     public static final String MESSAGES_CHILD = "messages";
-    public static final String ANONYMOUS = "anonymous";
 
     private RecyclerView chatlistRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
+    private ProgressBar mProgressBar;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -76,6 +77,7 @@ public class ChatList extends AppCompatActivity {
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
         chatlistRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mProgressBar = (ProgressBar) findViewById(R.id.pbChatList);
 
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -97,6 +99,9 @@ public class ChatList extends AppCompatActivity {
         mFirebaseAdapter = new FirebaseRecyclerAdapter<SingleChat, ChatViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull ChatViewHolder viewHolder, int position, @NonNull final SingleChat singleChat) {
+
+                //disable progress bar
+                mProgressBar.setVisibility(View.INVISIBLE);
                 viewHolder.chatTextView.setText(singleChat.getName());
                 if(singleChat.getPhotoUrl() == null){
                     viewHolder.chatImageView.setImageDrawable(ContextCompat.getDrawable(ChatList.this,

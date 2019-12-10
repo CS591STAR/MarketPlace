@@ -2,6 +2,7 @@ package com.example.marketplace;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.Arrays;
 
@@ -99,6 +101,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mStatusView.setText(getString(R.string.firebaseui_status_fmt, user.getEmail()));
             mDetailView.setText(getString(R.string.id_fmt, user.getUid()));
 
+            //subscribe to the user's id to start receiving messages
+            FirebaseMessaging.getInstance().subscribeToTopic(mAuth.getCurrentUser().getUid());
 
 //            mDisplayName.setText(user.getDisplayName());
 //            mPhoto.setText(user.getPhotoUrl().toString());
