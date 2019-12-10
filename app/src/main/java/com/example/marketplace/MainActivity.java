@@ -75,12 +75,12 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
         userID = mFirebaseUser.getUid();
 
-
         mDatabase.orderByKey().equalTo(userID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (!dataSnapshot.exists()) {
+                    startActivity(new Intent(getBaseContext(), ZipcodeRequestActivity.class));
                     User you = new User(mFirebaseUser.getUid(), mFirebaseUser.getDisplayName(), mFirebaseUser.getEmail(), mFirebaseUser.getPhotoUrl().toString(), "", 5, 1, 0);
                     mDatabase.child(userID).setValue(you);
                 }

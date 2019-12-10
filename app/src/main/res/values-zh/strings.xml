@@ -94,4 +94,7 @@
     <string name="view_post_category">类别</string>
     <string name="report">投诉</string>
     <string name="logout">登出</string>
+    <string name="zip_code_apply">应用</string>
+    <string name="enter_your_university">输入你的大学：</string>
+    <string name="enter_your_zip">输入你的邮编：</string>
 </resources>
