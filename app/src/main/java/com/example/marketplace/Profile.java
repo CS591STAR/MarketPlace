@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -89,7 +87,7 @@ public class Profile extends Fragment {
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
 
 
-        imgUser = view.findViewById(R.id.imgUser);
+        imgUser = view.findViewById(R.id.otherImgUser);
         txtDisplayName = view.findViewById(R.id.txtDisplayName);
         txtEmail = view.findViewById(R.id.txtEmail);
         btnPreferences = view.findViewById(R.id.btnPreferences);
