@@ -137,10 +137,17 @@ public class MarketFeed extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mUsername = mFirebaseUser.getUid();
+
+        // get the user's zipcode
         mDatabase.child("users").child(mUsername).child("zip").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userZipcode = dataSnapshot.getValue().toString();
+                try {
+                    userZipcode = dataSnapshot.getValue().toString();
+
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

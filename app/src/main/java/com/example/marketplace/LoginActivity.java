@@ -77,8 +77,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .setIsSmartLockEnabled(!BuildConfig.DEBUG)
                         .setAvailableProviders(Arrays.asList(
                                 new AuthUI.IdpConfig.GoogleBuilder().build(),
-//                                new AuthUI.IdpConfig.FacebookBuilder().build(),
-//                                new AuthUI.IdpConfig.TwitterBuilder().build(), Twitter login disapled for now because sdk is no longer being supported by Twitter
+                                new AuthUI.IdpConfig.FacebookBuilder().build(),
                                 new AuthUI.IdpConfig.EmailBuilder().build()
                         ))
                         .build(),

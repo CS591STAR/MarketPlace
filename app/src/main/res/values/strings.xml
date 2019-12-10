@@ -5,6 +5,13 @@
 
     <!--Login Page-->
     <string name="sign_in">Sign In</string>
+    <string name="facebook_application_id" translatable="false">944949462564859</string>
+
+    <string name="facebook_status_fmt" translatable="false">Facebook User: %s</string>
+    <string name="facebook_title_text" translatable="false">Facebook Login</string>
+
+    <string name="label_facebook_login" translatable="false">Firebase + Facebook Login</string>
+    <string name="desc_facebook_login" translatable="false">Use a Facebook Login credential to authenticate with Firebase.</string>
 
     <!--Main Activity-->
 
