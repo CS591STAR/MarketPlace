@@ -200,7 +200,7 @@ public class ItemPostForm extends Fragment {
                 eBayAPI.searchItem(firstWords(itemName, 3));
 
                 AmazonAPI amazonAPI = AmazonAPI.getInstance();
-                amazonAPI.searchItem(itemNameTxt.getText().toString());
+                amazonAPI.searchItem(itemNameTxt.getText().toString(), mDatabase.child(postID).child("amazonPrice"));
 
                 if (isEmpty(itemAskingPriceTxt) || isEmpty(itemZipcodeTxt)){
                     Toast.makeText(getActivity(), "Cannot have empty fields!", Toast.LENGTH_LONG).show();
@@ -302,9 +302,6 @@ public class ItemPostForm extends Fragment {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
-                    imageLink = task.getResult().toString();
-                    Log.i("IMG", "download image at " + imageLink);
-                    post.setImage(imageLink);
 
                     if (AmazonAPI.getAmazonPrice() != null){
                         Log.w("amznAPI", "Amazon price got");
@@ -312,6 +309,11 @@ public class ItemPostForm extends Fragment {
                     } else {
                         Log.w("amznAPI", "Amazon price not got");
                     }
+
+                    imageLink = task.getResult().toString();
+                    Log.i("IMG", "download image at " + imageLink);
+                    post.setImage(imageLink);
+
 
                     if(EBayAPI.geteBayPrice() != null){
                         post.seteBayPrice(EBayAPI.geteBayPrice());
@@ -345,16 +347,6 @@ public class ItemPostForm extends Fragment {
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
-
-//    private void writeNewPost(String itemName, int askingPrice, String zipcode, String sellerID, String category, String itemCondition,
-//                              Long itemPostTime, String itemDescription, String image) {
-//
-//        Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition, itemPostTime, itemDescription, postID, image);
-//        mDatabase.child(postID).setValue(post);
-//
-//        // store every post relative to zipcode
-//        FirebaseDatabase.getInstance().getReference().child("zipcodes").child(String.valueOf(post.getZipcode())).child(postID).setValue(0);
-//    }
 
     long doGetRequest() throws IOException {
         Request request = new Request.Builder()

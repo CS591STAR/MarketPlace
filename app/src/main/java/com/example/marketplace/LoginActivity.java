@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
+                        .setLogo(R.mipmap.logo_foreground)
                         .setIsSmartLockEnabled(!BuildConfig.DEBUG)
                         .setAvailableProviders(Arrays.asList(
                                 new AuthUI.IdpConfig.GoogleBuilder().build(),

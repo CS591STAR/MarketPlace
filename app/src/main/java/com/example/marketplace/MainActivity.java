@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         if (marketFeed == null) {
             marketFeed = new MarketFeed();
         }
+
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragLayout, marketFeed);
         ft.addToBackStack(null);
@@ -163,9 +164,9 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     @Override
     public void createPost() {
 
-        if (itemPostForm == null) {
-            itemPostForm = new ItemPostForm();
-        }
+//        if (itemPostForm == null) {
+        itemPostForm = new ItemPostForm();
+//        }
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragLayout, itemPostForm, "ItemPostForm");
         ft.addToBackStack(null);
