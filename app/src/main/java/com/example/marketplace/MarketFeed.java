@@ -182,11 +182,7 @@ public class MarketFeed extends Fragment {
                         sortByPostTime();
                         postListAdapter.notifyDataSetChanged();
                     } else {
-//                    postList.clear();
-//                    recyclerView.getRecycledViewPool().clear();
                         zipcodesInRadius();
-//                        postListAdapter.notifyDataSetChanged();
-
                     }
                 }
             }
@@ -311,6 +307,7 @@ public class MarketFeed extends Fragment {
     }
 
     private void buildZipcodeMap() {
+
         // clear both lists
         zipcodes.clear();
         zipcodesToCompare.clear();
@@ -336,7 +333,6 @@ public class MarketFeed extends Fragment {
             }
         });
     }
-
 
     public void zipcodesInRadius() {
         Log.i("SORT", "sort by distance");
@@ -375,9 +371,8 @@ public class MarketFeed extends Fragment {
                             JSONObject zipcode_inresponse = fetchResponse.getJSONObject(obj);
                             zipCodesInRadius.add(zipcode_inresponse.getString("zip_code"));
                         }
+
                         sortByDistance();
-
-
 
                     } catch (JSONException e) {
                         Log.i("onresponse", "not successful");
@@ -392,7 +387,14 @@ public class MarketFeed extends Fragment {
 
     public void sortByDistance() {
         postList.clear();
-        for (String zipcodetocompare : zipcodesToCompare) {
+        recyclerView.getRecycledViewPool().clear();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                postListAdapter.notifyDataSetChanged();
+            }
+        });
+            for (String zipcodetocompare : zipcodesToCompare) {
             Log.i("SINGLE", "single zipcode is " + zipcodetocompare);
             Log.i("Radius", "zipcodes returned from API " + zipCodesInRadius.toString());
             if (zipCodesInRadius.contains(zipcodetocompare)) {
