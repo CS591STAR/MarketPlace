@@ -73,8 +73,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
-                        .setLogo(R.mipmap.logo_foreground)
+                        .setLogo(R.drawable.ic_market_place)
                         .setIsSmartLockEnabled(!BuildConfig.DEBUG)
+                        .setTheme(R.style.AppTheme)
                         .setAvailableProviders(Arrays.asList(
                                 new AuthUI.IdpConfig.GoogleBuilder().build(),
                                 new AuthUI.IdpConfig.FacebookBuilder().build(),
