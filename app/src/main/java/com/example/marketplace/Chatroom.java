@@ -36,6 +36,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -78,6 +80,7 @@ public class Chatroom extends AppCompatActivity {
     private String mPhotoUrl;
     public static final String TALKER_ID = "talkToID";
     private String talkerID;
+    private DatabaseReference reference;
 
     private Button mSendButton;
     private RecyclerView mMessageRecyclerView;
@@ -305,12 +308,38 @@ public class Chatroom extends AppCompatActivity {
         });
 
         //initialize chat room database (user's name, icon)
-        DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+        reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
                 .child(talkerID)
                 .child(mFirebaseUser.getUid());
         reference.child("id").setValue(mFirebaseUser.getUid());
         reference.child("name").setValue(mFirebaseUser.getDisplayName());
         reference.child("photoUrl").setValue(mFirebaseUser.getPhotoUrl().toString());
+        reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                .child(mFirebaseUser.getUid())
+                .child(talkerID);
+        Query query = mFirebaseDatabaseReference.child("users").orderByChild("id").equalTo(talkerID);
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot != null){
+                    String talkerName = (String) dataSnapshot.child("name").getValue();
+                    String talkerImg = (String) dataSnapshot.child("img").getValue();
+                    Log.w(TAG, "get data");
+                    Log.w(TAG, dataSnapshot.toString());
+                    Log.w(TAG, talkerName + " " + talkerImg);
+                    reference.child("id").setValue(talkerID);
+                    reference.child("name").setValue(talkerName);
+                    reference.child("photoUrl").setValue(talkerImg);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        query.addValueEventListener(listener);
+        query.removeEventListener(listener);
     }
 
     @Override
