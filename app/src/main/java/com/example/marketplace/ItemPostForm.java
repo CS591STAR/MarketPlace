@@ -199,18 +199,17 @@ public class ItemPostForm extends Fragment {
                 AmazonAPI amazonAPI = AmazonAPI.getInstance();
                 amazonAPI.searchItem(itemNameTxt.getText().toString());
 
-                Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
-                        itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition()].toString(),
-                        Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition()].toString(), currentTime,
-                        postDescriptionText.getText().toString(), postID, "", "", "");
-
-                if (postImage == null) {
-
-                    Toast.makeText(getActivity(), "You need to add a picture!", Toast.LENGTH_LONG).show();
-
+                if (isEmpty(itemAskingPriceTxt) || isEmpty(itemZipcodeTxt)){
+                    Toast.makeText(getActivity(), "Cannot have empty fields!", Toast.LENGTH_LONG).show();
                 }
-
+                else if (postImage == null) {
+                    Toast.makeText(getActivity(), "You need to add a picture!", Toast.LENGTH_LONG).show();
+                }
                 else {
+                    Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
+                            itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition()].toString(),
+                            Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition()].toString(), currentTime,
+                            postDescriptionText.getText().toString(), postID, "", "", "");
 
                     uploadToCloud(postImage, post);
                     Toast.makeText(view.getContext(), "New post created", Toast.LENGTH_SHORT).show();
@@ -362,6 +361,10 @@ public class ItemPostForm extends Fragment {
 
         Response response = client.newCall(request).execute();
         return Long.parseLong(response.body().string());
+    }
+
+    private boolean isEmpty(EditText myeditText) {
+        return myeditText.getText().toString().trim().length() == 0;
     }
 }
 
