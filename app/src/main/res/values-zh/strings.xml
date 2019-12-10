@@ -93,4 +93,5 @@
     <string name="users_profile">查看用户</string>
     <string name="view_post_category">类别</string>
     <string name="report">投诉</string>
+    <string name="logout">登出</string>
 </resources>
