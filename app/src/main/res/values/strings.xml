@@ -20,11 +20,11 @@
     <string name="sort_by_distance">sort by distance</string>
     <string name="sort_by_price">sort by price</string>
     <string-array name="categories_including_all_categories_option">
-        <item>كل الفئات</item>
-        <item>كتب</item>
-        <item>أثاث</item>
-        <item>إلكترونيات</item>
-        <item>أخرى</item>
+        <item>All Categories</item>
+        <item>Textbook</item>
+        <item>Furniture</item>
+        <item>Electronics</item>
+        <item>Other</item>
     </string-array>
 
     <!--User's Profile-->
@@ -45,18 +45,18 @@
     <string name="Desc_Text">Item Description</string>
     <string name="Post_Item">Post Item</string>
     <string-array name="categories">
-        <item>اختار فئة</item>
-        <item>كتب</item>
-        <item>أثاث</item>
-        <item>إلكترونيات</item>
-        <item>أخرى</item>
+        <item>Select Category</item>
+        <item>Textbook</item>
+        <item>Furniture</item>
+        <item>Electronics</item>
+        <item>Other</item>
     </string-array>
     <string-array name="itemConditions">
-        <item>حالة السلعة</item>
-        <item>ممتاز</item>
-        <item>جيد</item>
-        <item>مقبول</item>
-        <item>سيئة</item>
+        <item>Select Condition</item>
+        <item>Great Condition</item>
+        <item>Good Condition</item>
+        <item>Decent Condition</item>
+        <item>Poor Condition</item>
     </string-array>
 
     <!--Chat stuff-->
