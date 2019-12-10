@@ -4,7 +4,7 @@
 
     <!--Login Page-->
     <string name="firebaseui_title_text">FirebaseUI Auth</string>
-    <string name="signed_out">Signed Out</string>
+    <string name="signed_out">Вы успешно вышли</string>
     <string name="firebaseui_status_fmt">Firebase User: %s</string>
     <string name="id_fmt">User ID: %s</string>
 
@@ -14,40 +14,82 @@
     <!--Market Feed-->
 
     <!--User's Profile-->
-    <string name="User_Name">User\'s Name</string>
-    <string name="User_Email">User\'s Email</string>
+    <string name="User_Name">Имя</string>
+    <string name="User_Email">Имейл</string>
 
     <!--NavBar-->
-    <string name="P_button">P</string>
-    <string name="C_button">C</string>
-    <string name="S_button">S</string>
+    <string name="P_button">П</string>
+    <string name="C_button">Ч</string>
+    <string name="S_button">И</string>
 
     <!--Post Form-->
-    <string name="Item_Name">Item Name</string>
-    <string name="Item_Zip">Item Zipcode</string>
+    <string name="Item_Name">Название</string>
+    <string name="Item_Zip">Индекс</string>
 
     <!--Other-->
 
 
     <string-array name="categories">
-        <item>Textbook</item>
-        <item>Furniture</item>
-        <item>Electronics</item>
-        <item>Other</item>
+        <item>Книга</item>
+        <item>Мебель</item>
+        <item>Техника</item>
+        <item>Остальное</item>
     </string-array>
     <string-array name="itemConditions">
-        <item>Great Condition</item>
-        <item>Good Condition</item>
-        <item>Decent Condition</item>
-        <item>Poor Condition</item>
+        <item>Отличное Качество</item>
+        <item>Хорошее Качество</item>
+        <item>Среднее Качество</item>
+        <item>Плохое Качество</item>
     </string-array>
 
     <!--Chat stuff-->
 
 
-    <string name="post_name">Post Name</string>
-    <string name="item_pic">Picture of the Item</string>
+    <string name="post_name">Название</string>
+    <string name="item_pic">Картинка</string>
     <string name="textview">TextView</string>
-    <string name="sort_by_distance">sort by distance</string>
-    <string name="sign_out">Sign Out</string>
+    <string name="sort_by_distance">Сортировать по Растоянию</string>
+    <string name="sign_out">Выйти</string>
+    <string name="Ask_Price">Цена</string>
+    <string name="Create_Post">Создать Пост</string>
+    <string name="Desc_Text">Описание</string>
+    <string name="Feed_button">Лента</string>
+    <string name="Post_Item">Опубликовать</string>
+    <string name="Preferences_Button">Настройки</string>
+    <string name="Search_Line">Поиск</string>
+    <string name="add_Picture">Добавить фото</string>
+    <string name="all_user_s_posts">Все посты</string>
+    <string name="amazon_s_suggested_price_n">Цена на Амазоне:</string>
+    <string name="app_name">Маркет</string>
+    <string name="apply">Применить</string>
+    <string name="change_name">Изменить Имя</string>
+    <string name="change_search_radius">Изменить Радиус Поиска</string>
+    <string name="change_university">Изменить Университет</string>
+    <string name="change_zipcode">Изменить Индекс</string>
+    <string name="chatlist">Список Чатов</string>
+    <string name="chatroom">Комната Чата</string>
+    <string name="contact_seller">Написать продавцу</string>
+    <string name="delete_post">Удалить Пост</string>
+    <string name="ebay_s_suggested_price_n">Цена на Ебае:</string>
+    <string name="enter_your_university">Университет:</string>
+    <string name="enter_your_zip">Зипкод:</string>
+    <string name="give_your_rating_for_this_user">Оцените данного пользователя:</string>
+    <string name="hint_input_name">Как вас зовут?</string>
+    <string name="hint_input_radius">Радиус поиска?</string>
+    <string name="hint_input_university">Где вы учитесь?</string>
+    <string name="hint_input_zipcode">Какой ваш индекс?</string>
+    <string name="logout">Выйти</string>
+    <string name="overall_rating">Рейтинг</string>
+    <string name="price">Цена:</string>
+    <string name="report">Пожаловаться</string>
+    <string name="sendbutton">Отправить</string>
+    <string name="sign_in">Войти</string>
+    <string name="sort_by_price">Сортировать по Цене</string>
+    <string name="user_s_price_n">Цена Пользователя:</string>
+    <string name="users_profile">Профиль</string>
+    <string name="view_post_category">Категории</string>
+    <string name="view_post_condition">Качество</string>
+    <string name="view_post_description">Описание</string>
+    <string name="view_post_title">Название</string>
+    <string name="zip_code_apply">Применить</string>
 </resources>
