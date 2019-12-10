@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.8"
         android:orientation="horizontal">
 
         <ImageView
@@ -31,7 +31,7 @@
                 android:id="@+id/btnReport"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_gravity="right"
+                android:layout_gravity="center"
                 android:layout_weight="0.5"
                 android:text="@string/report" />
 
@@ -106,48 +106,40 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/descriptionPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:text="@string/view_post_description"
+        android:textSize="18sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4"
-        android:orientation="horizontal">
+        android:layout_weight="0.15">
 
-        <TextView
-            android:id="@+id/descriptionPost"
+        <Button
+            android:id="@+id/contactSellerPost"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:text="@string/view_post_description"
-            android:textSize="18sp" />
+            android:layout_weight=".1"
+            android:text="@string/contact_seller" />
 
-        <LinearLayout
+        <Button
+            android:id="@+id/DeletePost"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            android:layout_weight=".1"
+            android:text="@string/delete_post" />
 
-            <Button
-                android:id="@+id/contactSellerPost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".1"
-                android:text="@string/contact_seller" />
-
-            <Button
-                android:id="@+id/DeletePost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".1"
-                android:text="@string/delete_post" />
-
-            <Button
-                android:id="@+id/btnUser"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:text="@string/users_profile" />
-        </LinearLayout>
-
+        <Button
+            android:id="@+id/btnUser"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="0.1"
+            android:text="@string/users_profile" />
     </LinearLayout>
 
 </LinearLayout>

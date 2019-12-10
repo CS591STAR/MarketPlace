@@ -208,6 +208,7 @@ public class ItemPostForm extends Fragment {
                 uploadToCloud(postImage, post);
 
                 Toast.makeText(view.getContext(),"New post created", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
                 IPFL.openFeed();
 
             }
