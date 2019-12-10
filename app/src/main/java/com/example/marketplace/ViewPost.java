@@ -123,9 +123,9 @@ public class ViewPost extends Fragment {
                 .load(post.getImage())
                 .into(postImage);
 
-        conditionPost.setText(getResources().getStringArray(R.array.itemConditions)[Post.Condition.valueOf(post.getItemCondition()).ordinal()]);
+        conditionPost.setText(getResources().getStringArray(R.array.itemConditions)[Post.Condition.valueOf(post.getItemCondition()).ordinal() + 1]);
 
-        categoryPost.setText(getResources().getStringArray(R.array.categories)[Post.Category.valueOf(post.getCategory()).ordinal()]);
+        categoryPost.setText(getResources().getStringArray(R.array.categories)[Post.Category.valueOf(post.getCategory()).ordinal() + 1]);
 
         String userPrice = postPrice.getText().toString() + "$" + post.getAskingPrice();
         postPrice.setText(userPrice);

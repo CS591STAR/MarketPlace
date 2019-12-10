@@ -179,7 +179,7 @@ public class ItemPostForm extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(ItemConditionDropDown.getSelectedItemPosition() == 0 || ItemCategoryDropdown.getSelectedItemPosition() == 0){
+                if (ItemConditionDropDown.getSelectedItemPosition() == 0 || ItemCategoryDropdown.getSelectedItemPosition() == 0) {
                     Toast.makeText(getContext(), "Please choose category and condition!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -193,7 +193,7 @@ public class ItemPostForm extends Fragment {
                 }
 
 //                if (TextUtils.isEmpty(itemNameTxt.getText()) && TextUtils.isEmpty(itemAskingPriceTxt.getText()) && TextUtils.isEmpty(itemZipcodeTxt.getText()) && TextUtils.isEmpty(postDescriptionText.getText()) && (itemImage != null)) {
-                    //get first 3 words in item name and search it in eBay
+                //get first 3 words in item name and search it in eBay
                 EBayAPI eBayAPI = EBayAPI.getInstance();
                 String itemName = itemNameTxt.getText().toString();
                 Log.w(TAG, firstWords(itemName, 3));
@@ -202,20 +202,19 @@ public class ItemPostForm extends Fragment {
                 AmazonAPI amazonAPI = AmazonAPI.getInstance();
                 amazonAPI.searchItem(itemNameTxt.getText().toString(), mDatabase.child(postID).child("amazonPrice"));
 
-                if (isEmpty(itemAskingPriceTxt) || isEmpty(itemZipcodeTxt)){
+                if (isEmpty(itemAskingPriceTxt) || isEmpty(itemZipcodeTxt)) {
                     Toast.makeText(getActivity(), "Cannot have empty fields!", Toast.LENGTH_LONG).show();
-                }
-                else if (postImage == null) {
+                } else if (postImage == null) {
                     Toast.makeText(getActivity(), "You need to add a picture!", Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                     Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
-                        itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition() - 1].toString(),
-                        Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition() - 1].toString(), currentTime,
-                        postDescriptionText.getText().toString(), postID, "", "", "");
+                            itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition() - 1].toString(),
+                            Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition() - 1].toString(), currentTime,
+                            postDescriptionText.getText().toString(), postID, "", "", "");
 
                     uploadToCloud(postImage, post);
                     Toast.makeText(view.getContext(), "New post created", Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
                     IPFL.openFeed();
                 }
             }
