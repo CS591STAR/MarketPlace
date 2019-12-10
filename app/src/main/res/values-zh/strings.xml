@@ -90,4 +90,7 @@
     <string name="ebay_s_suggested_price_n">易趣建议价格：\n</string>
     <string name="user_s_price_n">用户要价：\n</string>
     <string name="amazon_s_suggested_price_n">亚马逊建议价格：\n</string>
+    <string name="users_profile">查看用户</string>
+    <string name="view_post_category">类别</string>
+    <string name="report">投诉</string>
 </resources>

@@ -142,7 +142,7 @@ public class EBayAPI {
                         String url = object.getJSONObject("image").getString("imageUrl");
                         //get the price
                         JSONObject priceObject = object.getJSONObject("price");
-                        final String price = priceObject.getString("value")+" "+priceObject.getString("currency");
+                        final String price = "$" + priceObject.getString("value");
                         Log.w(TAG, "keyword: " + keyword);
                         Log.w(TAG, "price: " + price);
                         eBayPrice = price;
