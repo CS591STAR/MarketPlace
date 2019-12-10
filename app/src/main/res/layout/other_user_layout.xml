@@ -54,13 +54,18 @@
                 android:gravity="center"
                 android:text="@string/overall_rating" />
 
-            <Button
-                android:id="@+id/btnPreferences"
+            <TextView
+                android:id="@+id/txtRating"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="@string/Preferences_Button" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/give_your_rating_for_this_user" />
+
+            <RatingBar
+                android:id="@+id/rbUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numStars="5" />
 
         </LinearLayout>
     </LinearLayout>

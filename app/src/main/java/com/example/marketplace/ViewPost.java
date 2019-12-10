@@ -29,6 +29,7 @@ public class ViewPost extends Fragment {
 
     Button deletePost;
     Button contactSeller;
+    Button btnUser;
     TextView postTitle;
     TextView postPrice;
     TextView txtAmazon;
@@ -56,6 +57,7 @@ public class ViewPost extends Fragment {
 
     public interface ViewPostListener {
         public void openFeed();
+        public void openOtherProfile(String sellerID);
         // add methods that we would need the activity to implement
     }
 
@@ -83,6 +85,7 @@ public class ViewPost extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
         mDatabaseZip = FirebaseDatabase.getInstance().getReference().child("zipcodes");
 
+        btnUser = view.findViewById(R.id.btnUser);
         deletePost = view.findViewById(R.id.DeletePost);
         contactSeller = view.findViewById(R.id.contactSellerPost);
         postTitle = view.findViewById(R.id.titlePost);
@@ -154,6 +157,13 @@ public class ViewPost extends Fragment {
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "Thank you for your report!", Toast.LENGTH_SHORT).show();
                 getActivity().onBackPressed();
+            }
+        });
+
+        btnUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                VPL.openOtherProfile(post.getSellerID());
             }
         });
 
