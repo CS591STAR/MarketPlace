@@ -189,11 +189,13 @@ public class ViewPost extends Fragment {
         if (mUsername.equals(post.getSellerID())) {
             deletePost.setVisibility(View.VISIBLE);
             contactSeller.setVisibility(View.GONE);
+            btnUser.setVisibility(View.GONE);
             Log.i("POSTID", "sellerID= " + post.getSellerID() + " currentUserID "+ mFirebaseUser.getUid());
         }
         else {
             deletePost.setVisibility(View.GONE);
             contactSeller.setVisibility(View.VISIBLE);
+            btnUser.setVisibility(View.VISIBLE);
         }
     }
 }

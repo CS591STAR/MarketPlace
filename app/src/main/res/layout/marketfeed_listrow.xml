@@ -3,20 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
 
     <ImageView
         android:id="@+id/postImage"
-        android:layout_width="222dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:srcCompat="@tools:sample/avatars[1]"
-        android:contentDescription="@string/item_pic" />
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_weight="0"
+        android:contentDescription="@string/item_pic"
+        tools:srcCompat="@tools:sample/avatars[1]" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="vertical">
 
         <TextView
@@ -25,7 +27,7 @@
             android:layout_height="65dp"
             android:gravity="center"
             android:text="@string/post_name"
-            android:textSize="18sp" />
+            android:textSize="25sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +41,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/price"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,9 +53,9 @@
                     android:id="@+id/itemPriceTxt"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:text="@string/textview"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,8 +28,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -39,7 +35,7 @@ import java.util.List;
 
 public class OtherProfile extends Fragment {
 
-    private ImageView imgUser;
+    private ImageView otherImgUser;
     private TextView txtDisplayName;
     private TextView txtEmail;
     private TextView txtUni;
@@ -99,7 +95,7 @@ public class OtherProfile extends Fragment {
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
 
 
-        imgUser = view.findViewById(R.id.imgUser);
+        otherImgUser = view.findViewById(R.id.otherImgUser);
         txtDisplayName = view.findViewById(R.id.txtDisplayName);
         txtEmail = view.findViewById(R.id.txtEmail);
         txtUni = view.findViewById(R.id.txtUni);
@@ -133,9 +129,7 @@ public class OtherProfile extends Fragment {
 
                 ratingValString = String.valueOf(dataSnapshot.child("rating").getValue());
                 ratingVal = Double.parseDouble(ratingValString);
-                if(dataSnapshot.child("numRating").getValue() != null){
-                    numRatings = (long) (dataSnapshot.child("numRatings").getValue());
-                }
+                numRatings = (long) (dataSnapshot.child("numRatings").getValue());
 
                 String overall = getResources().getString(R.string.overall_rating);
                 ratingString = overall + " " + ratingVal + " stars";
@@ -152,15 +146,11 @@ public class OtherProfile extends Fragment {
 
         if (userPhoto != null) {
 
-            URI img = null;
-            try {
-                img = new URI(userPhoto);
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-            GlideApp.with(this /* context */)
+            Uri img = Uri.parse(userPhoto);
+
+            GlideApp.with(getContext() /* context */)
                     .load(img)
-                    .into(imgUser);
+                    .into(otherImgUser);
         }
 
         rbUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
