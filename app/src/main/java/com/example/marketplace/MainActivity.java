@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -81,7 +82,14 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
                 if (!dataSnapshot.exists()) {
                     startActivity(new Intent(getBaseContext(), ZipcodeRequestActivity.class));
-                    User you = new User(mFirebaseUser.getUid(), mFirebaseUser.getDisplayName(), mFirebaseUser.getEmail(), mFirebaseUser.getPhotoUrl().toString(), "", 5, 1,  "");
+                    String photoUrl;
+                    if(mFirebaseUser.getPhotoUrl() == null){
+                        photoUrl = "";
+                    }
+                    else{
+                        photoUrl = mFirebaseUser.getPhotoUrl().toString();
+                    }
+                    User you = new User(mFirebaseUser.getUid(), mFirebaseUser.getDisplayName(), mFirebaseUser.getEmail(), photoUrl, "", 5, 1,  "");
                     mDatabase.child(userID).setValue(you);
                 }
             }
