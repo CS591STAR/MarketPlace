@@ -123,6 +123,8 @@ public class OtherProfile extends Fragment {
         mDatabase.child("users").child(otherUser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
                 txtDisplayName.setText(dataSnapshot.child("name").getValue().toString());
                 txtEmail.setText(dataSnapshot.child("email").getValue().toString());
                 txtUni.setText(dataSnapshot.child("uni").getValue().toString());
@@ -136,6 +138,13 @@ public class OtherProfile extends Fragment {
 
                 userPhoto = dataSnapshot.child("img").getValue().toString();
                 txtStars.setText(ratingString);
+
+                if (userPhoto != null) {
+
+                    GlideApp.with(getContext() /* context */)
+                            .load(userPhoto)
+                            .into(otherImgUser);
+                }
             }
 
             @Override
@@ -144,14 +153,6 @@ public class OtherProfile extends Fragment {
             }
         });
 
-        if (userPhoto != null) {
-
-            Uri img = Uri.parse(userPhoto);
-
-            GlideApp.with(getContext() /* context */)
-                    .load(img)
-                    .into(otherImgUser);
-        }
 
         rbUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -219,8 +220,6 @@ public class OtherProfile extends Fragment {
             public void onCancelled(DatabaseError databaseError){
             }
         });
-
-
         return view;
     }
 }
