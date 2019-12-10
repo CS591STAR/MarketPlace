@@ -270,6 +270,13 @@ public class ItemPostForm extends Fragment {
                     Log.i("IMG", "download image at " + imageLink);
                     post.setImage(imageLink);
 
+                    if (AmazonAPI.getAmazonPrice() != null){
+                        Log.w("amznAPI", "Amazon price got");
+                        post.setAmazonPrice(AmazonAPI.getAmazonPrice());
+                    } else {
+                        Log.w("amznAPI", "Amazon price not got");
+                    }
+
                     if(EBayAPI.geteBayPrice() != null){
                         post.seteBayPrice(EBayAPI.geteBayPrice());
                         Log.w(TAG, "eBay price got");
@@ -278,11 +285,6 @@ public class ItemPostForm extends Fragment {
                         Log.w(TAG, "eBay price not got");
                     }
 
-                    if (AmazonAPI.getAmazonPrice() != null){
-                        post.setAmazonPrice(AmazonAPI.getAmazonPrice());
-                    } else {
-                        Log.i("error here", "what should we do");
-                    }
                     mDatabase.child(postID).setValue(post);
                     Log.i("IMGPOST", "download image at " + post.getImage());
 

@@ -95,23 +95,17 @@ public class ViewPost extends Fragment {
         txtEbay = view.findViewById(R.id.txtEbay);
         categoryPost = view.findViewById(R.id.categoryPost);
 
-        String EbayPrice;
-        String AmazonPrice;
+        String EbayPrice = "No result";
+        String AmazonPrice = "No result";
 
-        if(post.geteBayPrice() == null){
-            EbayPrice = "No result";
-        } else {
+        if(!post.geteBayPrice().equals("")){
             EbayPrice = post.geteBayPrice();
         }
         txtEbay.setText(txtEbay.getText().toString() + EbayPrice);
 
-        if(post.getAmazonPrice() == null){
-            AmazonPrice = "No result";
-        } else {
+        if(!post.getAmazonPrice().equals("")){
             AmazonPrice = post.getAmazonPrice();
-            Log.i("AMZN_AFTER", AmazonPrice.toString());
         }
-        Log.i("AMZN", AmazonPrice.toString());
         txtAmazon.setText(txtAmazon.getText().toString() + AmazonPrice);
 
         // set post info
