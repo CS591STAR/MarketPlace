@@ -36,6 +36,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -44,6 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
@@ -159,13 +162,6 @@ public class Chatroom extends AppCompatActivity {
             protected void onBindViewHolder(final MessageViewHolder viewHolder,
                                             int position,
                                             Message friendlyMessage) {
-
-                //set the title to name of whom you are talking to
-                if(getSupportActionBar().getTitle() == getResources().getString(R.string.chatroom)){
-                    if(!friendlyMessage.getName().equals(mUsername)){
-                        getSupportActionBar().setTitle(friendlyMessage.getName());
-                    }
-                }
 
                 mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 if (friendlyMessage.getText() != null) {
@@ -305,12 +301,55 @@ public class Chatroom extends AppCompatActivity {
         });
 
         //initialize chat room database (user's name, icon)
-        DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
-                .child(talkerID)
-                .child(mFirebaseUser.getUid());
-        reference.child("id").setValue(mFirebaseUser.getUid());
-        reference.child("name").setValue(mFirebaseUser.getDisplayName());
-        reference.child("photoUrl").setValue(mFirebaseUser.getPhotoUrl().toString());
+        mFirebaseDatabaseReference.child("users").child(mFirebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                        .child(talkerID)
+                        .child(mFirebaseUser.getUid());
+                if(dataSnapshot != null){
+
+                    String talkerName = (String) dataSnapshot.child("name").getValue();
+                    String talkerImg = (String) dataSnapshot.child("img").getValue();
+
+                    reference.child("id").setValue(mFirebaseUser.getUid());
+                    reference.child("name").setValue(talkerName);
+                    reference.child("photoUrl").setValue(talkerImg);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        mFirebaseDatabaseReference.child("users").child(talkerID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                        .child(mFirebaseUser.getUid())
+                        .child(talkerID);
+                if(dataSnapshot != null){
+
+                    String talkerName = (String) dataSnapshot.child("name").getValue();
+                    String talkerImg = (String) dataSnapshot.child("img").getValue();
+                    //set the title to name of whom you are talking to
+                    if(getSupportActionBar().getTitle() == getResources().getString(R.string.chatroom)){
+                        getSupportActionBar().setTitle(talkerName);
+                     }
+                    reference.child("id").setValue(talkerID);
+                    reference.child("name").setValue(talkerName);
+                    reference.child("photoUrl").setValue(talkerImg);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
@@ -381,7 +420,7 @@ public class Chatroom extends AppCompatActivity {
                     mFirebaseDatabaseReference
                             .child(MESSAGES_CHILD)
                             .child(mFirebaseUser.getUid())
-                            .child(getIntent().getStringExtra("dataReference"))
+                            .child(getIntent().getStringExtra(TALKER_ID))
                             .child(MESSAGES_CHILD)
                             .push()
                             .setValue(tempMessage, new DatabaseReference.CompletionListener() {
@@ -426,13 +465,13 @@ public class Chatroom extends AppCompatActivity {
                                                         mFirebaseDatabaseReference
                                                                 .child(MESSAGES_CHILD)
                                                                 .child(mFirebaseUser.getUid())
-                                                                .child(getIntent().getStringExtra("dataReference"))
+                                                                .child(getIntent().getStringExtra(TALKER_ID))
                                                                 .child(MESSAGES_CHILD)
                                                                 .child(key)
                                                                 .setValue(friendlyMessage);
                                                         mFirebaseDatabaseReference
                                                                 .child(MESSAGES_CHILD)
-                                                                .child(getIntent().getStringExtra("dataReference"))
+                                                                .child(getIntent().getStringExtra(TALKER_ID))
                                                                 .child(mFirebaseUser.getUid())
                                                                 .child(MESSAGES_CHILD)
                                                                 .child(key)
