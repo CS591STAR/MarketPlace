@@ -24,16 +24,24 @@
 
 
     <string-array name="categories">
-        <item>Textbook</item>
-        <item>Furniture</item>
-        <item>Electronics</item>
-        <item>Other</item>
+        <item>كتاب</item>
+        <item>أثاث</item>
+        <item>إلكترونيات</item>
+        <item>أخرى</item>
     </string-array>
     <string-array name="itemConditions">
         <item>Great Condition</item>
         <item>Good Condition</item>
         <item>Decent Condition</item>
         <item>Poor Condition</item>
+    </string-array>
+
+    <string-array name="categories_including_all_categories_option">
+        <item>All Categories</item>
+        <item>Textbook</item>
+        <item>Furniture</item>
+        <item>Electronics</item>
+        <item>Other</item>
     </string-array>
 
     <!--Chat stuff-->
