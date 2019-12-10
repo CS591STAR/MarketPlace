@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -21,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.Query;
 
 
-public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, Profile.ProfileListener, ViewPost.ViewPostListener {
+public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, Profile.ProfileListener, ViewPost.ViewPostListener, OtherProfile.otherProfileListener {
 
     User you;
     MarketFeed marketFeed;
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     LinearLayout fragLayout;
     FragmentManager fm;
     Post post;
+    OtherProfile otherProfile;
 
     NavBarFragment navBar;
     String userID;
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         chats = new Chatroom();
         itemPostForm = new ItemPostForm();
         preferences = new Preferences();
+        otherProfile = new OtherProfile();
 
         //set eBay API ready
         EBayAPI.getInstance().getToken();
@@ -141,6 +142,22 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         ft.addToBackStack(null);
         ft.commit();
 
+    }
+
+    @Override
+    public void openOtherProfile(String sellerID) {
+
+        if (otherProfile == null) {
+            otherProfile = new OtherProfile();
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("user", sellerID);
+        otherProfile.setArguments(bundle);
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragLayout, otherProfile, "OtherProfile");
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override

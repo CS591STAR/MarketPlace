@@ -30,25 +30,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class Profile extends Fragment {
+public class OtherProfile extends Fragment {
 
     private ImageView imgUser;
     private TextView txtDisplayName;
     private TextView txtEmail;
     private TextView txtUni;
-    private Button btnPreferences;
     private TextView txtRating;
+    private RatingBar rbUser;
     private TextView txtStars;
     private TextView txtPosts;
     String ratingString;
     long numRatings;
     double ratingVal;
     String ratingValString;
+    String userPhoto;
 
     private List<Post> postList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -56,28 +59,35 @@ public class Profile extends Fragment {
 
     private DatabaseReference mDatabase;
     private FirebaseUser mFirebaseUser;
+    private String otherUser;
 
-    public Profile() {
+    public OtherProfile() {
 
     }
 
-    public interface ProfileListener {
+    public interface otherProfileListener {
         public void openPreferences();
     }
 
-    ProfileListener PL;
+    otherProfileListener OPL;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        PL = (ProfileListener) context;
+        OPL = (otherProfileListener) context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_profile, container, false);
+        View view = inflater.inflate(R.layout.other_user_layout, container, false);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            otherUser = bundle.getString("user", "");
+        }
+
 
         recyclerView = view.findViewById(R.id.recyclerView);
         // init the adapter
@@ -92,36 +102,29 @@ public class Profile extends Fragment {
         imgUser = view.findViewById(R.id.imgUser);
         txtDisplayName = view.findViewById(R.id.txtDisplayName);
         txtEmail = view.findViewById(R.id.txtEmail);
-        btnPreferences = view.findViewById(R.id.btnPreferences);
         txtUni = view.findViewById(R.id.txtUni);
         txtRating = view.findViewById(R.id.txtRating);
         txtStars = view.findViewById(R.id.txtStars);
+        rbUser = view.findViewById(R.id.rbUser);
+        rbUser.setNumStars(5);
 
         txtPosts = view.findViewById(R.id.txtPosts);
 
-        mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        if (mFirebaseUser != null) {
-//            txtDisplayName.setText(mFirebaseUser.getDisplayName());
-//            txtEmail.setText(mFirebaseUser.getEmail());
-
-            Uri img = mFirebaseUser.getPhotoUrl();
-            GlideApp.with(this /* context */)
-                    .load(img)
-                    .into(imgUser);
-        }
-
-
-        btnPreferences.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PL.openPreferences();
-            }
-        });
+//        mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();                 // change to the other user
+//        if (mFirebaseUser != null) {
+////            txtDisplayName.setText(mFirebaseUser.getDisplayName());
+////            txtEmail.setText(mFirebaseUser.getEmail());
+//
+//            Uri img = mFirebaseUser.getPhotoUrl();
+//            GlideApp.with(this /* context */)
+//                    .load(img)
+//                    .into(imgUser);
+//        }
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
 
-        mDatabase.child("users").child(mFirebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("users").child(otherUser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 txtDisplayName.setText(dataSnapshot.child("name").getValue().toString());
@@ -137,7 +140,7 @@ public class Profile extends Fragment {
                 String overall = getResources().getString(R.string.overall_rating);
                 ratingString = overall + " " + ratingVal + " stars";
 
-
+                userPhoto = dataSnapshot.child("img").getValue().toString();
                 txtStars.setText(ratingString);
             }
 
@@ -147,8 +150,42 @@ public class Profile extends Fragment {
             }
         });
 
+        if (userPhoto != null) {
 
-        mDatabase.child("posts").orderByChild("sellerID").equalTo(mFirebaseUser.getUid()).addValueEventListener( new ValueEventListener(){
+            URI img = null;
+            try {
+                img = new URI(userPhoto);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            GlideApp.with(this /* context */)
+                    .load(img)
+                    .into(imgUser);
+        }
+
+        rbUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+
+                double oldTotal = ratingVal * numRatings;
+                double newTotal = oldTotal + v;
+                double newNumRatings = numRatings + 1;
+                double newRating = newTotal / (numRatings + 1);
+
+                mDatabase.child("users").child(otherUser).child("rating").setValue(newRating);
+                mDatabase.child("users").child(otherUser).child("numRatings").setValue(newNumRatings);
+
+                Toast.makeText(getContext(), "Thank you for your feedback!", Toast.LENGTH_LONG).show();
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                rbUser.setRating(0);
+            }
+        });
+
+        mDatabase.child("posts").orderByChild("sellerID").equalTo(otherUser).addValueEventListener( new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
 
