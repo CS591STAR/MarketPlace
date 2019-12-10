@@ -177,6 +177,8 @@ public class MarketFeed extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if (b) {
                     mileRadius = String.valueOf(i);
+                    Toast.makeText(getContext(), "Search radius set is " + mileRadius + " from your own zipcode", Toast.LENGTH_LONG).show();
+
                     if (mileRadius.equals("0")) {
                         postList.clear();
                         sortByPostTime();
