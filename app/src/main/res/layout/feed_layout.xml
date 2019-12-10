@@ -14,6 +14,7 @@
             android:id="@+id/filterByDistanceBtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="@string/sort_by_distance" />
 
@@ -21,6 +22,7 @@
             android:id="@+id/btnSortByPrice"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="@string/sort_by_price" />
 
