@@ -3,6 +3,7 @@ package com.example.marketplace;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class Profile extends Fragment {
     long numRatings;
     double ratingVal;
     String ratingValString;
+    private Button btnLogout;
 
     private List<Post> postList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -94,7 +96,7 @@ public class Profile extends Fragment {
         txtUni = view.findViewById(R.id.txtUni);
         txtRating = view.findViewById(R.id.txtRating);
         txtStars = view.findViewById(R.id.txtStars);
-
+        btnLogout = view.findViewById(R.id.btnLogout);
         txtPosts = view.findViewById(R.id.txtPosts);
 
         mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
@@ -116,6 +118,15 @@ public class Profile extends Fragment {
             }
         });
 
+        //set logout btn listener
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+            }
+        });
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
 

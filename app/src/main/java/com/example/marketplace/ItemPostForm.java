@@ -191,6 +191,7 @@ public class ItemPostForm extends Fragment {
                 //get first 3 words in item name and search it in eBay
                 EBayAPI eBayAPI = EBayAPI.getInstance();
                 String itemName = itemNameTxt.getText().toString();
+                Log.w(TAG, firstWords(itemName, 3));
                 eBayAPI.searchItem(firstWords(itemName, 3));
 
                 AmazonAPI amazonAPI = AmazonAPI.getInstance();
@@ -212,6 +213,7 @@ public class ItemPostForm extends Fragment {
         return view;
     }
 
+    //fetch the first n words in the input string
     private String firstWords(String input, int words) {
         for (int i = 0; i < input.length(); i++) {
             // When a space is encountered, reduce words remaining by 1.
@@ -222,6 +224,10 @@ public class ItemPostForm extends Fragment {
             if (words == 0) {
                 return input.substring(0, i);
             }
+        }
+        //string contains less than n words
+        if(words != 0){
+            return input;
         }
         // Error case.
         return "";

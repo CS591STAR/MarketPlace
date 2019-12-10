@@ -39,7 +39,7 @@ public class ViewPost extends Fragment {
     TextView categoryPost;
     ImageView postImage;
     Post post;
-
+    private Button btnReport;
 
     private FirebaseUser mFirebaseUser;
     private String mUsername;
@@ -97,7 +97,9 @@ public class ViewPost extends Fragment {
         txtAmazon = view.findViewById(R.id.txtAmazon);
         txtEbay = view.findViewById(R.id.txtEbay);
         categoryPost = view.findViewById(R.id.categoryPost);
+        btnReport = view.findViewById(R.id.btnReport);
 
+        //temporary variables for prices
         String EbayPrice;
         String AmazonPrice;
 
@@ -146,6 +148,15 @@ public class ViewPost extends Fragment {
             @Override
             public void onClick(View view) {
                 deletePostFromDB();
+            }
+        });
+
+        //set listener for report btn
+        btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "Thank you for your report!", Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
             }
         });
 
