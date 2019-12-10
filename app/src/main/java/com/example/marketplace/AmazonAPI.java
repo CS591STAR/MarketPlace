@@ -25,6 +25,7 @@ public class AmazonAPI {
     private static AmazonAPI instance;
     private JSONObject response;
     private static String amazonPrice;
+    private String TAG = "amznAPI";
 
     private AmazonAPI() {
     }
@@ -57,7 +58,7 @@ public class AmazonAPI {
         String url = "https://amazon-price1.p.rapidapi.com/search?keywords=" + keyword + "&marketplace=US";
 
         Request request = new Request.Builder()
-                .url("https://amazon-price1.p.rapidapi.com/search?keywords=macbook&marketplace=US")
+                .url(url)
                 .get()
                 .addHeader("x-rapidapi-host", "amazon-price1.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", gitignore.amazon_api_key)
@@ -76,6 +77,8 @@ public class AmazonAPI {
                         JSONArray jsonArray = new JSONArray(responseBody);
                         final String price = (String) jsonArray.getJSONObject(0).get("price");
                         amazonPrice = price;
+                        Log.w(TAG, "price: " + price);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -88,6 +91,7 @@ public class AmazonAPI {
     }
 
     public void searchItem (String keyword){
+        Log.w(TAG, "keyword: " + keyword);
             getAmazonPrice(keyword);
         }
 }

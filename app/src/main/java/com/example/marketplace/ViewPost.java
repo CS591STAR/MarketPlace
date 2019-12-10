@@ -99,20 +99,16 @@ public class ViewPost extends Fragment {
         categoryPost = view.findViewById(R.id.categoryPost);
         btnReport = view.findViewById(R.id.btnReport);
 
-        //temporary variables for prices
-        String EbayPrice;
-        String AmazonPrice;
+        String EbayPrice = "No result";
+        String AmazonPrice = "No result";
 
-        if(post.geteBayPrice() == null){
-            EbayPrice = "No result";
-        } else {
+
+        if(!post.geteBayPrice().equals("")){
             EbayPrice = post.geteBayPrice();
         }
         txtEbay.setText(txtEbay.getText().toString() + EbayPrice);
 
-        if(post.getAmazonPrice() == null){
-            AmazonPrice = "No result";
-        } else {
+        if(!post.getAmazonPrice().equals("")){
             AmazonPrice = post.getAmazonPrice();
         }
         txtAmazon.setText(txtAmazon.getText().toString() + AmazonPrice);
