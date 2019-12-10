@@ -7,7 +7,7 @@
     <string name="signed_out">سجلت خروج</string>
     <string name="firebaseui_status_fmt">Firebase User: %s</string>
     <string name="id_fmt">User ID: %s</string>
-
+    
 
     <!--Main Activity-->
 
@@ -18,9 +18,6 @@
     <string name="User_Email">إيميل المستخدم</string>
 
     <!--NavBar-->
-    <string name="P_button">P</string>
-    <string name="C_button">C</string>
-    <string name="S_button">S</string>
 
     <!--Post Form-->
     <string name="Item_Name">اسم المنتج</string>

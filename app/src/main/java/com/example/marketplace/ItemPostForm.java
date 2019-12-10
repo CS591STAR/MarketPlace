@@ -179,7 +179,10 @@ public class ItemPostForm extends Fragment {
             @Override
             public void onClick(View view) {
 
-
+                if(ItemConditionDropDown.getSelectedItemPosition() == 0 || ItemCategoryDropdown.getSelectedItemPosition() == 0){
+                    Toast.makeText(getContext(), "Please choose category and condition!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 try {
                     currentTime = doGetRequest();
@@ -207,15 +210,14 @@ public class ItemPostForm extends Fragment {
                 }
                 else {
                     Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
-                            itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition()].toString(),
-                            Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition()].toString(), currentTime,
-                            postDescriptionText.getText().toString(), postID, "", "", "");
+                        itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition() - 1].toString(),
+                        Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition() - 1].toString(), currentTime,
+                        postDescriptionText.getText().toString(), postID, "", "", "");
 
                     uploadToCloud(postImage, post);
                     Toast.makeText(view.getContext(), "New post created", Toast.LENGTH_SHORT).show();
                     IPFL.openFeed();
                 }
-
             }
         });
 
