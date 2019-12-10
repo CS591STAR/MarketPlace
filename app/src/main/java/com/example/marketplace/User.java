@@ -14,10 +14,10 @@ public class User {
     private String uni;
     private double rating;
     private double numRatings;
-    private int zip;
+    private String zip;
 
 
-    public User(String id, String name, String email, String img, String uni, double rating, double numRatings, int zip) {
+    public User(String id, String name, String email, String img, String uni, double rating, double numRatings, String zip) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -78,7 +78,7 @@ public class User {
         this.rating = rating;
     }
 
-    public int getZip() {
+    public String getZip() {
         return this.zip;
     }
 
