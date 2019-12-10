@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.HashMap;
+
 
 public class User {
 
@@ -28,6 +30,16 @@ public class User {
         this.numRatings = numRatings;
     }
 
+    public User(HashMap<String, Object> user) {
+        this.id = user.get("id").toString();
+        this.name = user.get("name").toString();
+        this.email = user.get("email").toString();
+        this.img = user.get("img").toString();
+        this.uni = user.get("uni").toString();
+        this.rating = Double.parseDouble(user.get("itemCondition").toString());
+        this.zip = user.get("zip").toString();
+        this.numRatings = Double.parseDouble(user.get("itemDescription").toString());
+    }
 
     // Getter and Setter methods
     public String getId() {

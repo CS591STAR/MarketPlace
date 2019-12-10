@@ -109,7 +109,9 @@ public class ViewPost extends Fragment {
             AmazonPrice = "No result";
         } else {
             AmazonPrice = post.getAmazonPrice();
+            Log.i("AMZN_AFTER", AmazonPrice.toString());
         }
+        Log.i("AMZN", AmazonPrice.toString());
         txtAmazon.setText(txtAmazon.getText().toString() + AmazonPrice);
 
         // set post info
