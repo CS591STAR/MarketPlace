@@ -452,7 +452,7 @@ public class Chatroom extends AppCompatActivity {
         String FCM_API = "https://fcm.googleapis.com/fcm/send";
 
         String title = "Marketplace";
-        String message = "New messages received";
+        String message = "New message received";
 
         String topic = "/topics/" + talkerID;
         JSONObject notification = new JSONObject();
