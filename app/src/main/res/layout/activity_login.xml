@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5"
-            app:srcCompat="@mipmap/logo_foreground" />
+            app:srcCompat="@drawable/ic_market_place" />
 
         <TextView
             android:id="@+id/titleText"
