@@ -33,6 +33,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -171,22 +172,9 @@ public class Profile extends Fragment {
                         DataSnapshot snap = iter.next();
                         String postID = snap.getKey();
                         try {
-                            long askingPrice = (long) snap.child("askingPrice").getValue();
-                            String category = (String) snap.child("category").getValue();
-                            String itemDescription = (String) snap.child("itemDescription").getValue();
-                            String itemName = (String) snap.child("itemName").getValue();
 
-                            long itemPostTime = (long) snap.child("itemPostTime").getValue();
+                            Post post = new Post((HashMap<String, Object>) snap.getValue());
 
-                            String sellerID = (String) snap.child("sellerID").getValue();
-                            String zipcode = (String) snap.child("zipcode").getValue();
-                            String itemCondition = (String) snap.child("itemCondition").getValue();
-                            String image = (String) snap.child("image").getValue();
-                            String eBayPrice = (String) snap.child("eBayPrice").getValue();
-                            String amazonPrice = (String) snap.child("amazonPrice").getValue();
-
-                            Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
-                                    itemPostTime, itemDescription, postID, image, eBayPrice, amazonPrice);
                             postList.add(post);
                             //received results
                             Log.i("post", post.getItemName() + " on nod " + postID);

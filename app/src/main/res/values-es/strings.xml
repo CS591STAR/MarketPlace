@@ -38,11 +38,11 @@
     <!--Chat stuff-->
 
 
-    <string name="post_name">Post Name</string>
-    <string name="item_pic">Picture of the Item</string>
+    <string name="post_name">Nombre de Publicacion</string>
+    <string name="item_pic">Foto del Artículo</string>
     <string name="textview">TextView</string>
-    <string name="sort_by_distance">sort by distance</string>
-    <string name="sign_out">Sign Out</string>
+    <string name="sort_by_distance">Ordenar por Distancia</string>
+    <string name="sign_out">Cerrar Sesión</string>
     <string name="Ask_Price">"Precio de Venta "</string>
     <string name="Create_Post">Crear Publicacion</string>
     <string name="Desc_Text">" Descripción de la Publicacion"</string>
@@ -77,4 +77,12 @@
     <string name="view_post_condition">Condición</string>
     <string name="view_post_description">Descripción</string>
     <string name="view_post_title">Título</string>
+    <string name="enter_your_university">Universidad:</string>
+    <string name="enter_your_zip">Su Codigo Postal:</string>
+    <string name="report">Reportar</string>
+    <string name="view_post_category">Categoria</string>
+    <string name="users_profile">Perfil de Usuario</string>
+    <string name="user_s_price_n">Precio del Usuario</string>
+    <string name="zip_code_apply">Applicar</string>
+    <string name="logout">Cerrar Sesión</string>
 </resources>

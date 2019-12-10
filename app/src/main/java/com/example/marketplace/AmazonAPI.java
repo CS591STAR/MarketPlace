@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.firebase.database.DatabaseReference;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,7 +55,7 @@ public class AmazonAPI {
         response = res;
     }
 
-    public void getAmazonPrice(final String keyword) {
+    public void getAmazonPrice(final String keyword, final DatabaseReference db) {
         OkHttpClient client = new OkHttpClient();
         String url = "https://amazon-price1.p.rapidapi.com/search?keywords=" + keyword + "&marketplace=US";
 
@@ -78,7 +80,7 @@ public class AmazonAPI {
                         final String price = (String) jsonArray.getJSONObject(0).get("price");
                         amazonPrice = price;
                         Log.w(TAG, "price: " + price);
-
+                        db.setValue(price);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -90,9 +92,10 @@ public class AmazonAPI {
 
     }
 
-    public void searchItem (String keyword){
+    public void searchItem (String keyword, DatabaseReference db){
         Log.w(TAG, "keyword: " + keyword);
-            getAmazonPrice(keyword);
+        getAmazonPrice(keyword, db);
         }
+
 }
 

@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -78,6 +79,10 @@ public class MarketFeed extends Fragment {
     Button filterByDistanceBtn;
     SharedPreferences sharedPref;
     String mileRadius;
+    private FirebaseUser mFirebaseUser;
+    private String mUsername;
+    private String userZipcode;
+
 
     private Button btnSortByPrice;
     private Spinner sprCategory;
@@ -130,6 +135,28 @@ public class MarketFeed extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.feed_recycler_view);
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        mUsername = mFirebaseUser.getUid();
+
+        // get the user's zipcode
+        mDatabase.child("users").child(mUsername).child("zip").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                try {
+                    userZipcode = dataSnapshot.getValue().toString();
+
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         buildZipcodeMap();
 
@@ -246,22 +273,8 @@ public class MarketFeed extends Fragment {
                             DataSnapshot snap = iter.next();
                             String postID = snap.getKey();
                             try {
-                                long askingPrice = (long) snap.child("askingPrice").getValue();
-                                String category = (String) snap.child("category").getValue();
-                                String itemDescription = (String) snap.child("itemDescription").getValue();
-                                String itemName = (String) snap.child("itemName").getValue();
 
-                                long itemPostTime = (long) snap.child("itemPostTime").getValue();
-
-                                String sellerID = (String) snap.child("sellerID").getValue();
-                                String zipcode = (String) snap.child("zipcode").getValue();
-                                String itemCondition = (String) snap.child("itemCondition").getValue();
-                                String image = (String) snap.child("image").getValue();
-                                String eBayPrice = (String) snap.child("eBayPrice").getValue();
-                                String amazonPrice = (String) snap.child("amazonPrice").getValue();
-
-                                Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
-                                        itemPostTime, itemDescription, postID, image, eBayPrice, amazonPrice);
+                            Post post = new Post((HashMap<String, Object>) snap.getValue());
                                 postList.add(post);
                                 //received results
                                 Log.i("post", post.getItemName() + " on nod " + postID);
@@ -286,7 +299,7 @@ public class MarketFeed extends Fragment {
             currentQuery.removeEventListener(basicValueEventListener);
         }
         //order item by post time
-        currentQuery = mDatabase.child("posts").orderByKey();
+        currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
         currentQuery.addValueEventListener(basicValueEventListener);
 
         return view;
@@ -343,8 +356,9 @@ public class MarketFeed extends Fragment {
         zipCodesInRadius.clear();
 
         // for now we are using a sample zipcode until we retrieve it from the user properly
-        String sampleZip = "02215";
-        String redLineAPIEndPoint = "https://redline-redline-zipcode.p.rapidapi.com/rest/radius.json/" + sampleZip + "/" + mileRadius + "/mile";
+
+//        String sampleZip = "02215";
+        String redLineAPIEndPoint = "https://redline-redline-zipcode.p.rapidapi.com/rest/radius.json/" + userZipcode + "/" + mileRadius + "/mile";
 
         OkHttpClient client = new OkHttpClient();
 

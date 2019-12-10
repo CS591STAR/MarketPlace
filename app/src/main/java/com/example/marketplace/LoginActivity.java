@@ -73,11 +73,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
+                        .setLogo(R.drawable.ic_market_place)
                         .setIsSmartLockEnabled(!BuildConfig.DEBUG)
+                        .setTheme(R.style.AppTheme)
                         .setAvailableProviders(Arrays.asList(
                                 new AuthUI.IdpConfig.GoogleBuilder().build(),
-//                                new AuthUI.IdpConfig.FacebookBuilder().build(),
-//                                new AuthUI.IdpConfig.TwitterBuilder().build(), Twitter login disapled for now because sdk is no longer being supported by Twitter
+                                new AuthUI.IdpConfig.FacebookBuilder().build(),
                                 new AuthUI.IdpConfig.EmailBuilder().build()
                         ))
                         .build(),
