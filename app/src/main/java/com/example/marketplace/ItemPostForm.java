@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -188,7 +189,8 @@ public class ItemPostForm extends Fragment {
                     currentTime = date.getTime();
                 }
 
-                //get first 3 words in item name and search it in eBay
+//                if (TextUtils.isEmpty(itemNameTxt.getText()) && TextUtils.isEmpty(itemAskingPriceTxt.getText()) && TextUtils.isEmpty(itemZipcodeTxt.getText()) && TextUtils.isEmpty(postDescriptionText.getText()) && (itemImage != null)) {
+                    //get first 3 words in item name and search it in eBay
                 EBayAPI eBayAPI = EBayAPI.getInstance();
                 String itemName = itemNameTxt.getText().toString();
                 Log.w(TAG, firstWords(itemName, 3));
@@ -202,10 +204,18 @@ public class ItemPostForm extends Fragment {
                         Post.Condition.values()[ItemConditionDropDown.getSelectedItemPosition()].toString(), currentTime,
                         postDescriptionText.getText().toString(), postID, "", "", "");
 
-                uploadToCloud(postImage, post);
+                if (postImage == null) {
 
-                Toast.makeText(view.getContext(),"New post created", Toast.LENGTH_SHORT).show();
-                IPFL.openFeed();
+                    Toast.makeText(getActivity(), "You need to add a picture!", Toast.LENGTH_LONG).show();
+
+                }
+
+                else {
+
+                    uploadToCloud(postImage, post);
+                    Toast.makeText(view.getContext(), "New post created", Toast.LENGTH_SHORT).show();
+                    IPFL.openFeed();
+                }
 
             }
         });
