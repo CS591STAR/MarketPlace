@@ -29,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -141,8 +143,11 @@ public class Profile extends Fragment {
                 ratingVal = Double.parseDouble(ratingValString);
                 numRatings = (long) (dataSnapshot.child("numRatings").getValue());
 
+                BigDecimal bd = new BigDecimal(ratingVal).setScale(2, RoundingMode.HALF_UP);
+                double newInput = bd.doubleValue();
+
                 String overall = getResources().getString(R.string.overall_rating);
-                ratingString = overall + " " + ratingVal + " stars";
+                ratingString = overall + " " + newInput + " stars";
 
 
                 txtStars.setText(ratingString);
