@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.HashMap;
+
 
 public class User {
 
@@ -14,10 +16,10 @@ public class User {
     private String uni;
     private double rating;
     private double numRatings;
-    private int zip;
+    private String zip;
 
 
-    public User(String id, String name, String email, String img, String uni, double rating, double numRatings, int zip) {
+    public User(String id, String name, String email, String img, String uni, double rating, double numRatings, String zip) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -28,6 +30,16 @@ public class User {
         this.numRatings = numRatings;
     }
 
+    public User(HashMap<String, Object> user) {
+        this.id = user.get("id").toString();
+        this.name = user.get("name").toString();
+        this.email = user.get("email").toString();
+        this.img = user.get("img").toString();
+        this.uni = user.get("uni").toString();
+        this.rating = Double.parseDouble(user.get("itemCondition").toString());
+        this.zip = user.get("zip").toString();
+        this.numRatings = Double.parseDouble(user.get("itemDescription").toString());
+    }
 
     // Getter and Setter methods
     public String getId() {
@@ -78,7 +90,7 @@ public class User {
         this.rating = rating;
     }
 
-    public int getZip() {
+    public String getZip() {
         return this.zip;
     }
 

@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
                 if (!dataSnapshot.exists()) {
                     startActivity(new Intent(getBaseContext(), ZipcodeRequestActivity.class));
-                    User you = new User(mFirebaseUser.getUid(), mFirebaseUser.getDisplayName(), mFirebaseUser.getEmail(), mFirebaseUser.getPhotoUrl().toString(), "", 5, 1, 0);
+                    User you = new User(mFirebaseUser.getUid(), mFirebaseUser.getDisplayName(), mFirebaseUser.getEmail(), mFirebaseUser.getPhotoUrl().toString(), "", 5, 1,  "");
                     mDatabase.child(userID).setValue(you);
                 }
             }
