@@ -81,7 +81,6 @@ public class Chatroom extends AppCompatActivity {
     private String mPhotoUrl;
     public static final String TALKER_ID = "talkToID";
     private String talkerID;
-    private DatabaseReference reference;
 
     private Button mSendButton;
     private RecyclerView mMessageRecyclerView;
@@ -302,13 +301,12 @@ public class Chatroom extends AppCompatActivity {
         });
 
         //initialize chat room database (user's name, icon)
-        reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
-                .child(talkerID)
-                .child(mFirebaseUser.getUid());
-
         mFirebaseDatabaseReference.child("users").child(mFirebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                        .child(talkerID)
+                        .child(mFirebaseUser.getUid());
                 if(dataSnapshot != null){
 
                     String talkerName = (String) dataSnapshot.child("name").getValue();
@@ -325,12 +323,13 @@ public class Chatroom extends AppCompatActivity {
 
             }
         });
-        reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
-                .child(mFirebaseUser.getUid())
-                .child(talkerID);
+
         mFirebaseDatabaseReference.child("users").child(talkerID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                        .child(mFirebaseUser.getUid())
+                        .child(talkerID);
                 if(dataSnapshot != null){
 
                     String talkerName = (String) dataSnapshot.child("name").getValue();
@@ -421,7 +420,7 @@ public class Chatroom extends AppCompatActivity {
                     mFirebaseDatabaseReference
                             .child(MESSAGES_CHILD)
                             .child(mFirebaseUser.getUid())
-                            .child(getIntent().getStringExtra("dataReference"))
+                            .child(getIntent().getStringExtra(TALKER_ID))
                             .child(MESSAGES_CHILD)
                             .push()
                             .setValue(tempMessage, new DatabaseReference.CompletionListener() {
@@ -466,13 +465,13 @@ public class Chatroom extends AppCompatActivity {
                                                         mFirebaseDatabaseReference
                                                                 .child(MESSAGES_CHILD)
                                                                 .child(mFirebaseUser.getUid())
-                                                                .child(getIntent().getStringExtra("dataReference"))
+                                                                .child(getIntent().getStringExtra(TALKER_ID))
                                                                 .child(MESSAGES_CHILD)
                                                                 .child(key)
                                                                 .setValue(friendlyMessage);
                                                         mFirebaseDatabaseReference
                                                                 .child(MESSAGES_CHILD)
-                                                                .child(getIntent().getStringExtra("dataReference"))
+                                                                .child(getIntent().getStringExtra(TALKER_ID))
                                                                 .child(mFirebaseUser.getUid())
                                                                 .child(MESSAGES_CHILD)
                                                                 .child(key)

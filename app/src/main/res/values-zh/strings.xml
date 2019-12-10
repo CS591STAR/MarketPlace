@@ -4,10 +4,6 @@
     <!-- TODO: Remove or change this placeholder text (or keep it as an easter egg for the grader to find it later) -->
 
     <!--Login Page-->
-    <string name="firebaseui_title_text">FirebaseUI Auth</string>
-    <string name="signed_out">Signed Out</string>
-    <string name="firebaseui_status_fmt">Firebase User: %s</string>
-    <string name="id_fmt">User ID: %s</string>
     <string name="sign_in">登录</string>
 
 
@@ -29,10 +25,7 @@
     <string name="Preferences_Button">偏好设置</string>
 
     <!--NavBar-->
-    <string name="P_button">P</string>
-    <string name="C_button">C</string>
     <string name="Search_Line">搜索</string>
-    <string name="S_button">S</string>
     <string name="Feed_button">浏览</string>
 
     <!--Post Form-->
@@ -42,12 +35,14 @@
     <string name="Desc_Text">物品描述</string>
     <string name="Post_Item">发布</string>
     <string-array name="categories">
+        <item>选择类别</item>
         <item>书籍</item>
         <item>家具</item>
         <item>电子产品</item>
         <item>其他</item>
     </string-array>
     <string-array name="itemConditions">
+        <item>选择状态</item>
         <item>状态极好</item>
         <item>状态良好</item>
         <item>状态一般</item>
