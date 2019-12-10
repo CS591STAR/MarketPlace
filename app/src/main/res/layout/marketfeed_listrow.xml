@@ -1,62 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp">
-
-    <ImageView
-        android:id="@+id/postImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_weight="0"
-        android:contentDescription="@string/item_pic"
-        tools:srcCompat="@tools:sample/avatars[1]" />
+    android:layout_margin="16dp"
+    android:orientation="vertical"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="2dp">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/postName"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:gravity="center"
-            android:text="@string/post_name"
-            android:textSize="25sp" />
+        <ImageView
+            android:id="@+id/postImage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".4"
+            android:contentDescription="@string/item_pic"
+            android:scaleType="fitXY"
+            tools:srcCompat="@tools:sample/avatars[1]" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/colorPrimary" />
 
             <TextView
-                android:id="@+id/askingPriceTxt"
-                android:layout_width="199dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:id="@+id/postName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/price"
-                android:textSize="18sp" />
+                android:padding="5dp"
+                android:text="@string/post_name"
+                android:textSize="25sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/askingPriceTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".4"
+                    android:gravity="center"
+                    android:text="@string/price"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/itemPriceTxt"
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".6"
+                    android:gravity="center"
                     android:text="@string/textview"
                     android:textSize="18sp" />
+
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
-</LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -165,7 +165,7 @@ public class MarketFeed extends Fragment {
         postListAdapter = new PostListAdapter(postList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
         filterByDistanceBtn = view.findViewById(R.id.filterByDistanceBtn);

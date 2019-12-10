@@ -108,6 +108,7 @@ public class Profile extends Fragment {
 //            txtEmail.setText(mFirebaseUser.getEmail());
 
             Uri img = mFirebaseUser.getPhotoUrl();
+            if(img != null)
             GlideApp.with(this /* context */)
                     .load(img)
                     .into(imgUser);
