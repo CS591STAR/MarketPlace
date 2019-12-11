@@ -236,10 +236,10 @@ public class MarketFeed extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (currentQuery != null) {
                     currentQuery.removeEventListener(basicValueEventListener);
+                    currentQuery.removeEventListener(reverseValueEventListener);
                 }
                 if (i == 0) {
-                    currentQuery = mDatabase.child("posts").orderByChild("category");
-                    currentQuery.addValueEventListener(basicValueEventListener);
+                    sortByPostTime();
                 } else {
                     currentQuery = mDatabase.child("posts").orderByChild("category").equalTo(Post.Category.values()[i - 1].toString());
                     currentQuery.addValueEventListener(basicValueEventListener);
@@ -331,9 +331,6 @@ public class MarketFeed extends Fragment {
                 }
             };
         }
-
-        //order item by post time
-        sortByPostTime();
 
         return view;
     }
