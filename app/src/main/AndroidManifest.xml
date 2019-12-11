@@ -35,7 +35,10 @@
             android:label="@string/chatroom"
             android:launchMode="singleTop"
             android:theme="@style/ChatTheme" />
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity android:name=".Profile" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -45,10 +48,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".MarketFeed" />
-        <activity android:name=".Preferences" />
         <activity
-            android:name=".ItemPostForm"
-            android:windowSoftInputMode="adjustPan" />
+            android:name=".Preferences" />
+        <activity
+            android:name=".ItemPostForm" />
 
         <meta-data
             android:name="preloaded_fonts"
