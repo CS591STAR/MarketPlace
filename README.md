@@ -21,7 +21,6 @@ This Android application is a trading platform for the college environment. Mark
   ![Here](https://github.com/CS591STAR/MarketPlace/blob/master/images/Capture1.PNG)
   
   Then click: <em>Connect to Firebase</em>.
-  
   ![Here](https://github.com/CS591STAR/MarketPlace/blob/master/images/Capture2.PNG)
   
   Your browser will open and ask you to connect through one of your google accounts. Please do so. When you see this page you can return to Android Studio:
