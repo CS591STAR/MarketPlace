@@ -156,9 +156,8 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     @Override
     public void openOtherProfile(String sellerID) {
 
-        if (otherProfile == null) {
-            otherProfile = new OtherProfile();
-        }
+
+        otherProfile = new OtherProfile();
 
         Bundle bundle = new Bundle();
         bundle.putString("user", sellerID);
