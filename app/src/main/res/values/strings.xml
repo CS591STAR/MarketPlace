@@ -35,6 +35,7 @@
     <string name="User_Email">User\'s Email</string>
     <string name="Preferences_Button">Preferences</string>
     <string name="logout">Log Out</string>
+    <string name="stars">Stars</string>
 
     <!--NavBar-->
     <string name="Search_Line">Search</string>

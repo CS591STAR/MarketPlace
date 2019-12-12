@@ -124,7 +124,7 @@ public class OtherProfile extends Fragment {
                 double newInput = bd.doubleValue();
 
                 String overall = getResources().getString(R.string.overall_rating);
-                ratingString = overall + " " + newInput + " stars";
+                ratingString = overall + " " + newInput + " " + getString(R.string.stars);
 
                 userPhoto = dataSnapshot.child("img").getValue().toString();
                 txtStars.setText(ratingString);

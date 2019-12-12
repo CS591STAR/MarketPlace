@@ -105,4 +105,5 @@
     <string name="search_radius_set_is">حدد نصف قطر البحث</string>
     <string name="signin_failed">خطأ أثناء تسجيل الدخول</string>
     <string name="thank_you_for_your_report">شكراً لإبلاغك عن هذا الإعلان</string>
+    <string name="stars">نجوم</string>
 </resources>
