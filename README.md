@@ -1,10 +1,11 @@
 # MarketPlace
 > CS 591 Final Project: MarketPlace
   
-  <img src="images/english.jpeg" width="200" height="300">
-  <img src="images/arabic.jpeg" width="200" height="300"> 
-    <img src="images/spanish.jpeg" width="200" height="300"> 
-
+<p float="left">
+<img src="images/english.jpeg" width="200" height="300">
+<img src="images/arabic.jpeg" width="200" height="300">
+<img src="images/spanish.jpeg" width="200" height="300"> 
+</p>
 
 ## Table of contents
 * [General info](#general-info)
