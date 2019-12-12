@@ -12,6 +12,7 @@
 
     <string name="label_facebook_login" translatable="false">Firebase + Facebook Login</string>
     <string name="desc_facebook_login" translatable="false">Use a Facebook Login credential to authenticate with Firebase.</string>
+    <string name="signin_failed">Sign In Failed</string>
 
     <!--Main Activity-->
 
@@ -26,6 +27,8 @@
         <item>Electronics</item>
         <item>Other</item>
     </string-array>
+    <string name="search_radius_set_is">Search radius set is </string>
+    <string name="miles_from_your_own_zipcode"> mile(s) from your own zip code</string>
 
     <!--User's Profile-->
     <string name="User_Name">User\'s Name</string>
@@ -58,6 +61,10 @@
         <item>Decent Condition</item>
         <item>Poor Condition</item>
     </string-array>
+    <string name="choose_category_condition">Please choose category and condition!</string>
+    <string name="cannot_have_empty_fields">Cannot have empty fields!</string>
+    <string name="need_to_add_pic">"You need to add a picture!"</string>
+    <string name="new_post_created">New post created</string>
 
     <!--Chat stuff-->
     <string name="chatlist">Chat List</string>
@@ -68,6 +75,7 @@
     <string name="enter_your_zip">Enter your zip code:</string>
     <string name="zip_code_apply">Apply</string>
     <string name="enter_your_university">Enter your university:</string>
+    <string name="please_fill_in_zip">Please fill in your zip code and university</string>
 
     <!--Market Feed Row-->
     <string name="post_name">Post Name</string>
@@ -85,6 +93,8 @@
     <string name="users_profile">User\'s Profile</string>
     <string name="view_post_category">Category</string>
     <string name="report">report</string>
+    <string name="thank_you_for_your_report">Thank you for your report!</string>
+    <string name="post_deleted_successfully">Post deleted successfully</string>
 
     <!--Preference-->
     <string name="change_name">Change Name</string>
@@ -104,5 +114,6 @@
     <string name="ebay_s_suggested_price_n">Ebay\'s Suggested Price:\n</string>
     <string name="user_s_price_n">User\'s Price:\n</string>
     <string name="amazon_s_suggested_price_n">Amazon\'s Suggested Price:\n</string>
+    <string name="Thank_you_for_your_feedback">Thank you for your feedback!</string>
 
 </resources>

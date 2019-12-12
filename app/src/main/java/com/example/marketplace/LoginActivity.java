@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 FirebaseMessaging.getInstance().subscribeToTopic(mAuth.getCurrentUser().getUid());
             } else {
                 // Sign in failed
-                Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.signin_failed), Toast.LENGTH_SHORT).show();
                 updateUI(null);
             }
         }

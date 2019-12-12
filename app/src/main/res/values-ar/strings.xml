@@ -3,7 +3,6 @@
     <!-- TODO: Remove or change this placeholder text (or keep it as an easter egg for the grader to find it later) -->
 
     <!--Login Page-->
-    <string name="signed_out">سجلت خروج</string>
 
 
     <!--Main Activity-->

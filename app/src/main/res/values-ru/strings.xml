@@ -3,7 +3,6 @@
     <!-- TODO: Remove or change this placeholder text (or keep it as an easter egg for the grader to find it later) -->
 
     <!--Login Page-->
-    <string name="signed_out">Вы успешно вышли</string>
 
 
     <!--Main Activity-->
@@ -15,9 +14,6 @@
     <string name="User_Email">Имейл</string>
 
     <!--NavBar-->
-    <string name="P_button">П</string>
-    <string name="C_button">Ч</string>
-    <string name="S_button">И</string>
 
     <!--Post Form-->
     <string name="Item_Name">Название</string>
