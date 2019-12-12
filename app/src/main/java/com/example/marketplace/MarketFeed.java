@@ -188,7 +188,7 @@ public class MarketFeed extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
                 mileRadius = String.valueOf(seekBar.getProgress());
-                Toast.makeText(getContext(), "Search radius set is " + mileRadius + " from your own zipcode", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.search_radius_set_is) + mileRadius + getString(R.string.miles_from_your_own_zipcode), Toast.LENGTH_LONG).show();
 
                 if (mileRadius.equals("0")) {
                     postList.clear();
