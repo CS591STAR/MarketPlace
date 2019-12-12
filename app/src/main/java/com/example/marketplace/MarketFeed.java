@@ -202,18 +202,7 @@ public class MarketFeed extends Fragment {
         distanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (b) {
-                    mileRadius = String.valueOf(i);
-                    Toast.makeText(getContext(), "Search radius set is " + mileRadius + " from your own zipcode", Toast.LENGTH_LONG).show();
 
-                    if (mileRadius.equals("0")) {
-                        postList.clear();
-                        sortByPostTime();
-                        postListAdapter.notifyDataSetChanged();
-                    } else {
-                        zipcodesInRadius();
-                    }
-                }
             }
 
             @Override
@@ -223,6 +212,16 @@ public class MarketFeed extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+                    mileRadius = String.valueOf(seekBar.getProgress());
+                    Toast.makeText(getContext(), "Search radius set is " + mileRadius + " from your own zipcode", Toast.LENGTH_LONG).show();
+
+                    if (mileRadius.equals("0")) {
+                        postList.clear();
+                        sortByPostTime();
+                        postListAdapter.notifyDataSetChanged();
+                    } else {
+                        zipcodesInRadius();
+                    }
             }
         });
 
@@ -234,10 +233,10 @@ public class MarketFeed extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (currentQuery != null) {
                     currentQuery.removeEventListener(basicValueEventListener);
+                    currentQuery.removeEventListener(reverseValueEventListener);
                 }
                 if (i == 0) {
-                    currentQuery = mDatabase.child("posts").orderByChild("category");
-                    currentQuery.addValueEventListener(basicValueEventListener);
+                    sortByPostTime();
                 } else {
                     currentQuery = mDatabase.child("posts").orderByChild("category").equalTo(Post.Category.values()[i - 1].toString());
                     currentQuery.addValueEventListener(basicValueEventListener);
