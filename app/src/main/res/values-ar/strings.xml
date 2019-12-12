@@ -31,10 +31,10 @@
     </string-array>
     <string-array name="itemConditions">
         <item>حالة السلعة</item>
-        <item>ممتاز</item>
-        <item>جيد</item>
-        <item>مقبول</item>
-        <item>سيئة</item>
+        <item>بحالة ممتازة</item>
+        <item>بحالة جيدة</item>
+        <item>بحالة مقبولة</item>
+        <item>بحالة سيئة</item>
     </string-array>
     <string-array name="categories_including_all_categories_option">
         <item>كل الفئات</item>

@@ -150,7 +150,7 @@ public class ViewPost extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), getResources().getString(R.string.thank_you_for_your_report), Toast.LENGTH_SHORT).show();
-                getActivity().onBackPressed();
+                btnReport.setEnabled(false);
             }
         });
 
