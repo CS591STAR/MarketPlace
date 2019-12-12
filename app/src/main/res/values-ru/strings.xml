@@ -85,4 +85,15 @@
     <string name="view_post_title">Название</string>
     <string name="zip_code_apply">Применить</string>
     <string name="no_result">Нет результатов</string>
+    <string name="Thank_you_for_your_feedback">Спасибо за отзыв!</string>
+    <string name="cannot_have_empty_fields">Необходимо заполнить все поля!</string>
+    <string name="choose_category_condition">Выбери категорию и качество продмета</string>
+    <string name="miles_from_your_own_zipcode">миль от вашего местоположения</string>
+    <string name="need_to_add_pic">Добавь фото!</string>
+    <string name="new_post_created">Пост успешно создан</string>
+    <string name="please_fill_in_zip">Укажите ваш университет и индекс</string>
+    <string name="post_deleted_successfully">Пост успешно удален</string>
+    <string name="signin_failed">Не удалось войти</string>
+    <string name="stars">звезд</string>
+    <string name="thank_you_for_your_report">Спасибо за вашу жалобу!</string>
 </resources>
