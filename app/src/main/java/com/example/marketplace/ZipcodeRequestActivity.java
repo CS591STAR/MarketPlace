@@ -35,7 +35,7 @@ public class ZipcodeRequestActivity extends AppCompatActivity {
                 String zip = etZip.getText().toString();
                 String university = etUniversity.getText().toString();
                 while(zip == null || university == null){
-                    Toast.makeText(getBaseContext() ,"Illegal input, please try again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext() ,getResources().getString(R.string.please_fill_in_zip), Toast.LENGTH_SHORT).show();
                     zip = etZip.getText().toString();
                     university = etUniversity.getText().toString();
                 }

@@ -152,7 +152,8 @@ public class ViewPost extends Fragment {
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Thank you for your report!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), getResources().getString(R.string.thank_you_for_your_report), Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
             }
         });
 
@@ -177,7 +178,7 @@ public class ViewPost extends Fragment {
         mDatabase.child(post.getPostID()).removeValue();
         // delete from zipcodes db
         mDatabaseZip.child(post.getZipcode()).child(post.getPostID()).removeValue();
-        Toast.makeText(getContext(), "Post deleted successfully!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getResources().getString(R.string.post_deleted_successfully), Toast.LENGTH_SHORT).show();
         VPL.openFeed();
     }
 
