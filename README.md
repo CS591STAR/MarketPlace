@@ -13,6 +13,7 @@
 * [Technologies and APIs](#technologies-and-apis)
 * [Status](#status)
 * [Contact](#contact)
+* [Bonuses](#bonuses)
 
 ## General info
 This Android application is a trading platform for the college environment. Marketplace allows users to sell and buy new or used items among each other. It was build for the purpose of item exchange centralization among students and faculty on many different campuses across the country.
@@ -42,6 +43,9 @@ This Android application is a trading platform for the college environment. Mark
 
 ## Status
 Project is: _finished_
+
+## Bonuses
+  In main activity, we use fragments to switch between market feed, view post, create post, user's profile, etc. We implemented return button in menu of chat room. Also, our app is now targeting 5 locales, English, Spanish, Arabic, Russian, and Chinese.
 
 ## Contact
 Created by Team STAR
