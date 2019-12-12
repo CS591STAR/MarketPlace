@@ -65,7 +65,6 @@ public class MarketFeed extends Fragment {
     private Button btnSortByPrice;
     private Spinner sprCategory;
     private ProgressBar pbFeed;
-    private boolean sortByPriceAscending = true;
 
     private DatabaseReference mDatabase;
 
@@ -78,7 +77,6 @@ public class MarketFeed extends Fragment {
     private RecyclerView recyclerView;
     private PostListAdapter postListAdapter;
     private ValueEventListener basicValueEventListener;
-    private ValueEventListener reverseValueEventListener;
     private Query currentQuery;
 
     private static final String TAG = "FEED";
@@ -271,62 +269,24 @@ public class MarketFeed extends Fragment {
 
             };
         }
-
-        if(reverseValueEventListener == null){
-            reverseValueEventListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    postList.clear();
-                    pbFeed.setVisibility(View.INVISIBLE);
-
-                    if (dataSnapshot.hasChildren()) {
-                        Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
-                        while (iter.hasNext()) {
-                            DataSnapshot snap = iter.next();
-                            String postID = snap.getKey();
-                            try {
-
-                                Post post = new Post((HashMap<String, Object>) snap.getValue());
-                                postList.add(post);
-                                //received results
-                                Log.i("post", post.getItemName() + " on nod " + postID);
-                            } catch (NullPointerException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    // notify the adapter
-                    postListAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            };
+        if (currentQuery != null) {
+            currentQuery.removeEventListener(basicValueEventListener);
         }
+        //order item by post time
+        currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
+        currentQuery.addValueEventListener(basicValueEventListener);
 
         return view;
     }
 
     private void sortByPrice() {
-        sortByPriceAscending = !sortByPriceAscending;
         currentQuery.removeEventListener(basicValueEventListener);
-        currentQuery.removeEventListener(reverseValueEventListener);
         currentQuery = mDatabase.child("posts").orderByChild("askingPrice");
-        if(sortByPriceAscending){
-            currentQuery.addValueEventListener(reverseValueEventListener);
-        }
-        else {
-            currentQuery.addValueEventListener(basicValueEventListener);
-        }
+        currentQuery.addValueEventListener(basicValueEventListener);
     }
 
     private void sortByPostTime() {
-        if(currentQuery != null) {
-            currentQuery.removeEventListener(basicValueEventListener);
-            currentQuery.removeEventListener(reverseValueEventListener);
-        }
+        currentQuery.removeEventListener(basicValueEventListener);
         currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
         currentQuery.addValueEventListener(basicValueEventListener);
     }

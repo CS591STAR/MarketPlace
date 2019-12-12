@@ -161,7 +161,7 @@ public class ItemPostForm extends Fragment {
             public void onClick(View view) {
 
                 if (ItemConditionDropDown.getSelectedItemPosition() == 0 || ItemCategoryDropdown.getSelectedItemPosition() == 0) {
-                    Toast.makeText(getContext(), "Please choose category and condition!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.choose_category_condition), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -184,9 +184,9 @@ public class ItemPostForm extends Fragment {
                 amazonAPI.searchItem(itemNameTxt.getText().toString(), mDatabase.child(postID).child("amazonPrice"));
 
                 if (isEmpty(itemAskingPriceTxt) || isEmpty(itemZipcodeTxt)) {
-                    Toast.makeText(getActivity(), "Cannot have empty fields!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.cannot_have_empty_fields), Toast.LENGTH_LONG).show();
                 } else if (postImage == null) {
-                    Toast.makeText(getActivity(), "You need to add a picture!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.need_to_add_pic), Toast.LENGTH_LONG).show();
                 } else {
                     Post post = new Post(itemNameTxt.getText().toString(), Long.parseLong(String.valueOf(itemAskingPriceTxt.getText())),
                             itemZipcodeTxt.getText().toString(), mUsername, Post.Category.values()[ItemCategoryDropdown.getSelectedItemPosition() - 1].toString(),
@@ -194,7 +194,7 @@ public class ItemPostForm extends Fragment {
                             postDescriptionText.getText().toString(), postID, "", "", "");
 
                     uploadToCloud(postImage, post);
-                    Toast.makeText(view.getContext(), "New post created", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.new_post_created), Toast.LENGTH_SHORT).show();
                     getActivity().finish();
                     IPFL.openFeed();
                 }

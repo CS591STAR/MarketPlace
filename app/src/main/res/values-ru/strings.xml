@@ -84,4 +84,5 @@
     <string name="view_post_description">Описание</string>
     <string name="view_post_title">Название</string>
     <string name="zip_code_apply">Применить</string>
+    <string name="no_result">Нет результатов</string>
 </resources>
