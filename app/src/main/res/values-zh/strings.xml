@@ -102,4 +102,5 @@
     <string name="search_radius_set_is">搜索范围是距你所在邮编</string>
     <string name="signin_failed">登录失败</string>
     <string name="thank_you_for_your_report">感谢您的投诉！</string>
+    <string name="no_result">无</string>
 </resources>
