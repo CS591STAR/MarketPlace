@@ -107,12 +107,12 @@ public class ViewPost extends Fragment {
         if(!post.geteBayPrice().equals("")){
             EbayPrice = post.geteBayPrice();
         }
-        txtEbay.setText(txtEbay.getText().toString() + EbayPrice);
+        txtEbay.setText(txtEbay.getText().toString() +" "+ EbayPrice);
 
         if(!post.getAmazonPrice().equals("")){
             AmazonPrice = post.getAmazonPrice();
         }
-        txtAmazon.setText(txtAmazon.getText().toString() + AmazonPrice);
+        txtAmazon.setText(txtAmazon.getText().toString() +" "+ AmazonPrice);
 
         // set post info
         postTitle.setText(post.getItemName());
@@ -128,7 +128,7 @@ public class ViewPost extends Fragment {
 
         categoryPost.setText(getResources().getStringArray(R.array.categories)[Post.Category.valueOf(post.getCategory()).ordinal() + 1]);
 
-        String userPrice = postPrice.getText().toString() + "$" + post.getAskingPrice();
+        String userPrice = postPrice.getText().toString() + " $" + post.getAskingPrice();
         postPrice.setText(userPrice);
         
         // update UI
