@@ -45,7 +45,7 @@ This Android application is a trading platform for the college environment. Mark
 Project is: _finished_
 
 ## Bonuses
-  In main activity, we use fragments to switch between market feed, view post, create post, user's profile, etc. We implemented return button in menu of chat room. Also, our app is now targeting 5 locales, English, Spanish, Arabic, Russian, and Chinese.
+  In main activity, we have a navigation bar fragment and a second fragment beneath it to switch between market feed, view post, create post, user's profile, etc. In addition we implemented a menu with a return button inside the chat room. Also, our app is now targeting 5 locales, English, Spanish, Arabic, Russian, and Chinese.
 
 ## Contact
 Created by Team STAR
