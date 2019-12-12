@@ -104,4 +104,6 @@
     <string name="signin_failed">Registro Fallido</string>
     <string name="stars">Estrellas</string>
     <string name="thank_you_for_your_report">Gracias por su Reporte!</string>
+    <string name="search_radius_set_is">Radio Esta Lista</string>
+    <string name="no_result">No Hay Resultado</string>
 </resources>
