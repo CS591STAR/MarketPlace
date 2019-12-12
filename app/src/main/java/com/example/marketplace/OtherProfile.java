@@ -104,7 +104,7 @@ public class OtherProfile extends Fragment {
         txtRating = view.findViewById(R.id.txtRating);
         txtStars = view.findViewById(R.id.txtStars);
         rbUser = view.findViewById(R.id.rbUser);
-        rbUser.setNumStars(5);
+        rbUser.setMax(5);
 
         txtPosts = view.findViewById(R.id.txtPosts);
 
@@ -143,6 +143,8 @@ public class OtherProfile extends Fragment {
 
                 userPhoto = dataSnapshot.child("img").getValue().toString();
                 txtStars.setText(ratingString);
+
+                rbUser.setNumStars(0);
 
                 if (userPhoto != null) {
 
