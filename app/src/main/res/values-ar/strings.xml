@@ -97,12 +97,12 @@
     <string name="Thank_you_for_your_feedback">شكراً لتقييمك</string>
     <string name="cannot_have_empty_fields">لا يمكنك ترك خانات فارغة</string>
     <string name="choose_category_condition">من فضلك قم بإختيار فئة وحالة للمنتج</string>
-    <string name="miles_from_your_own_zipcode">ميل من الرمز البريدي الخاص بك</string>
+    <string name="miles_from_your_own_zipcode">"ميل من الرمز البريدي الخاص بك "</string>
     <string name="need_to_add_pic">يجب عليك إرفاق صورة</string>
     <string name="new_post_created">تم إنشاء إعلانك</string>
     <string name="please_fill_in_zip">من فضلك قم بإدخال الرمز البريدي الخاص بك</string>
     <string name="post_deleted_successfully">تم حذف إعلانك بنجاح!</string>
-    <string name="search_radius_set_is">حدد نصف قطر البحث</string>
+    <string name="search_radius_set_is">"نصف قطر البحث: "</string>
     <string name="signin_failed">خطأ أثناء تسجيل الدخول</string>
     <string name="thank_you_for_your_report">شكراً لإبلاغك عن هذا الإعلان</string>
     <string name="stars">نجوم</string>
