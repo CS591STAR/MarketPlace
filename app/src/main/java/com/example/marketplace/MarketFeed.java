@@ -1,7 +1,6 @@
 package com.example.marketplace;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -65,6 +63,7 @@ public class MarketFeed extends Fragment {
     private Button btnSortByPrice;
     private Spinner sprCategory;
     private ProgressBar pbFeed;
+    private boolean sortByPriceAscending = true;
 
     private DatabaseReference mDatabase;
 
@@ -77,6 +76,7 @@ public class MarketFeed extends Fragment {
     private RecyclerView recyclerView;
     private PostListAdapter postListAdapter;
     private ValueEventListener basicValueEventListener;
+    private ValueEventListener reverseValueEventListener;
     private Query currentQuery;
 
     private static final String TAG = "FEED";
@@ -134,7 +134,6 @@ public class MarketFeed extends Fragment {
         });
 
 
-
         buildZipcodeMap();
 
         btnCreatePost = view.findViewById(R.id.btnCreatePost);
@@ -188,16 +187,16 @@ public class MarketFeed extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                    mileRadius = String.valueOf(seekBar.getProgress());
-                    Toast.makeText(getContext(), "Search radius set is " + mileRadius + " from your own zipcode", Toast.LENGTH_LONG).show();
+                mileRadius = String.valueOf(seekBar.getProgress());
+                Toast.makeText(getContext(), "Search radius set is " + mileRadius + " from your own zipcode", Toast.LENGTH_LONG).show();
 
-                    if (mileRadius.equals("0")) {
-                        postList.clear();
-                        sortByPostTime();
-                        postListAdapter.notifyDataSetChanged();
-                    } else {
-                        zipcodesInRadius();
-                    }
+                if (mileRadius.equals("0")) {
+                    postList.clear();
+                    sortByPostTime();
+                    postListAdapter.notifyDataSetChanged();
+                } else {
+                    zipcodesInRadius();
+                }
             }
         });
 
@@ -249,7 +248,7 @@ public class MarketFeed extends Fragment {
                             String postID = snap.getKey();
                             try {
 
-                            Post post = new Post((HashMap<String, Object>) snap.getValue());
+                                Post post = new Post((HashMap<String, Object>) snap.getValue());
                                 postList.add(post);
                                 //received results
                                 Log.i("post", post.getItemName() + " on nod " + postID);
@@ -269,24 +268,61 @@ public class MarketFeed extends Fragment {
 
             };
         }
-        if (currentQuery != null) {
-            currentQuery.removeEventListener(basicValueEventListener);
+
+        if (reverseValueEventListener == null) {
+            reverseValueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    postList.clear();
+                    pbFeed.setVisibility(View.INVISIBLE);
+
+                    if (dataSnapshot.hasChildren()) {
+                        Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
+                        while (iter.hasNext()) {
+                            DataSnapshot snap = iter.next();
+                            String postID = snap.getKey();
+                            try {
+
+                                Post post = new Post((HashMap<String, Object>) snap.getValue());
+                                postList.add(post);
+                                //received results
+                                Log.i("post", post.getItemName() + " on nod " + postID);
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    // notify the adapter
+                    postListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            };
         }
-        //order item by post time
-        currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
-        currentQuery.addValueEventListener(basicValueEventListener);
 
         return view;
     }
 
     private void sortByPrice() {
+        sortByPriceAscending = !sortByPriceAscending;
         currentQuery.removeEventListener(basicValueEventListener);
+        currentQuery.removeEventListener(reverseValueEventListener);
         currentQuery = mDatabase.child("posts").orderByChild("askingPrice");
-        currentQuery.addValueEventListener(basicValueEventListener);
+        if (sortByPriceAscending) {
+            currentQuery.addValueEventListener(reverseValueEventListener);
+        } else {
+            currentQuery.addValueEventListener(basicValueEventListener);
+        }
     }
 
     private void sortByPostTime() {
-        currentQuery.removeEventListener(basicValueEventListener);
+        if (currentQuery != null) {
+            currentQuery.removeEventListener(basicValueEventListener);
+            currentQuery.removeEventListener(reverseValueEventListener);
+        }
         currentQuery = mDatabase.child("posts").orderByChild("itemPostTime");
         currentQuery.addValueEventListener(basicValueEventListener);
     }
@@ -381,7 +417,7 @@ public class MarketFeed extends Fragment {
                 postListAdapter.notifyDataSetChanged();
             }
         });
-            for (String zipcodetocompare : zipcodesToCompare) {
+        for (String zipcodetocompare : zipcodesToCompare) {
             Log.i("SINGLE", "single zipcode is " + zipcodetocompare);
             Log.i("Radius", "zipcodes returned from API " + zipCodesInRadius.toString());
             if (zipCodesInRadius.contains(zipcodetocompare)) {
