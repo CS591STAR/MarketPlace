@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.io.Resources;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -99,8 +100,8 @@ public class ViewPost extends Fragment {
         categoryPost = view.findViewById(R.id.categoryPost);
         btnReport = view.findViewById(R.id.btnReport);
 
-        String EbayPrice = "No result";
-        String AmazonPrice = "No result";
+        String EbayPrice = getString(R.string.no_result);
+        String AmazonPrice = getString(R.string.no_result);
 
 
         if(!post.geteBayPrice().equals("")){

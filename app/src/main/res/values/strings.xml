@@ -85,6 +85,7 @@
     <string name="users_profile">Seller\'s Profile</string>
     <string name="view_post_category">Category</string>
     <string name="report">report</string>
+    <string name="no_result">No Result</string>
 
     <!--Preference-->
     <string name="change_name">Change Name</string>
