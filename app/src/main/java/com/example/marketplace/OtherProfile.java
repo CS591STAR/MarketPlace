@@ -129,7 +129,6 @@ public class OtherProfile extends Fragment {
                 userPhoto = dataSnapshot.child("img").getValue().toString();
                 txtStars.setText(ratingString);
 
-                rbUser.setNumStars(0);
 
                 if (userPhoto != null) {
 
@@ -149,20 +148,21 @@ public class OtherProfile extends Fragment {
         rbUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                if (b) {
+                    double oldTotal = ratingVal * numRatings;
+                    double newTotal = oldTotal + v;
+                    double newNumRatings = numRatings + 1;
+                    double newRating = newTotal / (numRatings + 1);
 
-                double oldTotal = ratingVal * numRatings;
-                double newTotal = oldTotal + v;
-                double newNumRatings = numRatings + 1;
-                double newRating = newTotal / (numRatings + 1);
+                    mDatabase.child("users").child(otherUser).child("rating").setValue(newRating);
+                    mDatabase.child("users").child(otherUser).child("numRatings").setValue(newNumRatings);
 
-                mDatabase.child("users").child(otherUser).child("rating").setValue(newRating);
-                mDatabase.child("users").child(otherUser).child("numRatings").setValue(newNumRatings);
-
-                Toast.makeText(getContext(), "Thank you for your feedback!", Toast.LENGTH_LONG).show();
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Toast.makeText(getContext(), "Thank you for your feedback!", Toast.LENGTH_LONG).show();
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
