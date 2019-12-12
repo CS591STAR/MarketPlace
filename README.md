@@ -39,7 +39,11 @@ Project is: _finished_
 
 ## Contact
 Created by Team STAR
-Timothy Mirzoain - mirtim@bu.edu
+
 Simon Acevedo Rodriguez - sacevedo@bu.edu
+
+Timothy Mirzoain - mirtim@bu.edu
+
 Abdulshaheed Alqunber - asq@bu.edu
+
 Ruidong Duan - ruidongd@bu.edu
