@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,13 +22,11 @@ import com.google.firebase.database.Query;
 
 public class MainActivity extends AppCompatActivity implements NavBarFragment.NavBarFragmentListener, MarketFeed.MarketFeedListener, ItemPostForm.ItemPostFormListener, Profile.ProfileListener, ViewPost.ViewPostListener, OtherProfile.otherProfileListener {
 
-    User you;
     MarketFeed marketFeed;
     Profile profile;
     Chatroom chats;
     ItemPostForm itemPostForm;
     Preferences preferences;
-    ViewPost viewPost;
     LinearLayout fragLayout;
     FragmentManager fm;
     Post post;
@@ -50,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
         setContentView(R.layout.activity_main);
 
-
         marketFeed = new MarketFeed();
         profile = new Profile();
         chats = new Chatroom();
@@ -67,9 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         FragmentTransaction ft = fm.beginTransaction();
 
         navBar = (NavBarFragment) fm.findFragmentById(R.id.navBar);
-//        ft.hide(navBar);
         ft.add(R.id.fragLayout, marketFeed, "Market Feed");
-        ft.addToBackStack(null);
+        ft.disallowAddToBackStack();
         ft.commit();
 
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -148,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragLayout, marketFeed);
-        ft.addToBackStack(null);
+        ft.disallowAddToBackStack();
         ft.commit();
 
     }
@@ -156,9 +151,8 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     @Override
     public void openOtherProfile(String sellerID) {
 
-        if (otherProfile == null) {
-            otherProfile = new OtherProfile();
-        }
+
+        otherProfile = new OtherProfile();
 
         Bundle bundle = new Bundle();
         bundle.putString("user", sellerID);
@@ -172,9 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
     @Override
     public void createPost() {
 
-//        if (itemPostForm == null) {
         itemPostForm = new ItemPostForm();
-//        }
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragLayout, itemPostForm, "ItemPostForm");
         ft.addToBackStack(null);

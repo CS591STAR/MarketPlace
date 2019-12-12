@@ -40,7 +40,6 @@
 
     <string name="post_name">Название</string>
     <string name="item_pic">Картинка</string>
-    <string name="textview">TextView</string>
     <string name="sort_by_distance">Сортировать по Растоянию</string>
     <string name="sign_out">Выйти</string>
     <string name="Ask_Price">Цена</string>

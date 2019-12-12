@@ -60,7 +60,6 @@
 
     <string name="post_name">条目名称</string>
     <string name="price">价格:</string>
-    <string name="textview">TextView</string>
     <string name="apply">应用</string>
     <string name="sort_by_distance">距离排序</string>
     <string name="contact_seller">联系卖家</string>

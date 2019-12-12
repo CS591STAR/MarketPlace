@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.io.Resources;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -99,19 +100,19 @@ public class ViewPost extends Fragment {
         categoryPost = view.findViewById(R.id.categoryPost);
         btnReport = view.findViewById(R.id.btnReport);
 
-        String EbayPrice = "No result";
-        String AmazonPrice = "No result";
+        String EbayPrice = getString(R.string.no_result);
+        String AmazonPrice = getString(R.string.no_result);
 
 
         if(!post.geteBayPrice().equals("")){
             EbayPrice = post.geteBayPrice();
         }
-        txtEbay.setText(txtEbay.getText().toString() + EbayPrice);
+        txtEbay.setText(txtEbay.getText().toString() +" "+ EbayPrice);
 
         if(!post.getAmazonPrice().equals("")){
             AmazonPrice = post.getAmazonPrice();
         }
-        txtAmazon.setText(txtAmazon.getText().toString() + AmazonPrice);
+        txtAmazon.setText(txtAmazon.getText().toString() +" "+ AmazonPrice);
 
         // set post info
         postTitle.setText(post.getItemName());
@@ -127,7 +128,7 @@ public class ViewPost extends Fragment {
 
         categoryPost.setText(getResources().getStringArray(R.array.categories)[Post.Category.valueOf(post.getCategory()).ordinal() + 1]);
 
-        String userPrice = postPrice.getText().toString() + "$" + post.getAskingPrice();
+        String userPrice = postPrice.getText().toString() + " $" + post.getAskingPrice();
         postPrice.setText(userPrice);
         
         // update UI
