@@ -1,6 +1,9 @@
 # MarketPlace
 > CS 591 Final Project: MarketPlace
-  ![](images/english.jpeg) ![](images/arabic.jpeg) ![](images/spanish.jpeg)
+  
+  <img src="images/english.jpeg" width="200" height="300">
+  <img src="images/arabic.jpeg" width="200" height="300"> 
+    <img src="images/spanish.jpeg" width="200" height="300"> 
 
 
 ## Table of contents
