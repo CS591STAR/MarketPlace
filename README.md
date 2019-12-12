@@ -19,7 +19,8 @@
 This Android application is a trading platform for the college environment. Marketplace allows users to sell and buy new or used items among each other. It was build for the purpose of item exchange centralization among students and faculty on many different campuses across the country.
 
 ## Setup
-  In order to make sure that the app runs correctly, first thing needed is to connect to Firebase using a google account. It can be done directly through Android Studio.
+  Usually no additional steps need to be done to compile the project. In case of some issues, you might also do following things.
+  In order to make sure that the app runs correctly, first thing needed is to connect to Firebase using an authenticated google account. It can be done directly through Android Studio.
   In the top bar click on <em>Tools -> Firebase</em>. A menu will appear on the right side of the screen.
   
   ![Here](images/Capture.PNG)
