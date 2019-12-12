@@ -1,8 +1,5 @@
 package com.example.marketplace;
 
-
-import android.app.Activity;
-import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -15,21 +12,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,28 +32,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.w3c.dom.Text;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -74,15 +55,12 @@ import okhttp3.Response;
 public class MarketFeed extends Fragment {
 
     Button btnCreatePost;
-    ListView feedListView;
     SeekBar distanceSeekBar;
     Button filterByDistanceBtn;
-    SharedPreferences sharedPref;
     String mileRadius;
     private FirebaseUser mFirebaseUser;
     private String mUsername;
     private String userZipcode;
-
 
     private Button btnSortByPrice;
     private Spinner sprCategory;
@@ -90,7 +68,6 @@ public class MarketFeed extends Fragment {
     private boolean sortByPriceAscending = true;
 
     private DatabaseReference mDatabase;
-    private DatabaseReference zipcodeDatabase;
 
     ArrayList<String> zipCodesInRadius = new ArrayList<>();
     ArrayList<String> zipcodesToCompare = new ArrayList<>();
@@ -167,7 +144,6 @@ public class MarketFeed extends Fragment {
         postListAdapter = new PostListAdapter(postList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-//        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
         filterByDistanceBtn = view.findViewById(R.id.filterByDistanceBtn);
@@ -293,7 +269,6 @@ public class MarketFeed extends Fragment {
                 public void onCancelled(DatabaseError databaseError) {
                 }
 
-                ;
             };
         }
 
@@ -394,9 +369,6 @@ public class MarketFeed extends Fragment {
         // clear lists
         zipCodesInRadius.clear();
 
-        // for now we are using a sample zipcode until we retrieve it from the user properly
-
-//        String sampleZip = "02215";
         String redLineAPIEndPoint = "https://redline-redline-zipcode.p.rapidapi.com/rest/radius.json/" + userZipcode + "/" + mileRadius + "/mile";
 
         OkHttpClient client = new OkHttpClient();

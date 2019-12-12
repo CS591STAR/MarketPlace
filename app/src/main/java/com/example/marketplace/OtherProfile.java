@@ -3,7 +3,6 @@ package com.example.marketplace;
 
 import android.content.Context;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,7 +54,6 @@ public class OtherProfile extends Fragment {
     private PostListAdapter postListAdapter;
 
     private DatabaseReference mDatabase;
-    private FirebaseUser mFirebaseUser;
     private String otherUser;
 
     public OtherProfile() {
@@ -92,7 +89,7 @@ public class OtherProfile extends Fragment {
         postListAdapter = new PostListAdapter(postList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
 
@@ -107,18 +104,6 @@ public class OtherProfile extends Fragment {
         rbUser.setMax(5);
 
         txtPosts = view.findViewById(R.id.txtPosts);
-
-//        mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();                 // change to the other user
-//        if (mFirebaseUser != null) {
-////            txtDisplayName.setText(mFirebaseUser.getDisplayName());
-////            txtEmail.setText(mFirebaseUser.getEmail());
-//
-//            Uri img = mFirebaseUser.getPhotoUrl();
-//            GlideApp.with(this /* context */)
-//                    .load(img)
-//                    .into(imgUser);
-//        }
-
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
 
@@ -179,18 +164,17 @@ public class OtherProfile extends Fragment {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-//                rbUser.setRating(0);
             }
         });
 
-        mDatabase.child("posts").orderByChild("sellerID").equalTo(otherUser).addValueEventListener( new ValueEventListener(){
+        mDatabase.child("posts").orderByChild("sellerID").equalTo(otherUser).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot){
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
                 postList.clear();
-                if(dataSnapshot.hasChildren()){
+                if (dataSnapshot.hasChildren()) {
                     Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
-                    while (iter.hasNext()){
+                    while (iter.hasNext()) {
                         DataSnapshot snap = iter.next();
                         String postID = snap.getKey();
                         try {
@@ -213,8 +197,7 @@ public class OtherProfile extends Fragment {
                             postList.add(post);
                             //received results
                             Log.i("post", post.getItemName() + " on nod " + postID);
-                        }
-                        catch (NullPointerException e) {
+                        } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
                     }
@@ -223,8 +206,9 @@ public class OtherProfile extends Fragment {
                 Collections.reverse(postList);
                 postListAdapter.notifyDataSetChanged();
             }
+
             @Override
-            public void onCancelled(DatabaseError databaseError){
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
         return view;

@@ -4,14 +4,14 @@ import java.util.HashMap;
 
 public class Post {
 
-    public enum Category{
+    public enum Category {
         TEXTBOOK,
         FURNITURE,
         ELECTRONICS,
         OTHER;
     }
 
-    public enum Condition{
+    public enum Condition {
         GREAT,
         GOOD,
         DECENT,
@@ -76,7 +76,7 @@ public class Post {
         this.askingPrice = askingPrice;
     }
 
-    public long getAskingPrice(){
+    public long getAskingPrice() {
         return this.askingPrice;
     }
 
@@ -84,7 +84,7 @@ public class Post {
         this.zipcode = zipcode;
     }
 
-    public String getZipcode(){
+    public String getZipcode() {
         return this.zipcode;
     }
 
@@ -92,7 +92,7 @@ public class Post {
         this.sellerID = sellerID;
     }
 
-    public String getSellerID(){
+    public String getSellerID() {
         return this.sellerID;
     }
 
@@ -100,7 +100,7 @@ public class Post {
         this.category = category;
     }
 
-    public String getCategory(){
+    public String getCategory() {
         return this.category;
     }
 
@@ -108,7 +108,7 @@ public class Post {
         this.itemCondition = itemCondition;
     }
 
-    public String getItemCondition(){
+    public String getItemCondition() {
         return this.itemCondition;
     }
 
@@ -116,7 +116,7 @@ public class Post {
         this.itemPostTime = itemPostTime;
     }
 
-    public long getItemPostTime(){
+    public long getItemPostTime() {
         return this.itemPostTime;
     }
 

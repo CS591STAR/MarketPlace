@@ -1,6 +1,5 @@
 package com.example.marketplace;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class Preferences extends Fragment {
 
@@ -42,18 +37,6 @@ public class Preferences extends Fragment {
     public Preferences() {
 
     }
-
-//    public interface PreferencesListener {
-//
-//    }
-//
-//    PreferencesListener PL;
-//
-//    @Override
-//    public void onAttach(@NonNull Context context) {
-//        super.onAttach(context);
-//        PL = (PreferencesListener) context;
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,13 +80,6 @@ public class Preferences extends Fragment {
                 mDatabase.child("users").child(mFirebaseUser.getUid()).child("zip").setValue(edit4.getText().toString());
             }
         });
-
-//        btn5.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
 
         return view;
     }

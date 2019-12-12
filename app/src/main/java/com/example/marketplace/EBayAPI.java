@@ -1,13 +1,6 @@
 package com.example.marketplace;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-
-import com.google.firebase.database.DatabaseReference;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -43,10 +36,11 @@ public class EBayAPI {
         EBayAPI.eBayPrice = eBayPrice;
     }
 
-    private EBayAPI(){}
+    private EBayAPI() {
+    }
 
-    public static EBayAPI getInstance(){
-        if(instance == null){
+    public static EBayAPI getInstance() {
+        if (instance == null) {
             instance = new EBayAPI();
         }
         return instance;
@@ -56,7 +50,7 @@ public class EBayAPI {
         return response;
     }
 
-    private void setResponse(JSONObject res){
+    private void setResponse(JSONObject res) {
         response = res;
     }
 
@@ -86,7 +80,7 @@ public class EBayAPI {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     //set the token
                     try {
                         token = new JSONObject(response.body().string()).getString("access_token");
@@ -102,8 +96,8 @@ public class EBayAPI {
     }
 
     //search items by keyword
-    public void searchItemAndFillIn(final String keyword, int limit){
-        if(!isTokenValid){
+    public void searchItemAndFillIn(final String keyword, int limit) {
+        if (!isTokenValid) {
             getToken();
         }
 
@@ -112,7 +106,7 @@ public class EBayAPI {
 
         //create request body
         Request request = new Request.Builder()
-                .url("https://api.ebay.com/buy/browse/v1/item_summary/search?q=" + keyword + "&limit="+ limit)
+                .url("https://api.ebay.com/buy/browse/v1/item_summary/search?q=" + keyword + "&limit=" + limit)
                 .get()
                 .addHeader("Authorization", "Bearer " + token)
                 .build();
@@ -130,7 +124,7 @@ public class EBayAPI {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 //if call succeeds, get item information from response body, and set text on screen
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     try {
                         String responseBody = response.body().string();
                         JSONObject object = new JSONObject(responseBody);
@@ -149,20 +143,19 @@ public class EBayAPI {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-                else{
+                } else {
                     isTokenValid = false;
                 }
             }
         });
     }
 
-    public void searchItem(String keyword){
+    public void searchItem(String keyword) {
         searchItemAndFillIn(keyword, 1);
     }
 
     public String getItemPrice() throws JSONException {
-        if(response == null){
+        if (response == null) {
             return "No result";
         }
 

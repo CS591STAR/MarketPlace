@@ -3,7 +3,6 @@ package com.example.marketplace;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -30,7 +29,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private String ADMIN_CHANNEL_ID = "admin_channel";
 
     @Override
-    public void onMessageReceived(@NotNull RemoteMessage remoteMessage){
+    public void onMessageReceived(@NotNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
         Intent intent = new Intent(getBaseContext(), Chatroom.class);
@@ -43,7 +42,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Apps targeting SDK 26 or above (Android O) must implement notification channels and add its notifications
         to at least one of them.
         */
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setupChannels(notificationManager);
         }
 
@@ -63,7 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent);
 
         //Set notification color to match your app color template
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationBuilder.setColor(getResources().getColor(R.color.colorPrimaryDark));
         }
         notificationManager.notify(notificationID, notificationBuilder.build());
@@ -79,7 +78,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         adminChannel.enableLights(true);
         adminChannel.setLightColor(Color.RED);
         adminChannel.enableVibration(true);
-        if(notificationManager != null){
+        if (notificationManager != null) {
             notificationManager.createNotificationChannel(adminChannel);
         }
     }

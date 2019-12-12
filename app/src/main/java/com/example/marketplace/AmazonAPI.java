@@ -1,12 +1,6 @@
 package com.example.marketplace;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
-
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.firebase.database.DatabaseReference;
 
@@ -85,17 +79,17 @@ public class AmazonAPI {
                         e.printStackTrace();
                     }
                 } else {
-                    Log.i("error: ", "error here!" );
+                    Log.i("error: ", "error here!");
                 }
             }
         });
 
     }
 
-    public void searchItem (String keyword, DatabaseReference db){
+    public void searchItem(String keyword, DatabaseReference db) {
         Log.w(TAG, "keyword: " + keyword);
         getAmazonPrice(keyword, db);
-        }
+    }
 
 }
 

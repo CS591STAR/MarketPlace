@@ -78,13 +78,12 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
                 if (!dataSnapshot.exists()) {
                     startActivity(new Intent(getBaseContext(), ZipcodeRequestActivity.class));
                     String photoUrl;
-                    if(mFirebaseUser.getPhotoUrl() == null){
+                    if (mFirebaseUser.getPhotoUrl() == null) {
                         photoUrl = "";
-                    }
-                    else{
+                    } else {
                         photoUrl = mFirebaseUser.getPhotoUrl().toString();
                     }
-                    User you = new User(mFirebaseUser.getUid(), mFirebaseUser.getDisplayName(), mFirebaseUser.getEmail(), photoUrl, "", 5, 1,  "");
+                    User you = new User(mFirebaseUser.getUid(), mFirebaseUser.getDisplayName(), mFirebaseUser.getEmail(), photoUrl, "", 5, 1, "");
                     mDatabase.child(userID).setValue(you);
                 }
             }
@@ -122,9 +121,9 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         searchByKeyword(keyword);
     }
 
-    public void searchByKeyword(String keyword){
+    public void searchByKeyword(String keyword) {
         Query query = null;
-        if(marketFeed != null){
+        if (marketFeed != null) {
             query = marketFeed.getCurrentQuery();
         }
         SearchResultFragment resultFragment = new SearchResultFragment(keyword, query);
@@ -179,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements NavBarFragment.Na
         if (preferences == null) {
             preferences = new Preferences();
         }
-
 
         FragmentTransaction ft = fm.beginTransaction();
 

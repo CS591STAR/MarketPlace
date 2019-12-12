@@ -5,7 +5,7 @@ public class SingleChat {
     private String name;
     private String photoUrl;
 
-    public SingleChat(){
+    public SingleChat() {
 
     }
 

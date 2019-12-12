@@ -46,7 +46,7 @@ public class SearchResultFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public SearchResultFragment(String keyword, Query query){
+    public SearchResultFragment(String keyword, Query query) {
         this.keyword = keyword;
         this.query = query;
         Log.w(TAG, "The keyword is " + keyword);
@@ -63,23 +63,23 @@ public class SearchResultFragment extends Fragment {
         postListAdapter = new PostListAdapter(postList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         resultRecyclerView.setLayoutManager(mLayoutManager);
-        resultRecyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),LinearLayoutManager.VERTICAL));
+        resultRecyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
         resultRecyclerView.setItemAnimator(new DefaultItemAnimator());
         resultRecyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // get the ref of db
 
-        query.addValueEventListener( new ValueEventListener(){
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot){
-                if(dataSnapshot.exists()){
-                    Log.i("dataInside",dataSnapshot.getValue().toString());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Log.i("dataInside", dataSnapshot.getValue().toString());
                 }
 
                 postList.clear();
-                if(dataSnapshot.hasChildren()){
+                if (dataSnapshot.hasChildren()) {
                     Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
-                    while (iter.hasNext()){
+                    while (iter.hasNext()) {
                         DataSnapshot snap = iter.next();
                         String postID = snap.getKey();
                         long askingPrice = (long) snap.child("askingPrice").getValue();
@@ -98,7 +98,7 @@ public class SearchResultFragment extends Fragment {
 
                         Post post = new Post(itemName, askingPrice, zipcode, sellerID, category, itemCondition,
                                 itemPostTime, itemDescription, postID, image, eBayPrice, amazonPrice);
-                        if(post.getItemName().toLowerCase().indexOf(keyword.toLowerCase()) >= 0 ){
+                        if (post.getItemName().toLowerCase().indexOf(keyword.toLowerCase()) >= 0) {
                             Log.w(TAG, String.valueOf(post.getItemName().indexOf(keyword)));
                             postList.add(post);
                         }
@@ -110,8 +110,9 @@ public class SearchResultFragment extends Fragment {
                 Collections.reverse(postList);
                 postListAdapter.notifyDataSetChanged();
             }
+
             @Override
-            public void onCancelled(DatabaseError databaseError){
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
 

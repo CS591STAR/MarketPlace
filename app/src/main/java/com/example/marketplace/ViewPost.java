@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,14 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.common.io.Resources;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 
-import org.json.JSONException;
 
 public class ViewPost extends Fragment {
 
@@ -48,16 +44,17 @@ public class ViewPost extends Fragment {
     private DatabaseReference mDatabaseZip;
     private static final String TAG = "VIEW_POST";
 
-    public ViewPost(){
+    public ViewPost() {
         //Required empty public constructor
     }
 
-    public ViewPost(Post post){
+    public ViewPost(Post post) {
         this.post = post;
     }
 
     public interface ViewPostListener {
         public void openFeed();
+
         public void openOtherProfile(String sellerID);
         // add methods that we would need the activity to implement
     }
@@ -104,15 +101,15 @@ public class ViewPost extends Fragment {
         String AmazonPrice = getString(R.string.no_result);
 
 
-        if(!post.geteBayPrice().equals("")){
+        if (!post.geteBayPrice().equals("")) {
             EbayPrice = post.geteBayPrice();
         }
-        txtEbay.setText(txtEbay.getText().toString() +" "+ EbayPrice);
+        txtEbay.setText(txtEbay.getText().toString() + " " + EbayPrice);
 
-        if(!post.getAmazonPrice().equals("")){
+        if (!post.getAmazonPrice().equals("")) {
             AmazonPrice = post.getAmazonPrice();
         }
-        txtAmazon.setText(txtAmazon.getText().toString() +" "+ AmazonPrice);
+        txtAmazon.setText(txtAmazon.getText().toString() + " " + AmazonPrice);
 
         // set post info
         postTitle.setText(post.getItemName());
@@ -130,7 +127,7 @@ public class ViewPost extends Fragment {
 
         String userPrice = postPrice.getText().toString() + " $" + post.getAskingPrice();
         postPrice.setText(userPrice);
-        
+
         // update UI
         updateUI();
 
@@ -186,9 +183,8 @@ public class ViewPost extends Fragment {
             deletePost.setVisibility(View.VISIBLE);
             contactSeller.setVisibility(View.GONE);
             btnUser.setVisibility(View.GONE);
-            Log.i("POSTID", "sellerID= " + post.getSellerID() + " currentUserID "+ mFirebaseUser.getUid());
-        }
-        else {
+            Log.i("POSTID", "sellerID= " + post.getSellerID() + " currentUserID " + mFirebaseUser.getUid());
+        } else {
             deletePost.setVisibility(View.GONE);
             contactSeller.setVisibility(View.VISIBLE);
             btnUser.setVisibility(View.VISIBLE);

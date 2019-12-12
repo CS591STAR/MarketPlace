@@ -36,7 +36,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -46,7 +45,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
@@ -166,10 +164,9 @@ public class Chatroom extends AppCompatActivity {
                 mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 if (friendlyMessage.getText() != null) {
                     //if the message is sent by the current user, set the text bubble to a different color
-                    if(friendlyMessage.getName().equals(mFirebaseUser.getDisplayName())){
+                    if (friendlyMessage.getName().equals(mFirebaseUser.getDisplayName())) {
                         viewHolder.messageTextView.setBackgroundResource(R.drawable.rounded_rectangle_lightblue);
-                    }
-                    else{
+                    } else {
                         viewHolder.messageTextView.setBackgroundResource(R.drawable.rounded_rectangle_white);
                     }
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
@@ -307,7 +304,7 @@ public class Chatroom extends AppCompatActivity {
                 DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
                         .child(talkerID)
                         .child(mFirebaseUser.getUid());
-                if(dataSnapshot != null){
+                if (dataSnapshot != null) {
 
                     String talkerName = (String) dataSnapshot.child("name").getValue();
                     String talkerImg = (String) dataSnapshot.child("img").getValue();
@@ -330,14 +327,14 @@ public class Chatroom extends AppCompatActivity {
                 DatabaseReference reference = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
                         .child(mFirebaseUser.getUid())
                         .child(talkerID);
-                if(dataSnapshot != null){
+                if (dataSnapshot != null) {
 
                     String talkerName = (String) dataSnapshot.child("name").getValue();
                     String talkerImg = (String) dataSnapshot.child("img").getValue();
                     //set the title to name of whom you are talking to
-                    if(getSupportActionBar().getTitle() == getResources().getString(R.string.chatroom)){
+                    if (getSupportActionBar().getTitle() == getResources().getString(R.string.chatroom)) {
                         getSupportActionBar().setTitle(talkerName);
-                     }
+                    }
                     reference.child("id").setValue(talkerID);
                     reference.child("name").setValue(talkerName);
                     reference.child("photoUrl").setValue(talkerImg);

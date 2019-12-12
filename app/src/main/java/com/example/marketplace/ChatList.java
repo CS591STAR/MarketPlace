@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -34,11 +32,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatList extends AppCompatActivity {
 
-    public static class ChatViewHolder extends RecyclerView.ViewHolder{
+    public static class ChatViewHolder extends RecyclerView.ViewHolder {
         TextView chatTextView;
         CircleImageView chatImageView;
 
-        public ChatViewHolder(View v){
+        public ChatViewHolder(View v) {
             super(v);
             chatTextView = (TextView) itemView.findViewById(R.id.chatTextView);
             chatImageView = (CircleImageView) itemView.findViewById(R.id.chatImageView);
@@ -94,8 +92,8 @@ public class ChatList extends AppCompatActivity {
         DatabaseReference messagesRef = mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(mFirebaseUser.getUid());
         FirebaseRecyclerOptions<SingleChat> options =
                 new FirebaseRecyclerOptions.Builder<SingleChat>()
-                .setQuery(messagesRef, parser)
-                .build();
+                        .setQuery(messagesRef, parser)
+                        .build();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<SingleChat, ChatViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull ChatViewHolder viewHolder, int position, @NonNull final SingleChat singleChat) {
@@ -103,11 +101,10 @@ public class ChatList extends AppCompatActivity {
                 //disable progress bar
                 mProgressBar.setVisibility(View.INVISIBLE);
                 viewHolder.chatTextView.setText(singleChat.getName());
-                if(singleChat.getPhotoUrl() == null){
+                if (singleChat.getPhotoUrl() == null) {
                     viewHolder.chatImageView.setImageDrawable(ContextCompat.getDrawable(ChatList.this,
                             R.drawable.ic_account_circle_black_36dp));
-                }
-                else{
+                } else {
                     Glide.with(ChatList.this)
                             .load(singleChat.getPhotoUrl())
                             .into(viewHolder.chatImageView);
@@ -116,7 +113,7 @@ public class ChatList extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getBaseContext(), Chatroom.class);
-                        intent.putExtra("talkToID",singleChat.getId());
+                        intent.putExtra("talkToID", singleChat.getId());
                         intent.putExtra("talkToName", singleChat.getName());
                         startActivity(intent);
                     }
@@ -152,7 +149,7 @@ public class ChatList extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         // Check if user is signed in.
         if (mFirebaseUser == null) {

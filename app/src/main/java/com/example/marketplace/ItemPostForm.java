@@ -5,14 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,42 +22,27 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.CAMERA_SERVICE;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -236,7 +217,7 @@ public class ItemPostForm extends Fragment {
             }
         }
         //string contains less than n words
-        if(words != 0){
+        if (words != 0) {
             return input;
         }
         // Error case.
@@ -302,7 +283,7 @@ public class ItemPostForm extends Fragment {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
 
-                    if (AmazonAPI.getAmazonPrice() != null){
+                    if (AmazonAPI.getAmazonPrice() != null) {
                         Log.w("amznAPI", "Amazon price got");
                         post.setAmazonPrice(AmazonAPI.getAmazonPrice());
                     } else {
@@ -314,11 +295,10 @@ public class ItemPostForm extends Fragment {
                     post.setImage(imageLink);
 
 
-                    if(EBayAPI.geteBayPrice() != null){
+                    if (EBayAPI.geteBayPrice() != null) {
                         post.seteBayPrice(EBayAPI.geteBayPrice());
                         Log.w(TAG, "eBay price got");
-                    }
-                    else{
+                    } else {
                         Log.w(TAG, "eBay price not got");
                     }
 
@@ -327,7 +307,6 @@ public class ItemPostForm extends Fragment {
 
                     // store every post relative to zipcode
                     FirebaseDatabase.getInstance().getReference().child("zipcodes").child(String.valueOf(post.getZipcode())).child(postID).setValue(0);
-
 
 
                 } else {

@@ -25,15 +25,18 @@ public class NavBarFragment extends Fragment {
 
     private static final String TAG = "NAVBAR";
 
-    public NavBarFragment(){
+    public NavBarFragment() {
         //Required empty public constructor
     }
 
     public interface NavBarFragmentListener {
 
         public void openProfile();
+
         public void openChats();
+
         public void search(String keyword);
+
         public void openFeed();
         // add methods that we would need the activity to implement
     }

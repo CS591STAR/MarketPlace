@@ -1,9 +1,5 @@
 package com.example.marketplace;
 
-import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.HashMap;
 
 

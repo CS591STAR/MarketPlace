@@ -87,7 +87,7 @@ public class Profile extends Fragment {
         postListAdapter = new PostListAdapter(postList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(postListAdapter); // set the adapter to the recycler view
 
@@ -102,16 +102,14 @@ public class Profile extends Fragment {
         btnLogout = view.findViewById(R.id.btnLogout);
         txtPosts = view.findViewById(R.id.txtPosts);
 
-        mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mFirebaseUser != null) {
-//            txtDisplayName.setText(mFirebaseUser.getDisplayName());
-//            txtEmail.setText(mFirebaseUser.getEmail());
 
             Uri img = mFirebaseUser.getPhotoUrl();
-            if(img != null)
-            GlideApp.with(this /* context */)
-                    .load(img)
-                    .into(imgUser);
+            if (img != null)
+                GlideApp.with(this /* context */)
+                        .load(img)
+                        .into(imgUser);
         }
 
 
@@ -162,14 +160,14 @@ public class Profile extends Fragment {
         });
 
 
-        mDatabase.child("posts").orderByChild("sellerID").equalTo(mFirebaseUser.getUid()).addValueEventListener( new ValueEventListener(){
+        mDatabase.child("posts").orderByChild("sellerID").equalTo(mFirebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot){
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
                 postList.clear();
-                if(dataSnapshot.hasChildren()){
+                if (dataSnapshot.hasChildren()) {
                     Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
-                    while (iter.hasNext()){
+                    while (iter.hasNext()) {
                         DataSnapshot snap = iter.next();
                         String postID = snap.getKey();
                         try {
@@ -179,8 +177,7 @@ public class Profile extends Fragment {
                             postList.add(post);
                             //received results
                             Log.i("post", post.getItemName() + " on nod " + postID);
-                        }
-                        catch (NullPointerException e) {
+                        } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
                     }
@@ -189,11 +186,11 @@ public class Profile extends Fragment {
                 Collections.reverse(postList);
                 postListAdapter.notifyDataSetChanged();
             }
+
             @Override
-            public void onCancelled(DatabaseError databaseError){
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
-
 
         return view;
     }

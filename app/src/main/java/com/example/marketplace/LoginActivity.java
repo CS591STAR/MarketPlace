@@ -2,9 +2,7 @@ package com.example.marketplace;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,14 +11,13 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.Arrays;
 
 /**
  * Demonstrate authentication using the FirebaseUI-Android library. This activity demonstrates
  * using FirebaseUI for basic email/password sign in, Google and Facebook login.
- *
+ * <p>
  * For more information, visit https://github.com/firebase/firebaseui-android
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -29,8 +26,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private FirebaseAuth mAuth;
 
-    User you;
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +86,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //subscribe to the user's id to start receiving messages
             FirebaseMessaging.getInstance().subscribeToTopic(mAuth.getCurrentUser().getUid());
 
-//            mDisplayName.setText(user.getDisplayName());
-//            mPhoto.setText(user.getPhotoUrl().toString());
-
             findViewById(R.id.signInButton).setVisibility(View.GONE);
             findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
-
 
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
